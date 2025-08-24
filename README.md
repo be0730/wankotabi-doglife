@@ -94,4 +94,6 @@
 | API | Google map API（Maps JavaScript API）|
 | VCS | github|
 
+### ・画面遷移図
+
 ### ・ER図
