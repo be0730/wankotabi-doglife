@@ -1,70 +1,64 @@
 class FacilitiesController < ApplicationController
-  before_action :set_facility, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_facility,       only:   %i[show edit update destroy]
+  before_action :authorize_owner!,   only:   %i[edit update destroy]
 
-  # GET /facilities or /facilities.json
+  # GET /facilities
   def index
-    @facilities = Facility.all
+    @facilities = Facility.order(created_at: :desc).includes(:user)
   end
 
-  # GET /facilities/1 or /facilities/1.json
-  def show
-  end
+  # GET /facilities/1
+  def show; end
 
   # GET /facilities/new
   def new
-    @facility = Facility.new
+    @facility = current_user.facilities.new
   end
 
   # GET /facilities/1/edit
-  def edit
-  end
+  def edit; end
 
-  # POST /facilities or /facilities.json
+  # POST /facilities
   def create
-    @facility = Facility.new(facility_params)
-
-    respond_to do |format|
-      if @facility.save
-        format.html { redirect_to @facility, notice: "Facility was successfully created." }
-        format.json { render :show, status: :created, location: @facility }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @facility.errors, status: :unprocessable_entity }
-      end
+    @facility = current_user.facilities.new(facility_params)
+    if @facility.save
+      redirect_to @facility, notice: "Facility was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /facilities/1 or /facilities/1.json
+  # PATCH/PUT /facilities/1
   def update
-    respond_to do |format|
-      if @facility.update(facility_params)
-        format.html { redirect_to @facility, notice: "Facility was successfully updated." }
-        format.json { render :show, status: :ok, location: @facility }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @facility.errors, status: :unprocessable_entity }
-      end
+    if @facility.update(facility_params)
+      redirect_to @facility, notice: "Facility was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /facilities/1 or /facilities/1.json
+  # DELETE /facilities/1
   def destroy
-    @facility.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to facilities_path, status: :see_other, notice: "Facility was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @facility.destroy
+    redirect_to facilities_path, status: :see_other, notice: "Facility was successfully destroyed."
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_facility
-      @facility = Facility.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def facility_params
-      params.expect(facility: [ :title ])
-    end
+  def set_facility
+    @facility = Facility.find(params[:id])
+  end
+
+  def authorize_owner!
+    return if @facility.user_id == current_user.id
+    redirect_to @facility, alert: "権限がありません"
+  end
+
+  def facility_params
+    params.require(:facility).permit(
+      :title, :category, :postal_code, :prefecture_code, :prefecture_name,
+      :city, :street, :building, :latitude, :longitude, :overview
+    )
+  end
 end

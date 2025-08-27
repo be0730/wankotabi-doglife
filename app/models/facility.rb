@@ -1,12 +1,12 @@
 class Facility < ApplicationRecord
   belongs_to :user
 
-  enum category: {
-    accommodation: 0, # 宿泊施設
-    restaurant:    1, # 飲食店
-    leisure:       2, # レジャー施設
-    shop:          3  # ショップ
-  }, _prefix: true
+  # enum category: {
+    # accommodation: 0, # 宿泊施設
+    # restaurant:    1, # 飲食店
+    # leisure:       2, # レジャー施設
+    # shop:          3  # ショップ
+  # }, _prefix: true
 
   validates :title, :category, :prefecture_code, :city, :street, presence: true
 
