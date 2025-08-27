@@ -28,6 +28,7 @@ class Facility < ApplicationRecord
   # end
   # after_validation :reverse_geocode, if: :will_save_change_to_latitude_or_longitude?
 
+
   def full_address
     [ prefecture_name, city, street, building ].compact.join
   end
