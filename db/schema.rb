@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_26_085706) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_27_084247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,7 +34,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_085706) do
     t.string "homepage_url"
     t.string "instagram_url"
     t.string "facebook_url"
-    t.string "X_url"
+    t.string "x_url"
     t.string "supplement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
