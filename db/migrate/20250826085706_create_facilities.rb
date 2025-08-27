@@ -28,6 +28,6 @@ class CreateFacilities < ActiveRecord::Migration[8.0]
     end
     add_index :facilities, :category
     add_index :facilities, :prefecture_code
-    add_index :facilities, [:latitude, :longitude]
+    add_index :facilities, [ :latitude, :longitude ]
   end
 end
