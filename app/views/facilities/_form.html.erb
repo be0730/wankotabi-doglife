@@ -25,22 +25,23 @@
 
         <div class="sm:col-span-2">
           <label class="block text-sm font-medium text-gray-900">カテゴリ</label>
-          <div class="mt-2 grid grid-cols-1">
-            <%# enum を Facility 側で定義している場合（例）:
-                enum category: { accommodation: 0, restaurant: 1, leisure: 2, shop: 3 } %>
-            <% category_options = [
-                 ["宿泊施設", "accommodation"],
-                 ["飲食店",   "restaurant"],
-                 ["レジャー施設", "leisure"],
-                 ["ショップ", "shop"]
-               ] %>
-            <%= f.select :category, options_for_select(category_options, @facility.category),
-                  {}, class: "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
-                 class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"/>
-            </svg>
+          <div class="mt-2 space-y-2">
+            <% category_options = {
+              "宿泊施設"   => "accommodation",
+              "飲食店"     => "restaurant",
+              "レジャー施設" => "leisure",
+              "ショップ"   => "shop"
+            } %>
+
+            <% category_options.each do |label, value| %>
+              <div class="flex items-center">
+                <%= f.radio_button :category, value,
+                      id: "category_#{value}",
+                      class: "w-4 h-4 accent-indigo-600 border-gray-300" %>
+                <%= f.label "category_#{value}", label,
+                      class: "ms-2 text-sm font-medium text-gray-900" %>
+              </div>
+            <% end %>
           </div>
         </div>
 
@@ -64,14 +65,6 @@
           <label class="block text-sm font-medium text-gray-900">郵便番号</label>
           <div class="mt-2">
             <%= f.text_field :postal_code, placeholder: "123-4567",
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label class="block text-sm font-medium text-gray-900">都道府県コード</label>
-          <div class="mt-2">
-            <%= f.text_field :prefecture_code, placeholder: "例: 13",
                   class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
           </div>
         </div>
@@ -105,31 +98,6 @@
           <div class="mt-2">
             <%= f.text_field :building,
                   class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900">フル住所（任意）</label>
-          <div class="mt-2">
-            <%= f.text_field :full_address,
-                  placeholder: "表示用に1行で記録したい場合",
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900">緯度</label>
-          <div class="mt-2">
-            <%= f.number_field :latitude, step: "0.000001",
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-          </div>
-        </div>
-
-        <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900">経度</label>
-          <div class="mt-2">
-            <%= f.number_field :longitude, step: "0.000001",
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
           </div>
         </div>
       </div>
