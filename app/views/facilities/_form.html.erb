@@ -164,10 +164,7 @@
         <div class="sm:col-span-3">
           <label class="block text-sm font-medium text-gray-900">X（旧Twitter）</label>
           <div class="mt-2">
-            <%# ⚠ カラム名が "X_url" のため、f.url_field :X_url は使えません %>
-            <%# 可能ならカラムを :x_url にリネームするのがベストです（下記注記） %>
-            <%= text_field_tag "facility[X_url]", @facility["X_url"],
-                  placeholder: "https://x.com/...",
+            <%= f.url_field :x_url, placeholder: "https://x.com/...",
                   class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
           </div>
         </div>
