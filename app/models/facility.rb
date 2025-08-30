@@ -1,5 +1,6 @@
 class Facility < ApplicationRecord
   belongs_to :user
+  belongs_to :prefecture, optional: false
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -8,7 +9,7 @@ class Facility < ApplicationRecord
     shop:          3  # ショップ
   }, prefix: :true
 
-  validates :title, :category, :prefecture_code, :city, :street, presence: true
+  validates :title, :category, :prefecture_id, :city, :street, presence: true
 
   # geocoder を使うなら（住所変更時のみジオコーディング）
   # geocoded_by :full_address
@@ -30,6 +31,6 @@ class Facility < ApplicationRecord
 
 
   def full_address
-    [ prefecture_name, city, street, building ].compact.join
+    [ prefecture.name, city, street, building ].compact.join
   end
 end
