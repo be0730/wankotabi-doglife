@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_27_084247) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_30_023915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,10 +38,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_084247) do
     t.string "supplement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "prefecture_id", null: false
     t.index ["category"], name: "index_facilities_on_category"
     t.index ["latitude", "longitude"], name: "index_facilities_on_latitude_and_longitude"
     t.index ["prefecture_code"], name: "index_facilities_on_prefecture_code"
+    t.index ["prefecture_id"], name: "index_facilities_on_prefecture_id"
     t.index ["user_id"], name: "index_facilities_on_user_id"
+  end
+
+  create_table "prefectures", force: :cascade do |t|
+    t.string "name"
+    t.integer "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,5 +66,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_084247) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "facilities", "prefectures"
   add_foreign_key "facilities", "users"
 end
