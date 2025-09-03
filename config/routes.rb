@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   root "facilities#index"
   resources :users, only: %i[new create]
   resources :facilities, only: [ :index, :show ]
+    has_many :comments, dependent: :destroy
 end
