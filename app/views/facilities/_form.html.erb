@@ -1,0 +1,209 @@
+<%= form_with model: @facility, local: true do |f| %>
+  <% if @facility.errors.any? %>
+    <div class="mb-6 rounded-md bg-red-50 p-4 text-red-700">
+      <h2 class="font-semibold"><%= pluralize(@facility.errors.count, "error") %> prohibited this facility from being saved:</h2>
+      <ul class="mt-2 list-disc pl-5">
+        <% @facility.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-12">
+    <!-- 基本情報 -->
+    <div class="border-b border-gray-900/10 pb-8">
+      <h2 class="text-base font-semibold text-gray-900">基本情報</h2>
+      <p class="mt-1 text-sm text-gray-600">公開される施設情報です。</p>
+
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          <label class="block text-sm font-medium text-gray-900">タイトル（施設名）</label>
+          <div class="mt-2">
+            <%= f.text_field :title, required: true,
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-900">カテゴリ</label>
+          <div class="mt-2 space-y-2">
+            <% category_options = {
+              "宿泊施設"   => "accommodation",
+              "飲食店"     => "restaurant",
+              "レジャー施設" => "leisure",
+              "ショップ"   => "shop"
+            } %>
+
+            <% category_options.each do |label, value| %>
+              <div class="flex items-center">
+                <%= f.radio_button :category, value,
+                      id: "category_#{value}",
+                      class: "w-4 h-4 accent-indigo-600 border-gray-300" %>
+                <%= f.label "category_#{value}", label,
+                      class: "ms-2 text-sm font-medium text-gray-900" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <label class="block text-sm font-medium text-gray-900">概要</label>
+          <div class="mt-2">
+            <%= f.text_area :overview, rows: 4,
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 住所・地図 -->
+    <div class="border-b border-gray-900/10 pb-8">
+      <h2 class="text-base font-semibold text-gray-900">住所・地図</h2>
+      <p class="mt-1 text-sm text-gray-600">位置情報は検索や地図表示に使用します。</p>
+
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-900">郵便番号</label>
+          <div class="mt-2">
+            <%= f.text_field :postal_code, placeholder: "123-4567",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block text-sm font-medium text-gray-900">都道府県</label>
+          <div class="mt-2 grid grid-cols-1">
+            <%= f.collection_select :prefecture_id,
+                  Prefecture.order(:code),     # 1..47 の順で表示
+                  :id,                         # value
+                  :name,                       # 表示名
+                  { prompt: "選択してください" },
+                  class: "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+
+            <!-- 下向き矢印(装飾) -->
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+                class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"/>
+            </svg>
+
+            <% if @facility.errors[:prefecture].present? %>
+              <p class="mt-1 text-sm text-red-600"><%= @facility.errors[:prefecture].first %></p>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">市区町村</label>
+          <div class="mt-2">
+            <%= f.text_field :city,
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">町丁目・番地</label>
+          <div class="mt-2">
+            <%= f.text_field :street,
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">建物名・部屋番号</label>
+          <div class="mt-2">
+            <%= f.text_field :building,
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 連絡先／営業時間 -->
+    <div class="border-b border-gray-900/10 pb-8">
+      <h2 class="text-base font-semibold text-gray-900">連絡先・営業時間</h2>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">電話番号</label>
+          <div class="mt-2">
+            <%= f.text_field :phone_number, placeholder: "03-1234-5678",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">営業時間</label>
+          <div class="mt-2">
+            <%= f.text_field :business_hours, placeholder: "10:00〜19:00",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">定休日</label>
+          <div class="mt-2">
+            <%= f.text_field :closed_day, placeholder: "水曜・年末年始 など",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNS / リンク -->
+    <div class="border-b border-gray-900/10 pb-8">
+      <h2 class="text-base font-semibold text-gray-900">SNS / リンク</h2>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">公式サイトURL</label>
+          <div class="mt-2">
+            <%= f.url_field :homepage_url, placeholder: "https://example.com",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">Instagram</label>
+          <div class="mt-2">
+            <%= f.url_field :instagram_url, placeholder: "https://www.instagram.com/...",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">Facebook</label>
+          <div class="mt-2">
+            <%= f.url_field :facebook_url, placeholder: "https://www.facebook.com/...",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-sm font-medium text-gray-900">X（旧Twitter）</label>
+          <div class="mt-2">
+            <%= f.url_field :x_url, placeholder: "https://x.com/...",
+                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 補足 -->
+    <div class="border-b border-gray-900/10 pb-8">
+      <h2 class="text-base font-semibold text-gray-900">補足</h2>
+      <div class="mt-2">
+        <%= f.text_field :supplement,
+              placeholder: "備考・注意事項など",
+              class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- 送信ボタン -->
+  <div class="mt-6 flex items-center justify-end gap-x-6">
+    <%= link_to "キャンセル", @facility.persisted? ? facility_path(@facility) : facilities_path,
+          class: "text-sm font-semibold text-gray-900" %>
+    <button type="submit"
+            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      <%= @facility.persisted? ? "更新する" : "登録する" %>
+    </button>
+  </div>
+<% end %>
