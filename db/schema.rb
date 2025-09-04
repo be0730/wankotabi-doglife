@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_30_023915) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_03_061251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.bigint "facility_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facility_id", "created_at"], name: "index_comments_on_facility_id_and_created_at"
+    t.index ["facility_id"], name: "index_comments_on_facility_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "facilities", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -66,6 +77,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_023915) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "facilities"
+  add_foreign_key "comments", "users"
   add_foreign_key "facilities", "prefectures"
   add_foreign_key "facilities", "users"
 end

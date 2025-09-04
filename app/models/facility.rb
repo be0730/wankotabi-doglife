@@ -10,6 +10,7 @@ class Facility < ApplicationRecord
   }, prefix: :true
 
   validates :title, :category, :prefecture_id, :city, :street, presence: true
+  has_many :comments, dependent: :destroy
 
   # geocoder を使うなら（住所変更時のみジオコーディング）
   # geocoded_by :full_address

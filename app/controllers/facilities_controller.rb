@@ -9,7 +9,11 @@ class FacilitiesController < ApplicationController
   end
 
   # GET /facilities/1
-  def show; end
+  def show
+    @facility = Facility.find(params[:id])
+    @comment  = Comment.new
+    @comments = @facility.comments.includes(:user).order(created_at: :desc)
+  end
 
   # GET /facilities/new
   def new

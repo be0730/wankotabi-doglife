@@ -2,6 +2,8 @@ require "test_helper"
 
 class FacilitiesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user    = users(:one)
+    sign_in @user
     @facility = facilities(:one)
   end
 
@@ -17,7 +19,15 @@ class FacilitiesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create facility" do
     assert_difference("Facility.count") do
-      post facilities_url, params: { facility: { title: @facility.title } }
+      post facilities_url, params: {
+        facility: {
+          title: "テスト施設",
+          category: "accommodation",
+          prefecture_id: prefectures(:tokyo).id,
+          city: "千代田区",
+          street: "丸の内1-1-1"
+        }
+      }
     end
 
     assert_redirected_to facility_url(Facility.last)

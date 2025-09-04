@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :facilities
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,6 +12,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "facilities#index"
-  resources :users, only: %i[new create]
-  resources :facilities, only: [ :index, :show ]
+  resources :facilities do
+    resources :comments, only: %i[create edit update destroy], shallow: true
+  end
 end
