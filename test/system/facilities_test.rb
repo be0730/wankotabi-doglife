@@ -2,17 +2,17 @@ require "application_system_test_case"
 
 class FacilitiesTest < ApplicationSystemTestCase
   setup do
+    skip "WIP: 調整中"
     @facility = facilities(:one)
   end
 
-  skip "WIP"
   test "visiting the index" do
     visit facilities_url
     assert_selector "h1", text: "Facilities"
   end
 
-  skip "WIP"
   test "should create facility" do
+    skip "WIP"
     visit facilities_url
     click_on "New facility"
 
@@ -23,8 +23,8 @@ class FacilitiesTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  skip "WIP"
   test "should update Facility" do
+    skip "WIP"
     visit facility_url(@facility)
     click_on "Edit this facility", match: :first
 
@@ -35,8 +35,8 @@ class FacilitiesTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  skip "WIP"
   test "should destroy Facility" do
+    skip "WIP"
     visit facility_url(@facility)
     click_on "Destroy this facility", match: :first
 
