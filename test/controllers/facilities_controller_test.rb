@@ -26,7 +26,7 @@ class FacilitiesControllerTest < ActionDispatch::IntegrationTest
           prefecture_id: prefectures(:tokyo).id,
           city: "千代田区",
           street: "丸の内1-1-1"
-        } 
+        }
       }
     end
 
