@@ -1,0 +1,37 @@
+<% author       = comment.user %>
+<% author_name  = author&.name.presence || author&.email || "匿名ユーザー" %>
+<% can_delete   = current_user && (current_user.id == comment.user_id || current_user.id == facility.user_id) %>
+
+<article id="comment_<%= comment.id %>" class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+  <!-- ヘッダー：投稿者 & 投稿日時 -->
+  <div class="mb-2 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <!-- 代替アバター（頭文字） -->
+      <div class="flex size-8 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-700">
+        <%= author_name.to_s.first(1) %>
+      </div>
+      <div class="leading-tight">
+        <div class="text-sm font-medium text-gray-900"><%= author_name %></div>
+        <div class="text-xs text-gray-500">
+          <%= l(comment.created_at, format: :short) %>
+          <% if comment.updated_at && comment.updated_at != comment.created_at %>
+            <span class="ml-1">(編集済)</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if can_delete %>
+      <%= button_to "削除",
+                  comment_path(comment),
+                  method: :delete,
+                  data: { turbo_confirm: "このコメントを削除しますか？" },
+                  class: "rounded-md bg-white px-2 py-1 text-xs font-medium text-red-600 outline outline-1 -outline-offset-1 outline-gray-300 hover:bg-gray-50" %>
+    <% end %>
+  </div>
+
+  <!-- 本文 -->
+  <div class="prose prose-sm max-w-none text-gray-900">
+    <%= simple_format(h(comment.body)) %>
+  </div>
+</article>

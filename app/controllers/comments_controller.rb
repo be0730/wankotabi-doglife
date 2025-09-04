@@ -1,9 +1,8 @@
 # app/controllers/comments_controller.rb
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_facility
-  before_action :set_comment, only: :destroy
-  before_action :authorize_comment_owner!, only: :destroy
+  before_action :set_facility, only: :create
+  before_action :set_own_comment!, only: :destroy
 
   def create
     @comment = @facility.comments.build(comment_params.merge(user: current_user))
@@ -11,14 +10,14 @@ class CommentsController < ApplicationController
       redirect_to facility_path(@facility), notice: "コメントを投稿しました。"
     else
       # 失敗時は施設詳細をエラー付きで再表示
-      @comments = @facility.comments.includes(:user).order(created_at: :desc)
-      render "facilities/show", status: :unprocessable_entity
+      redirect_to facility_path(@facility), status: :unprocessable_entity
     end
   end
 
   def destroy
-    @comment.destroy
-    redirect_to facility_path(@facility), notice: "コメントを削除しました。", status: :see_other
+    facility = @comment.facility
+    @comment.destroy!
+    redirect_to facility_path(facility), status: :see_other, notice: "コメントを削除しました。"
   end
 
   private
@@ -28,12 +27,11 @@ class CommentsController < ApplicationController
   end
 
   def set_comment
-    @comment = @facility.comments.find(params[:id])
+    @comment  = Comment.find(params[:id])
   end
 
-  def authorize_comment_owner!
-    return if @comment.user_id == current_user.id
-    redirect_to facility_path(@facility), alert: "権限がありません"
+  def set_own_comment!
+    @comment = current_user.comments.find(params[:id])
   end
 
   def comment_params

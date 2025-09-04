@@ -1,0 +1,22 @@
+<%# 引数: facility, comment（失敗時のエラー表示用） %>
+<%= form_with model: [facility, (comment || Comment.new)], local: true do |f| %>
+  <% if comment&.errors&.any? %>
+    <div class="mb-3 rounded-md bg-red-50 p-3 text-sm text-red-700">
+      <p class="font-semibold"><%= pluralize(comment.errors.count, "error") %> があります：</p>
+      <ul class="mt-1 list-disc pl-5">
+        <% comment.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.text_area :body, rows: 3,
+          placeholder: "コメントを書く…",
+          class: "block w-full rounded-md bg-white px-3 py-2 text-sm text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600" %>
+  </div>
+
+  <div class="mt-2 flex justify-end">
+    <%= f.submit "送信",
+          class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500" %>
+  </div>
+<% end %>
