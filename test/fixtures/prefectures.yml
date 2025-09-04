@@ -1,9 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  code: 1
-
-two:
-  name: MyString
-  code: 1
+tokyo:
+  name: "東京都"
+  id: 13
+  code: 13
