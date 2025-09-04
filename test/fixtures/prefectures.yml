@@ -1,6 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 tokyo:
-  name: "東京都"
-  id: 13
+  id: <%= ActiveRecord::FixtureSet.identify(:tokyo) %>
   code: 13
+  name: 東京都

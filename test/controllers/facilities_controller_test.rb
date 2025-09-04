@@ -2,6 +2,8 @@ require "test_helper"
 
 class FacilitiesControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user    = users(:one)
+    sign_in @user
     @facility = facilities(:one)
   end
 
