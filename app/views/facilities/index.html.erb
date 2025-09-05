@@ -5,78 +5,7 @@
     <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
   <% end %>
 
-  <!-- 検索フォーム（GET） -->
-  <%= form_with url: facilities_path, method: :get, local: true, class: "mb-8" do %>
-    <div class="space-y-12">
-      <div class="border-b border-gray-900/10 pb-6">
-        <h2 class="text-base font-semibold text-gray-900">検索条件</h2>
-        <p class="mt-1 text-sm text-gray-600">タイトル・カテゴリ・所在地で絞り込みできます。</p>
-
-        <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-          <!-- キーワード（タイトル/概要など任意で利用） -->
-          <div class="sm:col-span-3">
-            <label for="keyword" class="block text-sm font-medium text-gray-900">キーワード</label>
-            <div class="mt-2">
-              <%= text_field_tag :keyword, params[:keyword],
-                    class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-            </div>
-          </div>
-
-          <!-- カテゴリ -->
-          <div class="sm:col-span-3">
-            <label for="category" class="block text-sm font-medium text-gray-900">カテゴリ</label>
-            <div class="mt-2 grid grid-cols-1">
-              <% category_options = [
-                   ["宿泊施設", "accommodation"],
-                   ["飲食店",   "restaurant"],
-                   ["レジャー施設", "leisure"],
-                   ["ショップ", "shop"]
-                 ] %>
-              <%= select_tag :category,
-                    options_for_select(category_options, params[:category]),
-                    include_blank: "指定なし",
-                    class: "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-              <!-- ▼装飾用の下向き矢印 -->
-              <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
-                   class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"/>
-              </svg>
-            </div>
-          </div>
-
-          <!-- 都道府県コード -->
-          <div class="sm:col-span-2">
-            <label for="prefecture_code" class="block text-sm font-medium text-gray-900">都道府県コード</label>
-            <div class="mt-2">
-              <%= text_field_tag :prefecture_code, params[:prefecture_code],
-                    placeholder: "例: 13 / Tokyo",
-                    class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-            </div>
-          </div>
-
-          <!-- 市区町村 -->
-          <div class="sm:col-span-2">
-            <label for="city" class="block text-sm font-medium text-gray-900">市区町村</label>
-            <div class="mt-2">
-              <%= text_field_tag :city, params[:city],
-                    class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- フォームボタン -->
-    <div class="mt-6 flex items-center justify-end gap-x-3">
-      <%= link_to "条件をクリア", facilities_path,
-            class: "text-sm font-semibold text-gray-900" %>
-      <button type="submit"
-              class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-        検索
-      </button>
-    </div>
-  <% end %>
+  <%= render 'search', q: @q, url: facilities_path %>
 
   <!-- 検索結果 / 一覧 -->
   <div id="facilities" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

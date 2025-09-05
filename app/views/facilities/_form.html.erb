@@ -199,7 +199,7 @@
 
   <!-- 送信ボタン -->
   <div class="mt-6 flex items-center justify-end gap-x-6">
-    <%= link_to "キャンセル", @facility.persisted? ? facility_path(@facility) : facilities_path,
+    <%= link_to "キャンセル", facilities_path,
           class: "text-sm font-semibold text-gray-900" %>
     <button type="submit"
             class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

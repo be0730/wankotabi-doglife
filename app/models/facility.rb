@@ -1,6 +1,7 @@
 class Facility < ApplicationRecord
   belongs_to :user
   belongs_to :prefecture, optional: false
+  has_many :comments, dependent: :destroy
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -10,7 +11,26 @@ class Facility < ApplicationRecord
   }, prefix: :true
 
   validates :title, :category, :prefecture_id, :city, :street, presence: true
-  has_many :comments, dependent: :destroy
+
+  def full_address
+    [ prefecture.name, city, street, building ].compact.join
+  end
+
+  ransack_alias :full_address, :prefecture_name_or_city_or_street_or_building
+  ransack_alias :keyword, :title_or_full_address
+
+  def self.ransackable_attributes(_ = nil)
+    %w[
+      title category postal_code prefecture_id city street building
+      latitude longitude overview phone_number business_hours closed_day
+      homepage_url instagram_url facebook_url x_url created_at updated_at
+      full_address keyword
+    ]
+  end
+
+  def self.ransackable_associations(_ = nil)
+    %w[user prefecture]
+  end
 
   # geocoder を使うなら（住所変更時のみジオコーディング）
   # geocoded_by :full_address
@@ -29,9 +49,4 @@ class Facility < ApplicationRecord
   #   end
   # end
   # after_validation :reverse_geocode, if: :will_save_change_to_latitude_or_longitude?
-
-
-  def full_address
-    [ prefecture.name, city, street, building ].compact.join
-  end
 end
