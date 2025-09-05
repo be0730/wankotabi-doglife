@@ -12,4 +12,10 @@ class ApplicationController < ActionController::Base
   def after_sending_reset_password_instructions_path_for(_resource_name)
     password_sent_path
   end
+
+  private
+
+  def not_authenticated
+    redirect_to root_path
+  end
 end
