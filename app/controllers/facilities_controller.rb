@@ -5,7 +5,8 @@ class FacilitiesController < ApplicationController
 
   # GET /facilities
   def index
-    @facilities = Facility.order(created_at: :desc).includes(:user)
+    @q = Facility.ransack(params[:q])
+    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).load
   end
 
   # GET /facilities/1
@@ -20,13 +21,35 @@ class FacilitiesController < ApplicationController
     @facility = current_user.facilities.new
   end
 
+  def confirm
+  if params[:id].present?          # 編集の確認
+    @facility = current_user.facilities.find(params[:id])
+    @facility.assign_attributes(facility_params)
+    back_template = :edit
+  else                              # 新規の確認
+    @facility = current_user.facilities.new(facility_params)
+    back_template = :new
+  end
+
+  return render(back_template) if params[:back]
+
+  if @facility.valid?
+    render :confirm
+  else
+    render back_template, status: :unprocessable_entity
+  end
+end
+
+
   # GET /facilities/1/edit
   def edit; end
 
   # POST /facilities
   def create
     @facility = current_user.facilities.new(facility_params)
-    if @facility.save
+    if params[:back]
+      render :new
+    elsif @facility.save
       redirect_to @facility, notice: "Facility was successfully created."
     else
       render :new, status: :unprocessable_entity
