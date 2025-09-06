@@ -1,0 +1,5 @@
+<h1><%= current_user.name %>さんの投稿一覧</h1>
+
+<% @facilities.each do |facility| %>
+<%= render facility %>
+<% end %>
