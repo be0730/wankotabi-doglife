@@ -3,6 +3,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def post_list
+    @user = User.find(params[:id])
+    @facilities = @user.facilities.order(created_at: :desc)
+  end
+
   private
 
   def user_params

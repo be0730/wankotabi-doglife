@@ -10,42 +10,10 @@
   <!-- 検索結果 / 一覧 -->
   <div id="facilities" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <% if @facilities.any? %>
-      <% @facilities.each do |facility| %>
-        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-          <div class="flex items-start justify-between gap-3">
-            <h3 class="truncate text-lg font-semibold text-gray-900"><%= facility.title %></h3>
-            <%# カテゴリバッジ（enum の値に応じて） %>
-            <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700">
-              <%= facility.respond_to?(:category_i18n) ? facility.category_i18n : facility.category %>
-            </span>
-          </div>
-
-          <% if facility.overview.present? %>
-            <p class="mt-2 line-clamp-3 text-sm text-gray-600"><%= facility.overview %></p>
-          <% end %>
-
-          <div class="mt-3 space-y-1 text-xs text-gray-500">
-            <% if facility.prefecture_name.present? || facility.city.present? || facility.street.present? %>
-              <div>住所：
-                <%= [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %>
-              </div>
-            <% end %>
-            <% if facility.phone_number.present? %>
-              <div>電話：<%= facility.phone_number %></div>
-            <% end %>
-          </div>
-
-          <div class="mt-4 flex items-center justify-end gap-2">
-            <%= link_to "詳細", facility_path(facility),
-                  class: "inline-block rounded-md bg-gray-100 px-3 py-1.5 text-sm font-medium hover:bg-gray-50" %>
-            <%# 編集/削除はオーナー向けに適宜表示（例） %>
-            <% if defined?(current_user) && current_user && facility.user_id == current_user.id %>
-              <%= link_to "編集", edit_facility_path(facility),
-                    class: "inline-block rounded-md bg-white px-3 py-1.5 text-sm font-medium outline outline-1 -outline-offset-1 outline-gray-300 hover:bg-gray-50" %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
+      <%= render partial: 'facilities/facility',
+                collection: @facilities,
+                as: :facility,
+                locals: { show_actions: true } %>
     <% else %>
       <p class="col-span-full my-10 text-center text-gray-500">該当する施設はありません。</p>
     <% end %>

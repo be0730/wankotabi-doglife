@@ -59,7 +59,7 @@
           >
             <div class="border-t my-1"></div>
             <%= link_to 'マイページ', user_path(current_user), class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
-            <%= link_to '投稿一覧', root_path, class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
+            <%= link_to '投稿一覧', post_list_user_path(current_user), class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
             <%= link_to 'お気に入り', root_path, class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
             <%= link_to 'ログアウト',
                         destroy_user_session_path,
@@ -84,7 +84,7 @@
             <span class="text-gray-700 text-sm"><%= current_user.name %></span>
           </div>
           <%= link_to 'マイページ', user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
-          <%= link_to '投稿一覧', root_path, class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
+          <%= link_to '投稿一覧', post_list_user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
           <%= link_to 'お気に入り', root_path, class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
           <%= link_to 'ログアウト',
                       destroy_user_session_path,
