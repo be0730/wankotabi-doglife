@@ -2,6 +2,7 @@ class Facility < ApplicationRecord
   belongs_to :user
   belongs_to :prefecture, optional: false
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   enum :category, {
     accommodation: 0, # 宿泊施設
