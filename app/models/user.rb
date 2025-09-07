@@ -12,4 +12,16 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_facilities, through: :favorites, source: :facility
+
+  def favorite(facility)
+    favorite_facilities << facility
+  end
+
+  def unfavorite?(facility)
+    favorite_facilities.destroy(facility)
+  end
+
+  def favorite?(facility)
+    favorite_facilities.include?(facility)
+  end
 end

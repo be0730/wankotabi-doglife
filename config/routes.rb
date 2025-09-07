@@ -20,5 +20,9 @@ Rails.application.routes.draw do
   root "facilities#index"
   resources :facilities do
     resources :comments, only: %i[create edit update destroy], shallow: true
+    collection do
+      get :favorites
+    end
   end
+  resources :favorites, only: %i[create destroy]
 end
