@@ -72,7 +72,7 @@ end
   end
 
   def favorites
-    @facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc)
+    @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc)
   end
 
   private

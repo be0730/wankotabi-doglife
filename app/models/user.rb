@@ -14,14 +14,19 @@ class User < ApplicationRecord
   has_many :favorite_facilities, through: :favorites, source: :facility
 
   def favorite(facility)
-    favorite_facilities << facility
+    favorites.find_or_create_by!(facility: facility)
   end
 
   def unfavorite?(facility)
-    favorite_facilities.destroy(facility)
+    if (fav = favorites.find_by(facility: facility))
+      fav.destroy
+      true
+    else
+      false
+    end
   end
 
   def favorite?(facility)
-    favorite_facilities.include?(facility)
+    favorites.exists?(facility_id: facility.id)
   end
 end
