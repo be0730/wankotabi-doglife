@@ -6,7 +6,7 @@ class FacilitiesController < ApplicationController
   # GET /facilities
   def index
     @q = Facility.ransack(params[:q])
-    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).load
+    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
   end
 
   # GET /facilities/1
@@ -72,7 +72,7 @@ end
   end
 
   def favorites
-    @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc)
+    @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
   end
 
   private
