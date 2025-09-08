@@ -1,0 +1,6 @@
+<% fav = current_user.favorites.find_by!(facility_id: facility.id) %>
+<%= link_to favorite_path(fav),
+            data: { turbo_method: :delete },
+            id:   "unfavorite-button-for-facility-#{fav.id}" do %>
+  <span class="text-2xl text-yellow-400">★</span>
+<% end %>

@@ -1,0 +1,3 @@
+<%= turbo_stream.update dom_id(@facility, :favorite_buttons) do %>
+  <%= render "facilities/favorite_buttons", facility: @facility %>
+<% end %>

@@ -71,6 +71,10 @@ end
     redirect_to facilities_path, status: :see_other, notice: "Facility was successfully destroyed."
   end
 
+  def favorites
+    @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc)
+  end
+
   private
 
   def set_facility
