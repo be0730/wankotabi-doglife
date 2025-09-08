@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def post_list
     @user = User.find(params[:id])
-    @facilities = @user.facilities.order(created_at: :desc)
+    @facilities = @user.facilities.order(created_at: :desc).page(params[:page])
   end
 
   private
