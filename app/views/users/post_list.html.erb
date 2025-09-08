@@ -3,3 +3,7 @@
 <% @facilities.each do |facility| %>
 <%= render facility %>
 <% end %>
+
+<div class="mt-16 text-right">
+  <%= paginate @facilities %>
+</div>
