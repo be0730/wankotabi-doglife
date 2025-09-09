@@ -7,9 +7,9 @@ class CommentsController < ApplicationController
   def create
     @comment = @facility.comments.build(comment_params.merge(user: current_user))
     if @comment.save
-      redirect_to facility_path(@facility), notice: "コメントを投稿しました。"
+      redirect_to facility_path(@facility), success: "コメントを投稿しました。"
     else
-      # 失敗時は施設詳細をエラー付きで再表示
+      flash.now[:danger] = "コメントの投稿に失敗しました。"
       redirect_to facility_path(@facility), status: :unprocessable_entity
     end
   end
@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
   def destroy
     facility = @comment.facility
     @comment.destroy!
-    redirect_to facility_path(facility), status: :see_other, notice: "コメントを削除しました。"
+    redirect_to facility_path(facility), status: :see_other, success: "コメントを削除しました。"
   end
 
   private
