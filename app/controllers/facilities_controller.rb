@@ -36,6 +36,7 @@ class FacilitiesController < ApplicationController
   if @facility.valid?
     render :confirm
   else
+    flash.now[:danger] = "入力に誤りがあります。"
     render back_template, status: :unprocessable_entity
   end
 end
@@ -50,8 +51,9 @@ end
     if params[:back]
       render :new
     elsif @facility.save
-      redirect_to @facility, notice: "Facility was successfully created."
+      redirect_to @facility, success: "施設を投稿しました。"
     else
+      flash.now[:danger] = "施設の投稿に失敗しました。"
       render :new, status: :unprocessable_entity
     end
   end
@@ -59,8 +61,9 @@ end
   # PATCH/PUT /facilities/1
   def update
     if @facility.update(facility_params)
-      redirect_to @facility, notice: "Facility was successfully updated."
+      redirect_to @facility, success: "施設を更新しました。"
     else
+      flash.now[:danger] = "施設の更新に失敗しました。"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -68,7 +71,7 @@ end
   # DELETE /facilities/1
   def destroy
     @facility.destroy
-    redirect_to facilities_path, status: :see_other, notice: "Facility was successfully destroyed."
+    redirect_to facilities_path, status: :see_other, success: "施設を削除しました。"
   end
 
   def favorites
