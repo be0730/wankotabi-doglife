@@ -1,6 +1,7 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">ユーザー編集
+<%= resource_name.to_s.humanize %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
@@ -31,8 +32,19 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+  <div class="mt-4">
+    <%= f.label :avatar, "プロフィール画像" %><br>
+    <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "h-16 w-16 rounded-full") %><br>
+    <%= f.file_field :avatar, accept: "image/*" %>
+    <div class="mt-2">
+      <label>
+        <%= f.check_box :remove_avatar %> 画像を削除
+      </label>
+    </div>
+  </div>
+
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit "更新" %>
   </div>
 <% end %>
 
@@ -40,4 +52,5 @@
 
 <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
 
-<%= link_to "Back", :back %>
+<%= link_to "マイページへ戻る", user_path(current_user) %>
+</div>

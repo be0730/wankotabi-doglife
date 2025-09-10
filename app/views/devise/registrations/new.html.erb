@@ -39,6 +39,12 @@
         </div>
       </div>
 
+      <div class="mt-4">
+        <%= f.label :avatar, "プロフィール画像" %><br>
+        <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "h-16 w-16 rounded-full") %><br>
+        <%= f.file_field :avatar, accept: "image/*" %>
+      </div>
+
       <div>
         <%= f.submit "登録する",
               class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
