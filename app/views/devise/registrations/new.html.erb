@@ -4,7 +4,8 @@
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+                  html: { class: "space-y-6", multipart: true }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
@@ -43,6 +44,7 @@
         <%= f.label :avatar, "プロフィール画像" %><br>
         <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "h-16 w-16 rounded-full") %><br>
         <%= f.file_field :avatar, accept: "image/*" %>
+        <%= f.hidden_field :avatar_cache %>
       </div>
 
       <div>

@@ -1,9 +1,7 @@
 <% content_for :title, "施設一覧" %>
 
 <div class="w-full">
-  <% if notice.present? %>
-    <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
-  <% end %>
+  <%= render "shared/flash_message" %>
 
   <%= render 'search', q: @q, url: facilities_path %>
 

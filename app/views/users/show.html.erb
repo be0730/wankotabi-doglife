@@ -10,7 +10,8 @@
   </p>
   <p>
     <strong>アバター画像</strong>
-    <%= image_tag(@user.avatar.url, class: "h-10 w-10 rounded-full") %>
+    <%= image_tag(@user.avatar? ? @user.avatar.url : @user.avatar.default_url,
+              class: "h-16 w-16 rounded-full") %>
   </p>
 
 
