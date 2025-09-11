@@ -92,11 +92,11 @@ end
   private
 
   def set_facility
-    @facility = if params[:facility_id].present?
-                   Facility.find(params[:facility_id])
-                else
-                   Facility.find(params[:id])
-                end
+    if params[:facility_id].present?
+      @facility = Facility.find(params[:facility_id])
+    else
+      @facility = Facility.find(params[:id])
+    end
   end
 
   def authorize_owner!
