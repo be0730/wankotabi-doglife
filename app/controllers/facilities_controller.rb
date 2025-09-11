@@ -78,6 +78,17 @@ end
     @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
   end
 
+  def destroy_image
+    # image.signed_id を受け取って、その blob を探す
+    blob = ActiveStorage::Blob.find_signed(params[:signed_id])
+
+    # 該当添付を特定して purge（添付解除+必要ならblobも削除）
+    attachment = @facility.images.attachments.find_by!(blob_id: blob.id)
+    attachment.purge
+
+    redirect_back fallback_location: edit_facility_path(@facility), notice: "画像を削除しました。"
+  end
+
   private
 
   def set_facility
@@ -94,7 +105,8 @@ end
       :title, :category, :postal_code, :prefecture_id,
       :city, :street, :building, :latitude, :longitude,
       :overview, :phone_number, :business_hours, :closed_day,
-      :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement
+      :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement,
+      images: []
     )
   end
 end

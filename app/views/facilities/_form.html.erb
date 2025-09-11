@@ -55,6 +55,25 @@
       </div>
     </div>
 
+    <!-- 施設画像 -->
+    <div class="mt-4">
+      <%= f.label :images, "施設画像（複数可）" %><br>
+      <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true %>
+    </div>
+    <% if @facility.images.attached? %>
+      <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <% @facility.images.each do |image| %>
+          <div class="relative">
+            <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "h-32 w-full object-cover rounded-md" %>
+            <%= link_to "×", facility_image_path(@facility, image.signed_id),
+                  method: :delete,
+                  data: { turbo_method: :delete, confirm: "本当に削除しますか？" },
+                  class: "absolute top-1 right-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white hover:bg-red-700" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
     <!-- 住所・地図 -->
     <div class="border-b border-gray-900/10 pb-8">
       <h2 class="text-base font-semibold text-gray-900">住所・地図</h2>

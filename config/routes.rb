@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     collection do
       get :favorites
     end
+    delete "images/:signed_id", to: "facilities#destroy_image", as: :image
   end
   resources :favorites, only: %i[create destroy]
 end
