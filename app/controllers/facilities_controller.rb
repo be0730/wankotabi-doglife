@@ -1,7 +1,7 @@
 class FacilitiesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_facility,       only:   %i[show edit update destroy]
-  before_action :authorize_owner!,   only:   %i[edit update destroy]
+  before_action :set_facility,       only:   %i[show edit update destroy destroy_image]
+  before_action :authorize_owner!,   only:   %i[edit update destroy destroy_image]
 
   # GET /facilities
   def index
@@ -92,7 +92,11 @@ end
   private
 
   def set_facility
-    @facility = Facility.find(params[:id])
+    @facility = if params[:facility_id].present?
+                   Facility.find(params[:facility_id])
+                else
+                   Facility.find(params[:id])
+                end
   end
 
   def authorize_owner!
