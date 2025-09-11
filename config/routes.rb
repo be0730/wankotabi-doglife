@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :users, only: :show, post_list: %i[post_list] do
+  resources :users, only: [ :show ] do
     member do
       get :post_list
     end
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     collection do
       get :favorites
     end
+    delete "images/:signed_id", to: "facilities#destroy_image", as: :image
   end
   resources :favorites, only: %i[create destroy]
 end

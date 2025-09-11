@@ -11,6 +11,12 @@
     <p class="mt-2 text-sm text-gray-600 <%= clamp %>"><%= facility.overview %></p>
   <% end %>
 
+  <% if facility.images.attached? %>
+    <div class="mt-3">
+      <%= image_tag facility.images.first.variant(resize_to_limit: [400, 300]), class: "h-48 w-full rounded-md object-cover" %>
+    </div>
+  <% end %>
+
   <div class="mt-3 space-y-1 text-xs text-gray-500">
     <% if facility.city.present? || facility.street.present? || facility.building.present? || facility.respond_to?(:prefecture_name) %>
       <div>住所：<%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %></div>
