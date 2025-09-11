@@ -381,6 +381,7 @@ DEPENDENCIES
   carrierwave (~> 3.0)
   debug
   devise
+  image_processing (~> 1.14)
   jbuilder
   jsbundling-rails
   kaminari
