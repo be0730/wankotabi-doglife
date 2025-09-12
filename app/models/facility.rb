@@ -39,16 +39,16 @@ class Facility < ApplicationRecord
   # after_validation :geocode, if: :will_save_change_to_full_address?
 
   # geocoder を使うなら（住所変更時にジオコーディング）
-  # reverse_geocoded_by :latitude, :longitude do |obj, results|
-  #   if geo = results.first
-  #     obj.full_address    = geo.address
-  #     obj.postal_code     = geo.postal_code
-  #     obj.prefecture_code = geo.state_code
-  #     obj.prefecture_name = geo.state
-  #     obj.city            = geo.city
-  #     obj.street          = geo.street
-  #     obj.building        = geo.sub_state
-  #   end
-  # end
-  # after_validation :reverse_geocode, if: :will_save_change_to_latitude_or_longitude?
+  reverse_geocoded_by :latitude, :longitude do |obj, results|
+    if geo = results.first
+      obj.full_address    = geo.address
+      obj.postal_code     = geo.postal_code
+      obj.prefecture_code = geo.state_code
+      obj.prefecture_name = geo.state
+      obj.city            = geo.city
+      obj.street          = geo.street
+      obj.building        = geo.sub_state
+    end
+  end
+  after_validation :reverse_geocode, if: :will_save_change_to_latitude_or_longitude?
 end
