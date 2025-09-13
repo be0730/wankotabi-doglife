@@ -38,17 +38,20 @@ class Facility < ApplicationRecord
   # geocoded_by :full_address
   # after_validation :geocode, if: :will_save_change_to_full_address?
 
-  # geocoder を使うなら（住所変更時にジオコーディング）
-  reverse_geocoded_by :latitude, :longitude do |obj, results|
-    if geo = results.first
-      obj.full_address    = geo.address
-      obj.postal_code     = geo.postal_code
-      obj.prefecture_code = geo.state_code
-      obj.prefecture_name = geo.state
-      obj.city            = geo.city
-      obj.street          = geo.street
-      obj.building        = geo.sub_state
-    end
+  geocoded_by :full_address
+  after_validation :geocode, if: :address_parts_changed?
+
+  private
+
+  def address_parts_changed?
+    will_save_change_to_postal_code? ||
+    will_save_change_to_prefecture_id? ||
+    will_save_change_to_city? ||
+    will_save_change_to_street? ||
+    will_save_change_to_building?
   end
-  after_validation :reverse_geocode, if: :will_save_change_to_latitude_or_longitude?
+
+  def coordinates_changed?
+    will_save_change_to_latitude? || will_save_change_to_longitude?
+  end
 end
