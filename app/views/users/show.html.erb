@@ -1,21 +1,21 @@
 <div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-  <h1 class="font-bold text-4xl">マイページ</h1>
+  <h1 class="font-bold text-4xl"><%= t('users.my_page') %></h1>
   <div class="mt-2">
-    <strong>ユーザー名</strong>
+    <strong><%= t('users.name') %></strong>
     <%= @user.name %>
   </div>
   <p>
-    <strong>e-mail</strong>
+    <strong><%= t('users.email') %></strong>
     <%= @user.email %>
   </p>
   <p>
-    <strong>アバター画像</strong>
+    <strong><%= t('users.image') %></strong>
     <%= image_tag(@user.avatar? ? @user.avatar.url : @user.avatar.default_url,
               class: "h-16 w-16 rounded-full") %>
   </p>
 
 
   <div class="mt-6">
-    <%= link_to "プロフィール編集", edit_user_registration_path, class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+    <%= link_to t('users.edit_profile'), edit_user_registration_path, class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
   </div>
 </div>

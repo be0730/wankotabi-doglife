@@ -1,0 +1,22 @@
+ja:
+  activerecord:
+    models:
+      facility: "施設"
+      facilities: "施設一覧"
+    attributes:
+      facility:
+        name: "施設名"
+        description: "説明"
+        address: "住所"
+        latitude: "緯度"
+        longitude: "経度"
+        phone_number: "電話番号"
+        website_url: "ウェブサイトURL"
+        image: "画像"
+  enums:
+    facility:
+      category:
+        accommodation: "宿泊施設"
+        restaurant: "飲食店"
+        leisure: "レジャー施設"
+        shop: "ショップ"
