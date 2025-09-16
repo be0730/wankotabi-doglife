@@ -1,9 +1,31 @@
 <% content_for :title, "施設一覧" %>
 
 <div class="w-full">
-  <%= render "shared/flash_message" %>
+  <% if notice.present? %>
+    <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
+  <% end %>
 
   <%= render 'search', q: @q, url: facilities_path %>
+
+  <!-- 地図表示 -->
+  <% markers = @facilities
+        .select { |f| f.latitude.present? && f.longitude.present? }
+        .map { |f|
+          {
+            id:      f.id,
+            lat:     f.latitude.to_f,   # decimal 対策
+            lng:     f.longitude.to_f,
+            title:   f.title,
+            address: f.respond_to?(:full_address) ? f.full_address : [f.prefecture&.name, f.city, f.street, f.building].compact.join,
+            url:     facility_path(f)
+          }
+        } %>
+
+  <div id="index-map"
+      class="mt-6 h-[480px] w-full rounded-md border border-gray-200 h-[480px]"
+      style="min-height: 480px"
+      data-markers='<%= markers.to_json %>'>
+  </div>
 
   <!-- 検索結果 / 一覧 -->
   <div id="facilities" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -11,11 +33,12 @@
       <%= render partial: 'facilities/facility',
                 collection: @facilities,
                 as: :facility,
-                locals: { show_actions: true } %>
+                locals: { show_actions: true, show_card_map: false } %>
     <% else %>
       <p class="col-span-full my-10 text-center text-gray-500">該当する施設はありません。</p>
     <% end %>
   </div>
+
   <div class="mt-16 flex justify-end">
     <%= paginate @facilities %>
   </div>
