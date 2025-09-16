@@ -3,6 +3,8 @@
 function initIndexFacilityMap() {
   const el = document.getElementById("index-map");
   if (!el || el.dataset.initialized) return;
+  const initialZoom = Number(el.dataset.zoom) || 5;
+  const minZoom = Number(el.dataset.minZoom) || initialZoom;
 
   let markers = [];
   try {
@@ -16,14 +18,19 @@ function initIndexFacilityMap() {
   el.dataset.initialized = "1";
 
   const map = new google.maps.Map(el, {
-    zoom: 5,
-    center: { lat: 35.0, lng: 135.0 },
+    zoom: initialZoom,
+    center: {
+      lat: parseFloat(el.dataset.centerLat) || 35.6895,
+      lng: parseFloat(el.dataset.centerLng) || 139.6917
+    },
     mapTypeControl: false,
     streetViewControl: false,
+    minZoom: minZoom,
   });
 
   const bounds = new google.maps.LatLngBounds();
   const iw = new google.maps.InfoWindow();
+  const TOKYO = new google.maps.LatLng(35.6895, 139.6917);
 
   markers.forEach((m) => {
     const pos = { lat: Number(m.lat), lng: Number(m.lng) };
@@ -41,10 +48,18 @@ function initIndexFacilityMap() {
   });
 
   if (markers.length === 1) {
-    map.setCenter({ lat: markers[0].lat, lng: markers[0].lng });
-    map.setZoom(15);
+    // 常に東京を中心
+    map.setCenter(TOKYO);
+    map.setZoom(Number(el.dataset.zoomSingle) || initialZoom);
   } else {
+    // 東京も bounds に含めると、fitBounds の中心が東京寄りになります
+    bounds.extend(TOKYO);
     map.fitBounds(bounds);
+    google.maps.event.addListenerOnce(map, "idle", () => {
+      // 最終的に“東京を中心”に固定
+      map.setCenter(TOKYO);
+      if (map.getZoom() < minZoom) map.setZoom(minZoom);
+    });
   }
 }
 

@@ -1,11 +1,10 @@
-<div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">ユーザー編集
-<%= resource_name.to_s.humanize %>
+<div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md"><%= t('users.edit_profile') %>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :email, "メールアドレス" %><br />
+    <%= f.label :email, t('users.email') %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
@@ -14,27 +13,24 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password, "パスワード" %> <i>(変更したい場合は入力してください)</i><br />
+    <%= f.label :password, t('users.password') %>
+    <br />
     <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, "パスワードの確認" %><br />
+    <%= f.label :password_confirmation, t('users.password_confirmation') %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="mt-4">
-    <%= f.label :avatar, "プロフィール画像" %><br>
+    <%= f.label :avatar, t('users.image') %><br>
     <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "h-16 w-16 rounded-full") %><br>
     <%= f.file_field :avatar, accept: "image/*" %>
     <%= f.hidden_field :avatar_cache %>
     <div class="mt-2">
       <label>
-        <%= f.check_box :remove_avatar %> 画像を削除
+        <%= f.check_box :remove_avatar %> <%= t('users.remove_image') %>
       </label>
     </div>
   </div>
@@ -45,13 +41,11 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "更新" %>
+    <%= f.submit t('users.update') %>
   </div>
 <% end %>
 
-<h3>アカウント削除</h3>
-
-<div>Unhappy? <%= button_to "アカウント削除", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+<%= button_to t('users.delete_account'), registration_path(resource_name), data: { confirm: t('users.delete_account_confirm'), turbo_confirm: t('users.delete_account_confirm') }, method: :delete %>
 
 <%= link_to "マイページへ戻る", user_path(current_user) %>
 </div>

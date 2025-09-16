@@ -1,4 +1,4 @@
-<% content_for :title, "施設一覧" %>
+<% content_for :title, t('facilities') %>
 
 <div class="w-full">
   <% if notice.present? %>
@@ -24,7 +24,12 @@
   <div id="index-map"
       class="mt-6 h-[480px] w-full rounded-md border border-gray-200 h-[480px]"
       style="min-height: 480px"
-      data-markers='<%= markers.to_json %>'>
+      data-markers="<%= markers.to_json %>"
+      data-center-lat="35.6895"
+      data-center-lng="139.6917"
+      data-zoom="8"
+      data-min-zoom="8"
+      data-zoom-single="16">
   </div>
 
   <!-- 検索結果 / 一覧 -->
@@ -35,7 +40,7 @@
                 as: :facility,
                 locals: { show_actions: true, show_card_map: false } %>
     <% else %>
-      <p class="col-span-full my-10 text-center text-gray-500">該当する施設はありません。</p>
+      <p class="col-span-full my-10 text-center text-gray-500"><%= t('search.no_facilities') %></p>
     <% end %>
   </div>
 

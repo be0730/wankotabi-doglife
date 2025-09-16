@@ -1,4 +1,4 @@
-<header class="border-b">
+<header class="border-b relative z-50 bg-white">
   <nav class="mx-auto max-w-7xl px-4">
   <% if user_signed_in? %>
     <div class="flex h-16 items-center justify-between">
@@ -58,10 +58,10 @@
             class="absolute right-0 mt-2 w-52 overflow-hidden rounded-md bg-white shadow hidden"
           >
             <div class="border-t my-1"></div>
-            <%= link_to 'マイページ', user_path(current_user), class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
-            <%= link_to '投稿一覧', post_list_user_path(current_user), class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
-            <%= link_to 'お気に入り', favorites_facilities_path, class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
-            <%= link_to 'ログアウト',
+            <%= link_to t('header.my_page'), user_path(current_user), class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
+            <%= link_to t('header.posts'), post_list_user_path(current_user), class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
+            <%= link_to t('header.favorite'), favorites_facilities_path, class: 'block px-4 py-2 text-sm hover:bg-gray-50' %>
+            <%= link_to t('header.logout'),
                         destroy_user_session_path,
                         data: { turbo_method: :delete },
                         class: 'block px-4 py-2 text-sm hover:bg-gray-50 text-red-600' %>
@@ -74,8 +74,8 @@
     <div id="mobile-menu" class="hidden lg:hidden">
       <div class="flex flex-col gap-2 py-3 px-4">
         <!-- 投稿・お気に入り -->
-        <%= link_to 'トップページ', root_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
-        <%= link_to '投稿する', new_facility_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
+        <%= link_to t('header.top'), root_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
+        <%= link_to t('header.new_post'), new_facility_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
 
         <!-- プロフィール関連 -->
         <div class="mt-4 border-t pt-3">
@@ -83,10 +83,10 @@
             <%= image_tag 'sample.png', class: 'h-10 w-10 rounded-full' %>
             <span class="text-gray-700 text-sm"><%= current_user.name %></span>
           </div>
-          <%= link_to 'マイページ', user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
-          <%= link_to '投稿一覧', post_list_user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
-          <%= link_to 'お気に入り', favorites_facilities_path, class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
-          <%= link_to 'ログアウト',
+          <%= link_to t('header.my_page'), user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
+          <%= link_to t('header.posts'), post_list_user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
+          <%= link_to t('header.favorite'), favorites_facilities_path, class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>
+          <%= link_to t('header.logout'),
                       destroy_user_session_path,
                       data: { turbo_method: :delete },
                       class: 'block px-4 py-2 text-sm hover:bg-gray-50 text-red-600' %>
@@ -132,16 +132,16 @@
 
       <!-- 右側メニュー（LG以上で表示） -->
       <div class="hidden lg:flex lg:items-center lg:gap-4">
-        <%= link_to '新規登録', new_user_registration_path, class: "px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100" %>
-        <%= link_to 'ログイン', new_user_session_path, class: "px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100" %>
+        <%= link_to t('header.sign_up'), new_user_registration_path, class: "px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100" %>
+        <%= link_to t('header.login'), new_user_session_path, class: "px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100" %>
       </div>
     </div>
 
     <!-- モバイルメニュー（LG未満） -->
     <div id="mobile-menu" class="hidden lg:hidden">
       <div class="flex flex-col gap-2 py-3 px-4">
-        <%= link_to '新規登録', new_user_registration_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
-        <%= link_to 'ログイン', new_user_session_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
+        <%= link_to t('header.sign_up'), new_user_registration_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
+        <%= link_to t('header.login'), new_user_session_path, class: "w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 text-center" %>
       </div>
     </div>
   <% end %>
