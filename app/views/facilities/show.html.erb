@@ -6,6 +6,31 @@
   <h1 class="font-bold text-4xl"><%= t('show_facility') %></h1>
 
   <%= render 'facilities/facility',facility: @facility, show_actions: false %>
+
+  <% marker =
+    if @facility.latitude.present? && @facility.longitude.present?
+      [{
+        id:      @facility.id,
+        lat:     @facility.latitude.to_f,
+        lng:     @facility.longitude.to_f,
+        title:   @facility.title,
+        address: @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
+        url:     facility_path(@facility)
+      }]
+    else
+      []
+    end
+  %>
+
+  <div id="index-map"
+      class="mt-6 h-[480px] w-full rounded-md border border-gray-200"
+      style="min-height: 480px"
+      data-markers="<%= marker.to_json %>"
+      data-zoom="8"
+      data-min-zoom="6"
+      data-zoom-single="16">
+  </div>
+
   <%= link_to t('buttons.back_to_list'), facilities_path, class: "ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 
   <%# 投稿者がログインユーザーと同じ場合、編集・削除ボタンを表示 %>
