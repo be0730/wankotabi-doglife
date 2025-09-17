@@ -48,7 +48,7 @@
             class="flex items-center gap-2 rounded-full focus:outline-none"
             onclick="document.getElementById('profile-menu').classList.toggle('hidden')"
           >
-            <%= image_tag 'sample.png', class: 'h-10 w-10 rounded-full' %>
+            <%= avatar_image_tag(current_user, size: 40, class: 'h-10 w-10') %>
             <div class="px-4 py-2 text-sm text-gray-500"><%= current_user.name %></div>
           </button>
 
@@ -80,7 +80,7 @@
         <!-- プロフィール関連 -->
         <div class="mt-4 border-t pt-3">
           <div class="flex items-center gap-2 mb-2">
-            <%= image_tag 'sample.png', class: 'h-10 w-10 rounded-full' %>
+            <%= avatar_image_tag(current_user, size: 40, class: 'h-10 w-10') %>
             <span class="text-gray-700 text-sm"><%= current_user.name %></span>
           </div>
           <%= link_to t('header.my_page'), user_path(current_user), class: "block w-full text-left px-4 py-2 rounded hover:bg-gray-100" %>

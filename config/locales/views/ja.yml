@@ -74,6 +74,7 @@ ja:
     supplement: "補足"
   buttons:
     back_to_list: "一覧へ戻る"
+    back_to_mypage: "マイページへ戻る"
     register: "登録する"
     login_guidance: "ログインはこちら"
     return_to_login: "ログイン画面に戻る"

@@ -47,5 +47,5 @@
 
 <%= button_to t('users.delete_account'), registration_path(resource_name), data: { confirm: t('users.delete_account_confirm'), turbo_confirm: t('users.delete_account_confirm') }, method: :delete %>
 
-<%= link_to "マイページへ戻る", user_path(current_user) %>
+<%= link_to t('buttons.back_to_mypage'), user_path(current_user) %>
 </div>
