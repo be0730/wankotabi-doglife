@@ -36,7 +36,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(変更する場合は現在のパスワードを入力してください)</i><br />
+    <%= f.label :current_password, t('users.current_password') %> <%= t('users.password_hint') %><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
