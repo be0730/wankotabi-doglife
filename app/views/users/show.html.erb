@@ -1,21 +1,20 @@
-<div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+<div class="max-w-3xl mx-auto my-6 bg-white rounded-2xl shadow-xl p-6">
   <h1 class="font-bold text-4xl"><%= t('users.my_page') %></h1>
-  <div class="mt-2">
+  <div class="my-6 text-lg">
     <strong><%= t('users.name') %></strong>
     <%= @user.name %>
-  </div>
-  <p>
+  <p class="my-6 text-lg">
     <strong><%= t('users.email') %></strong>
     <%= @user.email %>
   </p>
-  <p>
+  </div>
+  <p class="my-6 text-lg">
     <strong><%= t('users.image') %></strong>
     <%= image_tag(@user.avatar? ? @user.avatar.url : @user.avatar.default_url,
               class: "h-16 w-16 rounded-full") %>
   </p>
 
-
-  <div class="mt-6">
-    <%= link_to t('users.edit_profile'), edit_user_registration_path, class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+  <div class= "text-end font-semibold text-indigo-600 hover:text-indigo-500" >
+    <%= link_to t('users.edit_profile'), edit_user_registration_path %>
   </div>
 </div>
