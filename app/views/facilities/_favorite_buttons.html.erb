@@ -1,12 +1,12 @@
 <% if current_user&.favorite?(facility) %>
   <% fav = current_user.favorites.find_by!(facility_id: facility.id) %>
   <%= link_to favorite_path(fav), data: { turbo_method: :delete }, id: "unfavorite-button-for-facility-#{fav.id}" do %>
-    <span class="text-2xl text-yellow-400">★</span>
+    <span class="text-5xl text-yellow-400">★</span>
   <% end %>
 <% else %>
   <% if current_user %>
     <%= link_to favorites_path(facility_id: facility.id), data: { turbo_method: :post } do %>
-        <span class="text-2xl text-yellow-400">☆</span>
+        <span class="text-5xl text-yellow-400">☆</span>
     <% end %>
   <% end %>
 <% end %>
