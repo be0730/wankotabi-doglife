@@ -101,8 +101,8 @@ ja:
     x_twitter: "例: https://twitter.com/yourhandle"
     supplement: "補足事項があればご記入ください。"
   search:
-    keyword: "フリーワード（施設名・住所）"
-    placeholder: "施設名または住所で検索"
+    keyword: "フリーワード検索"
+    placeholder: "施設名、住所、カテゴリなど"
     button: "検索"
     no_facilities: "施設が見つかりません。"
   meta:
