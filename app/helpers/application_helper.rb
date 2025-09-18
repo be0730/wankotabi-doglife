@@ -15,8 +15,6 @@ module ApplicationHelper
       url = "#{url}?v=#{user.updated_at.to_i}" if user.respond_to?(:updated_at)
       url
     end
-
-    asset_path("avatar_placeholder.png")
   end
 
   def avatar_image_tag(user, size: 40, **opts)

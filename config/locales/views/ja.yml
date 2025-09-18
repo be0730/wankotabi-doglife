@@ -44,7 +44,7 @@ ja:
     delete_account_confirm: "本当にアカウントを削除しますか？"
     update: "更新"
     current_password: "現在のパスワード"
-    password_hint: "変更する場合は現在のパスワードを入力してください"
+    password_hint: "（変更する場合は現在のパスワードを入力してください）"
   form:
     basic_info:
       title: "基本情報"
