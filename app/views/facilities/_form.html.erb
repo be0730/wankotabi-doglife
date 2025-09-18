@@ -1,9 +1,15 @@
 <%= form_with model: @facility, local: true do |f| %>
   <% if @facility.errors.any? %>
     <div class="mb-6 rounded-md bg-red-50 p-4 text-red-700">
-      <h2 class="font-semibold"><%= pluralize(@facility.errors.count, "error") %> prohibited this facility from being saved:</h2>
+      <h2 class="font-semibold">
+        <%= t("errors.messages.not_saved",
+              count: @facility.errors.count,
+              resource: Facility.model_name.human) %>
+      </h2>
       <ul class="mt-2 list-disc pl-5">
-        <% @facility.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+        <% @facility.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -59,7 +65,7 @@
       <%= f.label :images, t('form.basic_info.image') %><br>
       <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true %>
     </div>
-    <% if @facility.images.attached? %>
+    <% if @facility.persisted? && @facility.images.attached? %>
       <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         <% @facility.images.each do |image| %>
           <div class="relative">
