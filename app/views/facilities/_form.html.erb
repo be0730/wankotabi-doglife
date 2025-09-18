@@ -14,22 +14,22 @@
     </div>
   <% end %>
 
-  <div class="space-y-12">
+  <div class="m-12">
     <!-- 基本情報 -->
-    <div class="border-b border-gray-900/10 pb-8">
-      <h2 class="text-base font-semibold text-gray-900"><%= t('form.basic_info.title') %></h2>
+    <div class="my-6 pb-8">
+      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.basic_info.title') %></h2>
 
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-4">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.basic_info.name') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.name') %></label>
           <div class="mt-2">
             <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- カテゴリ -->
         <div class="sm:col-span-2">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.basic_info.category') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.category') %></label>
           <div class="mt-2 space-y-2">
             <% category_options = {
               "宿泊施設"   => "accommodation",
@@ -44,63 +44,62 @@
                       id: "category_#{value}",
                       class: "w-4 h-4 accent-indigo-600 border-gray-300" %>
                 <%= f.label "category_#{value}", label,
-                      class: "ms-2 text-sm font-medium text-gray-900" %>
+                      class: "ms-2 text-xl font-medium text-gray-900" %>
               </div>
             <% end %>
           </div>
         </div>
-
+        <!-- 概要欄 -->
         <div class="col-span-full">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.basic_info.overview') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.overview') %></label>
           <div class="mt-2">
             <%= f.text_area :overview, rows: 4, placeholder: t('placeholders.overview'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
+        </div>
+        <!-- 施設画像 -->
+        <div>
+          <%= f.label :images, t('form.basic_info.image'), class:"text-xl" %><br>
+          <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true %>
+          <% if @facility.persisted? && @facility.images.attached? %>
+            <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              <% @facility.images.each do |image| %>
+                <div class="relative">
+                  <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "h-32 w-full object-cover rounded-md" %>
+                  <%= link_to "×", facility_image_path(@facility, image.signed_id),
+                      method: :delete,
+                      data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                      class: "absolute top-1 right-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white hover:bg-red-700" %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
 
-    <!-- 施設画像 -->
-    <div class="mt-4">
-      <%= f.label :images, t('form.basic_info.image') %><br>
-      <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true %>
-    </div>
-    <% if @facility.persisted? && @facility.images.attached? %>
-      <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-        <% @facility.images.each do |image| %>
-          <div class="relative">
-            <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "h-32 w-full object-cover rounded-md" %>
-            <%= link_to "×", facility_image_path(@facility, image.signed_id),
-                  method: :delete,
-                  data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-                  class: "absolute top-1 right-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white hover:bg-red-700" %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-
     <!-- 住所・地図 -->
-    <div class="border-b border-gray-900/10 pb-8">
-      <h2 class="text-base font-semibold text-gray-900"><%= t('form.address_info.title') %></h2>
+    <div class="my-6 pb-8">
+      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.address_info.title') %></h2>
 
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-2">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.address_info.postal_code') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.postal_code') %></label>
           <div class="mt-2">
             <%= f.text_field :postal_code, placeholder: t('placeholders.postal_code'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- 都道府県選択 -->
         <div class="sm:col-span-2">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.address_info.prefecture') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.prefecture') %></label>
           <div class="mt-2 grid grid-cols-1">
             <%= f.collection_select :prefecture_id,
                   Prefecture.order(:code),     # 1..47 の順で表示
                   :id,                         # value
                   :name,                       # 表示名
                   { prompt: "選択してください" },
-                  class: "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "col-start-1 row-start-1 mb-6 block w-full rounded-md border border-gray-300 px-3 py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-xl" %>
 
             <!-- 下向き矢印(装飾) -->
             <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
@@ -110,122 +109,122 @@
             </svg>
 
             <% if @facility.errors[:prefecture].present? %>
-              <p class="mt-1 text-sm text-red-600"><%= @facility.errors[:prefecture].first %></p>
+              <p class="mt-1 text-xl text-red-600"><%= @facility.errors[:prefecture].first %></p>
             <% end %>
           </div>
         </div>
-
+        <!-- 市区町村 -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.address_info.city') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.city') %></label>
           <div class="mt-2">
             <%= f.text_field :city, placeholder: t('placeholders.city'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- 町丁目・番地 -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.address_info.street') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.street') %></label>
           <div class="mt-2">
             <%= f.text_field :street, placeholder: t('placeholders.street'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- 建物名・部屋番号 -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.address_info.building') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.building') %></label>
           <div class="mt-2">
             <%= f.text_field :building, placeholder: t('placeholders.building'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 連絡先／営業時間 -->
-    <div class="border-b border-gray-900/10 pb-8">
-      <h2 class="text-base font-semibold text-gray-900"><%= t('form.phone_hours_info.title') %></h2>
+    <div class="my-6 pb-8">
+      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.phone_hours_info.title') %></h2>
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.phone_hours_info.phone_number') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.phone_number') %></label>
           <div class="mt-2">
             <%= f.text_field :phone_number, placeholder: t('placeholders.phone_number'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- 連絡先 -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.phone_hours_info.business_hours') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.business_hours') %></label>
           <div class="mt-2">
             <%= f.text_field :business_hours, placeholder: t('placeholders.business_hours'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- 定休日 -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.phone_hours_info.closed_day') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.closed_day') %></label>
           <div class="mt-2">
             <%= f.text_field :closed_day, placeholder: t('placeholders.closed_day'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
       </div>
     </div>
 
     <!-- SNS / リンク -->
-    <div class="border-b border-gray-900/10 pb-8">
-      <h2 class="text-base font-semibold text-gray-900"><%= t('form.url_info.title') %></h2>
+    <div class="my-6 pb-8">
+      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.url_info.title') %></h2>
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.url_info.homepage') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.homepage') %></label>
           <div class="mt-2">
             <%= f.url_field :homepage_url, placeholder: t('placeholders.homepage'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- インスタグラム -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.url_info.instagram') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.instagram') %></label>
           <div class="mt-2">
             <%= f.url_field :instagram_url, placeholder: t('placeholders.instagram'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- フェイスブック -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.url_info.facebook') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.facebook') %></label>
           <div class="mt-2">
             <%= f.url_field :facebook_url, placeholder: t('placeholders.facebook'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
-
+        <!-- X（Twitter） -->
         <div class="sm:col-span-3">
-          <label class="block text-sm font-medium text-gray-900"><%= t('form.url_info.x_twitter') %></label>
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.x_twitter') %></label>
           <div class="mt-2">
             <%= f.url_field :x_url, placeholder: t('placeholders.x_twitter'),
-                  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 補足 -->
-    <div class="border-b border-gray-900/10 pb-8">
-      <h2 class="text-base font-semibold text-gray-900"><%= t('form.supplement') %></h2>
+    <div>
+      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.supplement') %></h2>
       <div class="mt-2">
-        <%= f.text_field :supplement,
+        <%= f.text_area :supplement,rows: 4,
               placeholder: t('placeholders.supplement'),
-              class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" %>
+              class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
       </div>
     </div>
   </div>
 
-  <!-- 送信ボタン -->
-  <div class="mt-6 flex items-center justify-end gap-x-6">
+  <!-- 登録ボタン -->
+  <div class="m-12 flex items-center justify-end gap-x-6">
     <%= link_to t('buttons.cancel'), facilities_path,
-          class: "text-sm font-semibold text-gray-900" %>
+          class: "inline-block rounded-md bg-gray-100 px-3 py-2 text-xl font-semibold text-gray-900" %>
     <button type="submit"
-            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            class="rounded-md bg-indigo-600 px-3 py-2 text-xl font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       <%= t(@facility.persisted? ? 'buttons.update' : 'buttons.register') %>
     </button>
   </div>
