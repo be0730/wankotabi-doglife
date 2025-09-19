@@ -11,8 +11,11 @@
   </div>
   <p class="my-6 text-lg">
     <strong><%= t('users.image') %></strong>
-    <%= image_tag(@user.avatar? ? @user.avatar.url : @user.avatar.default_url,
-              class: "h-16 w-16 rounded-full") %>
+    <% if @user.avatar_attachment&.attached? %>
+      <%= image_tag @user.avatar.variant(resize_to_fill: [160,160]).processed, class: "h-16 w-16 rounded-full" %>
+    <% else %>
+      <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>
+    <% end %>
   </p>
 
   <div class= "text-end font-semibold text-indigo-600 hover:text-indigo-500" >
