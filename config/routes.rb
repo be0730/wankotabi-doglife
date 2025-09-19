@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   resources :users, only: [ :show ] do
-    member do
-      get :post_list
-    end
+    member { get :post_list }
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -19,11 +17,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "facilities#index"
   resources :facilities do
-    resources :comments, only: %i[create edit update destroy], shallow: true
-    collection do
-      get :favorites
-    end
+    esources :comments, only: %i[create edit update destroy], shallow: true
+    collection { get :favorites }
     delete "images/:signed_id", to: "facilities#destroy_image", as: :image
   end
+
   resources :favorites, only: %i[create destroy]
 end

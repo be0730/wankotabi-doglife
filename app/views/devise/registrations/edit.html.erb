@@ -31,10 +31,15 @@
     <div>
       <%= f.label :avatar, t('users.image'), class: "block text-sm/6 font-medium text-gray-900"  %>
       <div>
-      <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "my-6 h-16 w-16 rounded-full") %>
+        <% if resource.avatar_attachment&.attached? %>
+          <%= image_tag resource.avatar.variant(resize_to_fill: [160, 160]).processed, class: "my-6 h-16 w-16 rounded-full" %>
+        <% else %>
+          <%= image_tag "default_avatar.png", class: "my-6 h-16 w-16 rounded-full" %>
+        <% end %>
       </div>
-      <%= f.file_field :avatar, accept: "image/*" %>
-      <%= f.hidden_field :avatar_cache %>
+
+      <%= f.file_field :avatar, accept: "image/*", direct_upload: true %>
+
       <div class="my-6">
         <label>
           <%= f.check_box :remove_avatar %> <%= t('users.remove_image') %>
