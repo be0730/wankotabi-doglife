@@ -1,4 +1,5 @@
 ja:
+  title: "わんこたび~わんことお出かけ~"
   helpers:
     facilities:
       new: "新しい施設を追加"
@@ -102,7 +103,7 @@ ja:
     supplement: "補足事項があればご記入ください。"
   search:
     keyword: "フリーワード検索"
-    placeholder: "施設名、住所、カテゴリなど"
+    placeholder: "施設名、住所など"
     button: "検索"
     no_facilities: "施設が見つかりません。"
   meta:
