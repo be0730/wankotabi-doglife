@@ -12,14 +12,16 @@ class Facility < ApplicationRecord
     shop:          3  # ショップ
   }, prefix: :true
 
-  validates :title, :category, :prefecture_id, :city, :street, presence: true
+  validates :title, :category, :city, :street, presence: true
+
+  delegate :name, to: :prefecture, prefix: true, allow_nil: true
 
   def full_address
-    [ prefecture.name, city, street, building ].compact.join
+    [ prefecture_name, city.presence, street.presence, building.presence ].compact.join
   end
 
   ransack_alias :full_address, :prefecture_name_or_city_or_street_or_building
-  ransack_alias :keyword, :title_or_full_address
+  ransack_alias :keyword,      :title_or_prefecture_name_or_city_or_street_or_building
 
   def self.ransackable_attributes(_ = nil)
     %w[
@@ -39,9 +41,13 @@ class Facility < ApplicationRecord
   # after_validation :geocode, if: :will_save_change_to_full_address?
 
   geocoded_by :full_address
-  after_validation :geocode, if: :address_parts_changed?
+  after_validation :geocode, if: :should_geocode?
 
   private
+
+  def should_geocode?
+    address_parts_changed? && !full_address.blank?
+  end
 
   def address_parts_changed?
     will_save_change_to_postal_code? ||
@@ -49,9 +55,5 @@ class Facility < ApplicationRecord
     will_save_change_to_city? ||
     will_save_change_to_street? ||
     will_save_change_to_building?
-  end
-
-  def coordinates_changed?
-    will_save_change_to_latitude? || will_save_change_to_longitude?
   end
 end

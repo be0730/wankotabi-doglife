@@ -1,4 +1,5 @@
 ja:
+  title: "わんこたび~わんことお出かけ~"
   helpers:
     facilities:
       new: "新しい施設を追加"
@@ -44,7 +45,7 @@ ja:
     delete_account_confirm: "本当にアカウントを削除しますか？"
     update: "更新"
     current_password: "現在のパスワード"
-    password_hint: "変更する場合は現在のパスワードを入力してください"
+    password_hint: "（変更する場合は現在のパスワードを入力してください）"
   form:
     basic_info:
       title: "基本情報"
@@ -101,8 +102,8 @@ ja:
     x_twitter: "例: https://twitter.com/yourhandle"
     supplement: "補足事項があればご記入ください。"
   search:
-    keyword: "フリーワード（施設名・住所）"
-    placeholder: "施設名または住所で検索"
+    keyword: "フリーワード検索"
+    placeholder: "施設名、住所など"
     button: "検索"
     no_facilities: "施設が見つかりません。"
   meta:

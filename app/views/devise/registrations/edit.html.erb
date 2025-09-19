@@ -1,51 +1,61 @@
-<div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md"><%= t('users.edit_profile') %>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email, t('users.email') %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900"><%= t('users.edit_profile') %></h2>
   </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :password, t('users.password') %>
-    <br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+    <div>
+      <%= f.label :email, t('users.email'), class: "block text-sm/6 font-medium text-gray-900" %>
+      <div>
+      <%= f.email_field :email, autocomplete: "email", class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, t('users.password_confirmation') %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <div>
+      <%= f.label :password, t('users.password'), class: "block text-sm/6 font-medium text-gray-900"  %>
+      <div>
+      <%= f.password_field :password, autocomplete: "new-password", class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+      </div>
+    </div>
 
-  <div class="mt-4">
-    <%= f.label :avatar, t('users.image') %><br>
-    <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "h-16 w-16 rounded-full") %><br>
-    <%= f.file_field :avatar, accept: "image/*" %>
-    <%= f.hidden_field :avatar_cache %>
-    <div class="mt-2">
-      <label>
-        <%= f.check_box :remove_avatar %> <%= t('users.remove_image') %>
-      </label>
+    <div>
+      <%= f.label :password_confirmation, t('users.password_confirmation'), class: "block text-sm/6 font-medium text-gray-900"  %>
+      <div>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :avatar, t('users.image'), class: "block text-sm/6 font-medium text-gray-900"  %>
+      <div>
+      <%= image_tag(resource.avatar.url || resource.avatar.default_url, class: "my-6 h-16 w-16 rounded-full") %>
+      </div>
+      <%= f.file_field :avatar, accept: "image/*" %>
+      <%= f.hidden_field :avatar_cache %>
+      <div class="my-6">
+        <label>
+          <%= f.check_box :remove_avatar %> <%= t('users.remove_image') %>
+        </label>
+      </div>
+      <%= f.label :current_password, class: "mb-6 block text-sm/6 font-medium text-gray-900" do %>
+      <span><%= t('users.current_password') %></span><br />
+      <span><%= t('users.password_hint') %></span><br />
+      <%= f.password_field :current_password, autocomplete: "current-password", class: "mb-12 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+      <% end %>
+    </div>
+
+    <div class="actions sm:mx-auto sm:w-full sm:max-w-sm">
+      <%= f.submit t('users.update'), class: "mb-6 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+      <% end %>
+      <%= button_to t('users.delete_account'), registration_path(resource_name),
+          data: { confirm: t('users.delete_account_confirm'),
+          turbo_confirm: t('users.delete_account_confirm') },
+          method: :delete,
+          class: "mb-6 flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
+      <%= link_to t('buttons.back_to_mypage'), user_path(current_user), class: "flex w-full justify-center font-semibold text-indigo-600 hover:text-indigo-500" %>
     </div>
   </div>
-
-  <div class="field">
-    <%= f.label :current_password, t('users.current_password') %> <%= t('users.password_hint') %><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('users.update') %>
-  </div>
-<% end %>
-
-<%= button_to t('users.delete_account'), registration_path(resource_name), data: { confirm: t('users.delete_account_confirm'), turbo_confirm: t('users.delete_account_confirm') }, method: :delete %>
-
-<%= link_to t('buttons.back_to_mypage'), user_path(current_user) %>
 </div>

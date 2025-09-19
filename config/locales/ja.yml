@@ -5,6 +5,11 @@ ja:
       facilities: "施設一覧"
     attributes:
       facility:
+        postal_code: 郵便番号
+        prefecture: 都道府県
+        city: 市区町村
+        street: 丁目・番地
+        category: カテゴリ
         name: "施設名"
         description: "説明"
         address: "住所"
@@ -13,6 +18,11 @@ ja:
         phone_number: "電話番号"
         website_url: "ウェブサイトURL"
         image: "画像"
+    errors:
+      messages:
+        not_saved:
+          one: "%{count}件のエラーによりこの%{resource}は保存されませんでした:"
+          other: "%{count}件のエラーによりこの%{resource}は保存されませんでした:"
   enums:
     facility:
       category:

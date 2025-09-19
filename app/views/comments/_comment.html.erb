@@ -2,7 +2,7 @@
 <% author_name  = author&.name.presence || author&.email || "匿名ユーザー" %>
 <% can_delete   = current_user && (current_user.id == comment.user_id || current_user.id == facility.user_id) %>
 
-<article id="comment_<%= comment.id %>" class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+<article id="comment_<%= comment.id %>" class="mx-12 my-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
   <!-- ヘッダー：投稿者 & 投稿日時 -->
   <div class="mb-2 flex items-center justify-between gap-3">
     <div class="flex items-center gap-2">
@@ -26,7 +26,7 @@
                   comment_path(comment),
                   method: :delete,
                   data: { turbo_confirm: "このコメントを削除しますか？" },
-                  class: "rounded-md bg-white px-2 py-1 text-xs font-medium text-red-600 outline outline-1 -outline-offset-1 outline-gray-300 hover:bg-gray-50" %>
+                  class: "rounded-md bg-white px-3 py-2 text-xs font-medium text-red-600 outline outline-1 -outline-offset-1 outline-gray-300 hover:bg-gray-50" %>
     <% end %>
   </div>
 
