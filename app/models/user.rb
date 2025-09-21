@@ -42,5 +42,4 @@ class User < ApplicationRecord
     should_remove = ActiveModel::Type::Boolean.new.cast(remove_avatar)
     avatar.purge_later if should_remove && avatar.attached?
   end
-
 end
