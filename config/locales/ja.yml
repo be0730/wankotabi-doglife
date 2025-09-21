@@ -3,7 +3,16 @@ ja:
     models:
       facility: "施設"
       facilities: "施設一覧"
+      user: "ユーザー"
     attributes:
+      user:
+        name: "ユーザー名"
+        email: "メールアドレス"
+        profile: "プロフィール"
+        avatar: "プロフィール画像"
+        password: "パスワード"
+        password_confirmation: "パスワード確認"
+        current_password: "現在のパスワード"
       facility:
         postal_code: 郵便番号
         prefecture: 都道府県
@@ -19,6 +28,11 @@ ja:
         website_url: "ウェブサイトURL"
         image: "画像"
     errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "登録失敗しました。入力内容をご確認ください。"
       messages:
         not_saved:
           one: "%{count}件のエラーによりこの%{resource}は保存されませんでした:"
