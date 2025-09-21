@@ -16,10 +16,11 @@
     <% else %>
       <% begin %>
       <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>
-    <% rescue Sprockets::Rails::Helper::AssetNotFound %>
-      <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
-        <span class="text-xl font-semibold"><%= @user.name.to_s.first&.upcase || "U" %></span>
-      </div>
+      <% rescue Sprockets::Rails::Helper::AssetNotFound %>
+        <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
+          <span class="text-xl font-semibold"><%= @user.name.to_s.first&.upcase || "U" %></span>
+        </div>
+      <% end %>
     <% end %>
   </p>
 
