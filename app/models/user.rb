@@ -15,6 +15,9 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  attr_accessor :remove_avatar
+  after_save :purge_avatar_if_requested
+
   def favorite(facility)
     favorites.find_or_create_by!(facility: facility)
   end
@@ -30,5 +33,13 @@ class User < ApplicationRecord
 
   def favorite?(facility)
     favorites.exists?(facility_id: facility.id)
+  end
+
+  private
+
+  def purge_avatar_if_requested
+    # "1"/true を許容
+    should_remove = ActiveModel::Type::Boolean.new.cast(remove_avatar)
+    avatar.purge_later if should_remove && avatar.attached?
   end
 end
