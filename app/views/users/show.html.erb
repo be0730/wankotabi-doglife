@@ -14,7 +14,13 @@
     <% if @user.avatar_attachment&.attached? %>
       <%= image_tag @user.avatar.variant(resize_to_fill: [160,160]).processed, class: "h-16 w-16 rounded-full" %>
     <% else %>
+      <% begin %>
       <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>
+      <% rescue Sprockets::Rails::Helper::AssetNotFound %>
+        <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
+          <span class="text-xl font-semibold"><%= @user.name.to_s.first&.upcase || "U" %></span>
+        </div>
+      <% end %>
     <% end %>
   </p>
 
