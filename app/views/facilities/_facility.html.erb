@@ -20,14 +20,6 @@
   <div class="mt-2 space-y-1 text-lg text-gray-900">
     <p><%= t('form.address_info.address') %>：<%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %></p>
     <p><%= t('form.basic_info.overview') %>：<%= facility.overview %></p>
-    <p><%= t('form.phone_hours_info.phone_number') %>：<%= facility.phone_number %></p>
-    <p><%= t('form.phone_hours_info.business_hours') %>：<%= facility.business_hours %></p>
-    <p><%= t('form.phone_hours_info.closed_day') %>：<%= facility.closed_day %></p>
-    <p><%= t('form.url_info.homepage') %>：<%= facility.homepage_url %></p>
-    <p><%= t('form.url_info.instagram') %>：<%= facility.instagram_url %></p>
-    <p><%= t('form.url_info.facebook') %>：<%= facility.facebook_url %></p>
-    <p><%= t('form.url_info.x_twitter') %>：<%= facility.x_url %></p>
-    <p><%= t('form.supplement') %>：<%= facility.supplement %></p>
   </div>
 
 
@@ -39,9 +31,8 @@
 
   <!-- 施設詳細ページでは詳細ボタンを表示させない -->
   <% unless current_page?(facility_path(facility)) %>
-    <div class="mt-4 flex items-center justify-end gap-2">
-      <%= link_to t('buttons.detail'), facility_path(facility),
-            class: "inline-block rounded-md bg-gray-100 px-3 py-1.5 text-xl font-medium hover:bg-gray-50" %>
+    <div class="mt-4 flex justify-end">
+      <%= link_to t('buttons.detail'), facility_path(facility), class: "btn-primary" %>
     </div>
   <% end %>
 </div>
