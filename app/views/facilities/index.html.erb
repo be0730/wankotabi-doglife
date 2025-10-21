@@ -1,6 +1,6 @@
 <% content_for :title, t('title') %>
 
-<div class="mx-12">
+<div class="mx-auto max-w-7xl px-4">
   <% if notice.present? %>
     <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
   <% end %>
@@ -33,7 +33,7 @@
   </div>
 
   <!-- 検索結果 / 一覧 -->
-  <div class="mx-12 grid grid-cols-1 md:grid-cols-2 gap-6"><!-- 2列表示 -->
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6"><!-- md以上で３列表示、スマホは１列 -->
     <% if @facilities.any? %>
       <%= render partial: 'facilities/facility',
                 collection: @facilities,
