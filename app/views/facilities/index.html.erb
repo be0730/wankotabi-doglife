@@ -33,7 +33,7 @@
   </div>
 
   <!-- 検索結果 / 一覧 -->
-  <div id="facilities" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="mx-12 grid grid-cols-1 md:grid-cols-2 gap-6"><!-- 2列表示 -->
     <% if @facilities.any? %>
       <%= render partial: 'facilities/facility',
                 collection: @facilities,
