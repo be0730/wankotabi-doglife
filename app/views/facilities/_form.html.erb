@@ -24,7 +24,7 @@
           <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.name') %></label>
           <div class="mt-2">
             <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+                  class: "text-field" %>
           </div>
         </div>
         <!-- カテゴリ -->
@@ -53,8 +53,7 @@
         <div class="col-span-full">
           <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.overview') %></label>
           <div class="mt-2">
-            <%= f.text_area :overview, rows: 4, placeholder: t('placeholders.overview'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_area :overview, rows: 4, placeholder: t('placeholders.overview'),class: "text-field" %>
           </div>
         </div>
         <!-- 施設画像 -->
@@ -106,28 +105,20 @@
             <% end %>
           </div>
         </div>
-        <!-- 市区町村 -->
+          <!-- 市区町村 -->
         <div class="sm:col-span-3">
           <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.city') %></label>
           <div class="mt-2">
-            <%= f.text_field :city, placeholder: t('placeholders.city'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
-          </div>
-        </div>
-        <!-- 町丁目・番地 -->
-        <div class="sm:col-span-3">
+            <%= f.text_field :city, placeholder: t('placeholders.city'),class: "text-field" %>
+          <!-- 町丁目・番地 -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.street') %></label>
           <div class="mt-2">
-            <%= f.text_field :street, placeholder: t('placeholders.street'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :street, placeholder: t('placeholders.street'),class: "text-field" %>
           </div>
-        </div>
-        <!-- 建物名・部屋番号 -->
-        <div class="sm:col-span-3">
+          <!-- 建物名・部屋番号 -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.building') %></label>
           <div class="mt-2">
-            <%= f.text_field :building, placeholder: t('placeholders.building'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :building, placeholder: t('placeholders.building'),class: "text-field" %>
           </div>
         </div>
       </div>
@@ -140,24 +131,18 @@
         <div class="sm:col-span-3">
           <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.phone_number') %></label>
           <div class="mt-2">
-            <%= f.text_field :phone_number, placeholder: t('placeholders.phone_number'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :phone_number, placeholder: t('placeholders.phone_number'),class: "text-field" %>
           </div>
-        </div>
-        <!-- 連絡先 -->
-        <div class="sm:col-span-3">
+          <!-- 連絡先 -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.business_hours') %></label>
           <div class="mt-2">
             <%= f.text_field :business_hours, placeholder: t('placeholders.business_hours'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+                  class: "text-field" %>
           </div>
-        </div>
-        <!-- 定休日 -->
-        <div class="sm:col-span-3">
+          <!-- 定休日 -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.closed_day') %></label>
           <div class="mt-2">
-            <%= f.text_field :closed_day, placeholder: t('placeholders.closed_day'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :closed_day, placeholder: t('placeholders.closed_day'),class: "text-field" %>
           </div>
         </div>
       </div>
@@ -170,32 +155,22 @@
         <div class="sm:col-span-3">
           <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.homepage') %></label>
           <div class="mt-2">
-            <%= f.url_field :homepage_url, placeholder: t('placeholders.homepage'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :homepage_url, placeholder: t('placeholders.homepage'),class: "text-field" %>
           </div>
-        </div>
-        <!-- インスタグラム -->
-        <div class="sm:col-span-3">
+          <!-- インスタグラム -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.instagram') %></label>
           <div class="mt-2">
-            <%= f.url_field :instagram_url, placeholder: t('placeholders.instagram'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :instagram_url, placeholder: t('placeholders.instagram'),class: "text-field" %>
           </div>
-        </div>
-        <!-- フェイスブック -->
-        <div class="sm:col-span-3">
+          <!-- フェイスブック -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.facebook') %></label>
           <div class="mt-2">
-            <%= f.url_field :facebook_url, placeholder: t('placeholders.facebook'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :facebook_url, placeholder: t('placeholders.facebook'),class: "text-field" %>
           </div>
-        </div>
-        <!-- X（Twitter） -->
-        <div class="sm:col-span-3">
+          <!-- X（Twitter） -->
           <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.x_twitter') %></label>
           <div class="mt-2">
-            <%= f.url_field :x_url, placeholder: t('placeholders.x_twitter'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :x_url, placeholder: t('placeholders.x_twitter'),class: "text-field" %>
           </div>
         </div>
       </div>
@@ -206,8 +181,7 @@
       <h2 class="text-xl font-semibold text-gray-900"><%= t('form.supplement') %></h2>
       <div class="mt-2">
         <%= f.text_area :supplement,rows: 4,
-              placeholder: t('placeholders.supplement'),
-              class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+              placeholder: t('placeholders.supplement'),class: "text-field" %>
       </div>
     </div>
   </div>
