@@ -14,21 +14,8 @@
       </span>
     </div>
 
-    <div class="mt-2">
-      <div class="w-full h-56 md:h-64 rounded-md overflow-hidden
-              flex items-center justify-center">
-        <% if facility.images.attached? %>
-          <% begin %>
-            <%= image_tag facility.images.first.variant(resize_to_limit: [1280, 960]).processed,
-                  class: "max-h-full max-w-full object-contain" %>
-          <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
-            <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain" %>
-          <% end %>
-        <% else %>
-          <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain" %>
-        <% end %>
-      </div>
-    </div>
+    <%= render partial: (local_assigns[:full_image] ? "facilities/image_full" : "facilities/image_small"),
+              locals: { facility: facility } %>
 
     <!-- ２段目：タイトル ＋ 住所 ＋ 概要＋ お気に入りボタン ＋ 詳細ボタン -->
     <h3 class="truncate text-lg font-semibold text-gray-900 mb-2"><%= facility.title %></h3>

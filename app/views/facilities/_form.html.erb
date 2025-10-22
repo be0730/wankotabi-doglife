@@ -19,18 +19,10 @@
     <div class="my-6 pb-8">
       <h2 class="text-xl font-semibold text-gray-900"><%= t('form.basic_info.title') %></h2>
 
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-4">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.name') %></label>
-          <div class="mt-2">
-            <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),
-                  class: "text-field" %>
-          </div>
-        </div>
+      <div class="mt-6 gap-x-6 gap-y-8 sm:grid-cols-6">
         <!-- カテゴリ -->
-        <div class="sm:col-span-2">
+        <div class="my-2 space-y-2">
           <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.category') %></label>
-          <div class="mt-2 space-y-2">
             <% category_options = {
               "宿泊施設"   => "accommodation",
               "飲食店"     => "restaurant",
@@ -38,17 +30,37 @@
               "ショップ"   => "shop"
             } %>
 
-            <% category_options.each do |label, value| %>
-              <div class="flex items-center">
-                <%= f.radio_button :category, value,
-                      id: "category_#{value}",
-                      class: "w-4 h-4 accent-indigo-600 border-gray-300" %>
-                <%= f.label "category_#{value}", label,
-                      class: "ms-2 text-xl font-medium text-gray-900" %>
-              </div>
+            <% color_classes = {
+              "accommodation" => "bg-indigo-500",
+              "restaurant"    => "bg-amber-500",
+              "leisure"       => "bg-emerald-500",
+              "shop"          => "bg-pink-500"
+            } %>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <% category_options.each do |label_text, value| %>
+                <label for="category_<%= value %>" class="cursor-pointer">
+                  <%= f.radio_button :category, value,
+                        id: "category_#{value}",
+                        class: "peer sr-only" %>
+                <span class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-200 hover:bg-gray-50
+                            peer-checked:border-indigo-500 peer-checked:bg-indigo-50 <%= color_classes[value] %>">
+                  <span class="text-base md:text-lg font-medium text-gray-900"><%= label_text %></span>
+                </span>
+              </label>
             <% end %>
           </div>
         </div>
+
+        <!-- 施設名 -->
+        <div class="sm:col-span-4">
+          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.name') %></label>
+          <div class="mt-2">
+            <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),
+                  class: "text-field" %>
+          </div>
+        </div>
+
         <!-- 概要欄 -->
         <div class="col-span-full">
           <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.overview') %></label>
