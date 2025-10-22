@@ -54,7 +54,6 @@ ja:
       image: "施設画像（複数可）"
       overview: "概要"
     address_info:
-      title: "住所・地図"
       address: "住所"
       postal_code: "郵便番号"
       prefecture: "都道府県"
