@@ -36,12 +36,12 @@
       data-zoom-single="16">
   </div>
 
-  <div class="mx-12 flex-row my-8 text-end gap-4">
-    <%= link_to t('buttons.back_to_list'), facilities_path, class: "btn-primary" %>
+  <div class="my-6 flex flex-col items-end gap-4">
+    <%= link_to t('buttons.back_to_list'), facilities_path, class: "btn-primary bg-yellow-200" %>
     <%# 投稿者がログインユーザーと同じ場合、編集・削除ボタンを表示 %>
     <% if @facility.user == current_user %>
-      <%= link_to t('helpers.facilities.edit'), edit_facility_path(@facility), class: "btn-primary" %>
-      <%= button_to t('helpers.facilities.delete'), @facility, method: :delete, class: "my-4 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
+      <%= link_to t('helpers.facilities.edit'), edit_facility_path(@facility), class: "btn-primary bg-amber-400" %>
+      <%= button_to t('helpers.facilities.delete'), @facility, method: :delete, class: "mb-12 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
     <% end %>
   </div>
 
