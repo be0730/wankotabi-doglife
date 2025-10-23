@@ -17,12 +17,11 @@
     <%= render partial: (local_assigns[:full_image] ? "facilities/image_full" : "facilities/image_small"),
               locals: { facility: facility } %>
 
-    <!-- ２段目：タイトル ＋ 住所 ＋ 概要＋ お気に入りボタン ＋ 詳細ボタン -->
+    <!-- ２段目：タイトル ＋ 住所 ＋ お気に入りボタン ＋ 詳細ボタン -->
     <h3 class="truncate text-lg font-semibold text-gray-900 mb-2"><%= facility.title %></h3>
     <div class="flex flex-col min-w-0">
       <div class="mt-2 space-y-1 text-lg text-gray-900">
-        <p><%= t('form.address_info.address') %>：<%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %></p>
-        <p><%= t('form.basic_info.overview') %>：<%= facility.overview %></p>
+        <%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %>
       </div>
 
 
