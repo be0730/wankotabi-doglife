@@ -1,7 +1,7 @@
 <% content_for :title, t('favorite.facilities') %>
 <h1 class="m-6 text-2xl font-bold text-gray-900"><%= t('favorite.facilities') %></h1>
 <div class="w-full">
-  <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="m-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <% if @favorite_facilities.present? %>
       <%= render partial: "facilities/facility", collection: @favorite_facilities, as: :facility %>
     <% else %>
