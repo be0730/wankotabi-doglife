@@ -1,6 +1,6 @@
 <% content_for :title, t('title') %>
 
-<div class="mx-12">
+<div class="mx-auto max-w-7xl px-4">
   <% if notice.present? %>
     <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
   <% end %>
@@ -33,12 +33,12 @@
   </div>
 
   <!-- 検索結果 / 一覧 -->
-  <div id="facilities" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6"><!-- md以上で３列表示、スマホは１列 -->
     <% if @facilities.any? %>
       <%= render partial: 'facilities/facility',
                 collection: @facilities,
                 as: :facility,
-                locals: { show_actions: true, show_card_map: false } %>
+                locals: { full_image: false } %>
     <% else %>
       <p class="col-span-full my-10 text-center text-gray-500"><%= t('search.no_facilities') %></p>
     <% end %>

@@ -9,13 +9,14 @@
     </div>
   <% end %>
 
-  <div class="px-12 mb-4">
+  <div class="title-text"><%= t('comments.title') %></div>
+  <div class="mx-auto max-w-7xl">
     <%= f.text_area :body, rows: 3,
-          placeholder: "コメントを書く…",
+          placeholder: t('comments.placeholder'),
           class: "block w-full rounded-md bg-white px-3 py-2 text-lg text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600" %>
   </div>
 
-  <div class="m-12 flex justify-end">
+  <div class="my-6 flex justify-end">
     <%= f.submit "コメント投稿",
           class: "rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white hover:bg-indigo-500" %>
   </div>

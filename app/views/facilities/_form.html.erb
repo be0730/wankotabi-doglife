@@ -17,20 +17,12 @@
   <div class="m-12">
     <!-- 基本情報 -->
     <div class="my-6 pb-8">
-      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.basic_info.title') %></h2>
+      <div class="title-text font-semibold"><%= t('form.basic_info.title') %></div>
 
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-4">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.name') %></label>
-          <div class="mt-2">
-            <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
-          </div>
-        </div>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
         <!-- カテゴリ -->
-        <div class="sm:col-span-2">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.category') %></label>
-          <div class="mt-2 space-y-2">
+        <div class="col-span-full">
+          <label class="title-text"><%= t('form.basic_info.category') %></label>
             <% category_options = {
               "宿泊施設"   => "accommodation",
               "飲食店"     => "restaurant",
@@ -38,28 +30,46 @@
               "ショップ"   => "shop"
             } %>
 
-            <% category_options.each do |label, value| %>
-              <div class="flex items-center">
-                <%= f.radio_button :category, value,
-                      id: "category_#{value}",
-                      class: "w-4 h-4 accent-indigo-600 border-gray-300" %>
-                <%= f.label "category_#{value}", label,
-                      class: "ms-2 text-xl font-medium text-gray-900" %>
-              </div>
+            <% color_classes = {
+              "accommodation" => "bg-indigo-500",
+              "restaurant"    => "bg-amber-500",
+              "leisure"       => "bg-emerald-500",
+              "shop"          => "bg-pink-500"
+            } %>
+
+            <div class="ml-6 mt-6 flex flex-wrap items-center gap-3">
+              <% category_options.each do |label_text, value| %>
+                <label class="inline-flex items-center cursor-pointer">
+                  <%= f.radio_button :category, value,
+                        id: "category_#{value}",
+                        class: "peer w-4 h-4 accent-indigo-600 border-gray-300" %>
+                <span class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-200 hover:bg-gray-50
+                            peer-checked:border-indigo-500 peer-checked:bg-indigo-50 <%= color_classes[value] %>">
+                  <span class="text-base md:text-lg font-medium text-gray-900"><%= label_text %></span>
+                </span>
+              </label>
             <% end %>
           </div>
         </div>
+
+        <!-- 施設名 -->
+        <div class="sm:col-span-3">
+          <label class="title-text"><%= t('form.basic_info.name') %></label>
+          <div>
+            <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),class: "text-field" %>
+          </div>
+        </div>
+
         <!-- 概要欄 -->
-        <div class="col-span-full">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.basic_info.overview') %></label>
-          <div class="mt-2">
-            <%= f.text_area :overview, rows: 4, placeholder: t('placeholders.overview'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+        <div class="sm:col-span-3">
+          <label class="title-text"><%= t('form.basic_info.overview') %></label>
+          <div>
+            <%= f.text_area :overview, rows: 4, placeholder: t('placeholders.overview'),class: "text-field" %>
           </div>
         </div>
         <!-- 施設画像 -->
-        <div>
-          <%= f.label :images, t('form.basic_info.image'), class:"text-xl" %><br>
+        <div class="col-span-full">
+          <%= f.label :images, t('form.basic_info.image'), class:"title-text" %><br>
           <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true %>
           <% if @facility.persisted? && @facility.images.attached? %>
             <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -80,54 +90,42 @@
 
     <!-- 住所・地図 -->
     <div class="my-6 pb-8">
-      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.address_info.title') %></h2>
+      <div class="title-text font-semibold"><%= t('form.address_info.address') %></div>
 
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-2">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.postal_code') %></label>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
+        <div class="sm:col-span-3">
+          <label class="title-text"><%= t('form.address_info.postal_code') %></label>
           <div class="mt-2">
             <%= f.text_field :postal_code, placeholder: t('placeholders.postal_code'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+                  class: "text-field" %>
           </div>
-        </div>
-        <!-- 都道府県選択 -->
-        <div class="sm:col-span-2">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.prefecture') %></label>
-          <div class="mt-2 grid grid-cols-1">
+          <!-- 都道府県選択 -->
+          <label class="title-text"><%= t('form.address_info.prefecture') %></label>
+          <div class="mt-2">
             <%= f.collection_select :prefecture_id,
                   Prefecture.order(:code),     # 1..47 の順で表示
                   :id,                         # value
                   :name,                       # 表示名
                   { prompt: "選択してください" },
-                  class: "col-start-1 row-start-1 mb-6 block w-full rounded-md border border-gray-300 px-3 py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-xl" %>
+                  class: "text-field" %>
 
             <% if @facility.errors[:prefecture].present? %>
               <p class="mt-1 text-xl text-red-600"><%= @facility.errors[:prefecture].first %></p>
             <% end %>
           </div>
-        </div>
-        <!-- 市区町村 -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.city') %></label>
+          <!-- 市区町村 -->
+          <label class="title-text"><%= t('form.address_info.city') %></label>
           <div class="mt-2">
-            <%= f.text_field :city, placeholder: t('placeholders.city'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :city, placeholder: t('placeholders.city'),class: "text-field" %>
+          <!-- 町丁目・番地 -->
+          <label class="title-text"><%= t('form.address_info.street') %></label>
+          <div class="mt-2">
+            <%= f.text_field :street, placeholder: t('placeholders.street'),class: "text-field" %>
           </div>
-        </div>
-        <!-- 町丁目・番地 -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.street') %></label>
+          <!-- 建物名・部屋番号 -->
+          <label class="title-text"><%= t('form.address_info.building') %></label>
           <div class="mt-2">
-            <%= f.text_field :street, placeholder: t('placeholders.street'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
-          </div>
-        </div>
-        <!-- 建物名・部屋番号 -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.address_info.building') %></label>
-          <div class="mt-2">
-            <%= f.text_field :building, placeholder: t('placeholders.building'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :building, placeholder: t('placeholders.building'),class: "text-field" %>
           </div>
         </div>
       </div>
@@ -135,29 +133,23 @@
 
     <!-- 連絡先／営業時間 -->
     <div class="my-6 pb-8">
-      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.phone_hours_info.title') %></h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+      <div class="title-text font-semibold"><%= t('form.phone_hours_info.title') %></div>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
         <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.phone_number') %></label>
+          <label class="title-text"><%= t('form.phone_hours_info.phone_number') %></label>
           <div class="mt-2">
-            <%= f.text_field :phone_number, placeholder: t('placeholders.phone_number'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :phone_number, placeholder: t('placeholders.phone_number'),class: "text-field" %>
           </div>
-        </div>
-        <!-- 連絡先 -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.business_hours') %></label>
+          <!-- 連絡先 -->
+          <label class="title-text"><%= t('form.phone_hours_info.business_hours') %></label>
           <div class="mt-2">
             <%= f.text_field :business_hours, placeholder: t('placeholders.business_hours'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+                  class: "text-field" %>
           </div>
-        </div>
-        <!-- 定休日 -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.phone_hours_info.closed_day') %></label>
+          <!-- 定休日 -->
+          <label class="title-text"><%= t('form.phone_hours_info.closed_day') %></label>
           <div class="mt-2">
-            <%= f.text_field :closed_day, placeholder: t('placeholders.closed_day'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.text_field :closed_day, placeholder: t('placeholders.closed_day'),class: "text-field" %>
           </div>
         </div>
       </div>
@@ -165,49 +157,37 @@
 
     <!-- SNS / リンク -->
     <div class="my-6 pb-8">
-      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.url_info.title') %></h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+      <div class="title-text font-semibold"><%= t('form.url_info.title') %></div>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
         <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.homepage') %></label>
+          <label class="title-text"><%= t('form.url_info.homepage') %></label>
           <div class="mt-2">
-            <%= f.url_field :homepage_url, placeholder: t('placeholders.homepage'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :homepage_url, placeholder: t('placeholders.homepage'),class: "text-field" %>
           </div>
-        </div>
-        <!-- インスタグラム -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.instagram') %></label>
+          <!-- インスタグラム -->
+          <label class="title-text"><%= t('form.url_info.instagram') %></label>
           <div class="mt-2">
-            <%= f.url_field :instagram_url, placeholder: t('placeholders.instagram'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :instagram_url, placeholder: t('placeholders.instagram'),class: "text-field" %>
           </div>
-        </div>
-        <!-- フェイスブック -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.facebook') %></label>
+          <!-- フェイスブック -->
+          <label class="title-text"><%= t('form.url_info.facebook') %></label>
           <div class="mt-2">
-            <%= f.url_field :facebook_url, placeholder: t('placeholders.facebook'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :facebook_url, placeholder: t('placeholders.facebook'),class: "text-field" %>
           </div>
-        </div>
-        <!-- X（Twitter） -->
-        <div class="sm:col-span-3">
-          <label class="block text-xl font-medium text-gray-900"><%= t('form.url_info.x_twitter') %></label>
+          <!-- X（Twitter） -->
+          <label class="title-text"><%= t('form.url_info.x_twitter') %></label>
           <div class="mt-2">
-            <%= f.url_field :x_url, placeholder: t('placeholders.x_twitter'),
-                  class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+            <%= f.url_field :x_url, placeholder: t('placeholders.x_twitter'),class: "text-field" %>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 補足 -->
-    <div>
-      <h2 class="text-xl font-semibold text-gray-900"><%= t('form.supplement') %></h2>
-      <div class="mt-2">
-        <%= f.text_area :supplement,rows: 4,
-              placeholder: t('placeholders.supplement'),
-              class: "mb-6 block w-full rounded-md border border-gray-300 px-3 py-2" %>
+    <div class="text-xl font-semibold text-gray-900"><%= t('form.supplement') %></div>
+    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
+      <div class="sm:col-span-3">
+        <%= f.text_area :supplement, rows: 4, placeholder: t('placeholders.supplement'), class: "text-field" %>
       </div>
     </div>
   </div>
