@@ -1,20 +1,9 @@
-<div class="min-h-full">
-  <nav class="bg-gray-800">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
-        <div class="flex flex-1 items-center">
-          <div class="flex shrink-0">
-            <img src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-8" />
-          </div>
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-4">
-            <a class="is-active" aria-current="page" data-navbar-target="menu" data-action="navber#menuClick">ダッシュボード</a>
-            <a class="not-active" data-navbar-target="menu" data-action="navber#menuClick">メニュー１</a>
-            <a class="not-active" data-navbar-target="menu" data-action="navber#menuClick">メニュー２</a>
-            <a class="not-active" data-navbar-target="menu" data-action="navber#menuClick">メニュー３</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
+<div class="w-full mt-4">
+  <div class="flex flex-nowrap gap-2 w-full">
+    <button type="button" class="btn-navbar flex-1 min-w-0 is-active" data-navbar-target="menu" data-action="click->navbar#menuClick">一覧</button>
+    <button type="button" class="btn-navbar flex-1 min-w-0 not-active" data-navbar-target="menu" data-action="click->navbar#menuClick">宿泊施設</button>
+    <button type="button" class="btn-navbar flex-1 min-w-0 not-active" data-navbar-target="menu" data-action="click->navbar#menuClick">飲食店</button>
+    <button type="button" class="btn-navbar flex-1 min-w-0 not-active" data-navbar-target="menu" data-action="click->navbar#menuClick">レジャー施設</button>
+    <button type="button" class="btn-navbar flex-1 min-w-0 not-active" data-navbar-target="menu" data-action="click->navbar#menuClick">ショップ</button>
+  </div>
 </div>
