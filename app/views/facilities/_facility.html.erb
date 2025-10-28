@@ -34,7 +34,9 @@
       <!-- 施設詳細ページでは詳細ボタンを表示させない -->
       <% unless current_page?(facility_path(facility)) %>
         <div class="mt-4 flex justify-end md:mt-auto"> <!-- CHANGED: md 以上で下寄せ（mt-auto） -->
-          <%= link_to t('buttons.detail'), facility_path(facility), class: "btn-primary" %>
+          <%= link_to t('buttons.detail'), facility_path(facility),
+              class: "btn-primary",
+              data: { turbo_frame: "_top" } %>
         </div>
       <% end %>
     </div>

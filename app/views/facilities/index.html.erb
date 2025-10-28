@@ -1,11 +1,14 @@
 <% content_for :title, t('title') %>
 
 <div class="mx-auto max-w-7xl px-4">
+
   <% if notice.present? %>
     <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
   <% end %>
 
   <%= render 'search', q: @q, url: facilities_path %>
+
+  <%= render 'layouts/navigation' %>
 
   <!-- 地図表示 -->
   <% markers = @facilities
@@ -21,30 +24,29 @@
           }
         } %>
 
-  <div id="index-map"
-      class="mt-6 h-[480px] w-full rounded-md border border-gray-200 "
-      style="min-height: 480px"
-      data-markers="<%= markers.to_json %>"
-      data-center-lat="35.6895"
-      data-center-lng="139.6917"
-      data-zoom="8"
-      data-min-zoom="6"
-      data-zoom-single="16">
-  </div>
+  <turbo-frame id="facilities">
+    <div id="index-map"
+        class="mt-6 h-[480px] w-full rounded-md border border-gray-200 "
+        style="min-height: 480px"
+        data-markers="<%= markers.to_json %>"
+        data-center-lat="35.6895"
+        data-center-lng="139.6917"
+        data-zoom="8"
+        data-min-zoom="6"
+        data-zoom-single="16">
+    </div>
 
   <!-- 検索結果 / 一覧 -->
-  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6"><!-- md以上で３列表示、スマホは１列 -->
-    <% if @facilities.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <%= render partial: 'facilities/facility',
                 collection: @facilities,
                 as: :facility,
                 locals: { full_image: false } %>
-    <% else %>
-      <p class="col-span-full my-10 text-center text-gray-500"><%= t('search.no_facilities') %></p>
-    <% end %>
-  </div>
+    </div>
 
-  <div class="mt-16 flex justify-end">
-    <%= paginate @facilities %>
-  </div>
+    <div class="mt-16 flex justify-end">
+      <%= paginate @facilities, params: request.query_parameters %>
+      <%# ↑ categoryパラメータをページングリンクにも引き継ぐ %>
+    </div>
+  </turbo-frame>
 </div>
