@@ -1,9 +1,26 @@
 <div class="w-full mt-4">
-  <div class="flex flex-nowrap gap-2 w-full">
-    <button type="button" class="btn-navbar flex-1 min-w-0 is-active bg-amber-300" data-navbar-target="menu" data-action="click->navbar#menuClick">一覧</button>
-    <button type="button" class="btn-navbar flex-1 min-w-0 not-active bg-green-300" data-navbar-target="menu" data-action="click->navbar#menuClick">宿泊施設</button>
-    <button type="button" class="btn-navbar flex-1 min-w-0 not-active bg-red-300" data-navbar-target="menu" data-action="click->navbar#menuClick">飲食店</button>
-    <button type="button" class="btn-navbar flex-1 min-w-0 not-active bg-blue-300" data-navbar-target="menu" data-action="click->navbar#menuClick">レジャー施設</button>
-    <button type="button" class="btn-navbar flex-1 min-w-0 not-active bg-purple-300" data-navbar-target="menu" data-action="click->navbar#menuClick">ショップ</button>
+  <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+    <% q_base = @q_params.to_h %>
+
+    <%= link_to "一覧",
+    facilities_path(q: q_base.except(:category_eq), page: nil),
+    class: "btn-navbar" %>
+
+    <%= link_to "宿泊施設",
+    facilities_path(q: q_base.merge(category_eq: Facility.categories[:accommodation]), page: nil),
+    class: "btn-navbar" %>
+
+    <%= link_to "飲食店",
+    facilities_path(q: q_base.merge(category_eq: Facility.categories[:restaurant]), page: nil),
+    class: "btn-navbar" %>
+
+    <%= link_to "レジャー施設",
+    facilities_path(q: q_base.merge(category_eq: Facility.categories[:leisure]), page: nil),
+    class: "btn-navbar" %>
+
+    <%= link_to "ショップ",
+    facilities_path(q: q_base.merge(category_eq: Facility.categories[:shop]), page: nil),
+    class: "btn-navbar" %>
+
   </div>
 </div>

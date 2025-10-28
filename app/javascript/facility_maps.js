@@ -5,8 +5,8 @@
 (() => {
   const TOKYO_ST = { lat: 35.681236, lng: 139.767125 }; // 東京駅（デフォルト中心）
 
-  function initIndexFacilityMap() {
-    const el = document.getElementById("index-map");
+  function initIndexFacilityMap(targetEl) {
+    const el = targetEl || document.getElementById("index-map");
     if (!el || el.dataset.initialized) return;
 
     // --- data-* 読み込み ---
@@ -111,6 +111,16 @@
   window.initMaps = initMaps; // Google callback 用にグローバルへ公開
   document.addEventListener("turbo:load", initMaps);
   document.addEventListener("DOMContentLoaded", initMaps);
+
+  // フレーム内の地図だけ初期化
+  document.addEventListener("turbo:frame-load", (e) => {
+    const frame = e.target; // 置き換わった <turbo-frame>
+    const mapEl = frame.querySelector("#index-map");
+    if (mapEl) {
+      delete mapEl.dataset.initialized; // 再初期化を許可
+      initIndexFacilityMap(mapEl);       // そのフレーム内の地図だけ初期化
+    }
+  });
 
   // Turboキャッシュから戻るときに再初期化できるようフラグを解除
   document.addEventListener("turbo:before-cache", () => {

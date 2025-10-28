@@ -5,8 +5,12 @@ class FacilitiesController < ApplicationController
 
   # GET /facilities
   def index
+    @q_params = params.fetch(:q, {}).permit(
+      :category_eq,
+      :title_or_overview_or_city_or_street_cont
+    )
     @q = Facility.ransack(params[:q])
-    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
+    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).page(params[:page]).per(6)
   end
 
   # GET /facilities/1

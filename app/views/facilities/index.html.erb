@@ -1,6 +1,6 @@
 <% content_for :title, t('title') %>
 
-<div class="mx-auto max-w-7xl px-4" data-controller="navbar">
+<div class="mx-auto max-w-7xl px-4">
 
   <% if notice.present? %>
     <p id="notice" class="mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium text-green-600"><%= notice %></p>
@@ -24,66 +24,29 @@
           }
         } %>
 
-  <div id="index-map"
-      class="mt-6 h-[480px] w-full rounded-md border border-gray-200 "
-      style="min-height: 480px"
-      data-markers="<%= markers.to_json %>"
-      data-center-lat="35.6895"
-      data-center-lng="139.6917"
-      data-zoom="8"
-      data-min-zoom="6"
-      data-zoom-single="16">
-  </div>
+  <turbo-frame id="facilities">
+    <div id="index-map"
+        class="mt-6 h-[480px] w-full rounded-md border border-gray-200 "
+        style="min-height: 480px"
+        data-markers="<%= markers.to_json %>"
+        data-center-lat="35.6895"
+        data-center-lng="139.6917"
+        data-zoom="8"
+        data-min-zoom="6"
+        data-zoom-single="16">
+    </div>
 
   <!-- 検索結果 / 一覧 -->
-  <div class="mt-6">
-    <div data-navbar-target="content" class=""> <%# タブ1: 一覧（表示） %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <%= render partial: 'facilities/facility',
-                  collection: @facilities,
-                  as: :facility,
-                  locals: { full_image: false } %>
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <%= render partial: 'facilities/facility',
+                collection: @facilities,
+                as: :facility,
+                locals: { full_image: false } %>
     </div>
 
-    <div data-navbar-target="content" class="hidden"> <%# タブ2: 宿泊施設（非表示） %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <%= render partial: 'facilities/facility',
-                  collection: @facilities.select{|f| f.category=="accommodation"},
-                  as: :facility,
-                  locals: { full_image: false } %>
-      </div>
+    <div class="mt-16 flex justify-end">
+      <%= paginate @facilities, params: request.query_parameters %>
+      <%# ↑ categoryパラメータをページングリンクにも引き継ぐ %>
     </div>
-
-    <div data-navbar-target="content" class="hidden"> <%# タブ3: 飲食店 %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <%= render partial: 'facilities/facility',
-                  collection: @facilities.select{|f| f.category=="restaurant"},
-                  as: :facility,
-                  locals: { full_image: false } %>
-      </div>
-    </div>
-
-    <div data-navbar-target="content" class="hidden"> <%# タブ4: レジャー施設 %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <%= render partial: 'facilities/facility',
-                  collection: @facilities.select{|f| f.category=="leisure"},
-                  as: :facility,
-                  locals: { full_image: false } %>
-      </div>
-    </div>
-
-    <div data-navbar-target="content" class="hidden"> <%# タブ5: ショップ %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <%= render partial: 'facilities/facility',
-                  collection: @facilities.select{|f| f.category=="shop"},
-                  as: :facility,
-                  locals: { full_image: false } %>
-      </div>
-    </div>
-  </div>
-
-  <div class="mt-16 flex justify-end">
-    <%= paginate @facilities %>
-  </div>
+  </turbo-frame>
 </div>
