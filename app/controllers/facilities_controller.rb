@@ -9,7 +9,8 @@ class FacilitiesController < ApplicationController
     @q_params = params.fetch(:q, {}).permit(
       :category_eq,
       :prefecture_id_eq,
-      :title_or_overview_or_city_or_street_cont
+      :title_or_overview_or_city_or_street_cont,
+      prefecture_id_in: []
     )
     @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).page(params[:page]).per(6)
   end

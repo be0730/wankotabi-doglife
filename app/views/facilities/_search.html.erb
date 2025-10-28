@@ -8,15 +8,40 @@
             placeholder: t('search.placeholder'),
             class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
     </div>
+  </div>
 
-    <!-- 都道府県 -->
-    <div>
-      <%= f.label :prefecture_id_eq, t('search.prefecture'), class: "block text-sm/6 font-medium text-gray-900" %>
-      <%= f.collection_select :prefecture_id_eq,
-            Prefecture.order(:code), :id, :name,
-            { include_blank: t('search.all_prefectures')},
-            class: "border block w-full rounded-md bg-white px-3 py-2 text-base" %>
+  <!-- 都道府県 -->
+  <div class="mt-4">
+    <div class="mb-2 text-sm/6 font-medium text-gray-900"><%= t('search.prefecture') %></div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+      <%= f.collection_check_boxes :prefecture_id_in, Prefecture.order(:code), :id, :name do |b| %>
+        <label class="inline-flex items-center gap-2 rounded-md border border-gray-200 px-2 py-1 hover:bg-gray-50">
+          <%= b.check_box class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+          <span class="text-sm text-gray-900"><%= b.text %></span>
+        </label>
+      <% end %>
     </div>
+
+    <!-- まとめてチェック -->
+    <div class="mt-3 flex gap-2 text-sm">
+      <button type="button" class="btn-primary"
+      onclick="(function(btn){
+        const form = btn.closest('form');
+        if(!form) return;
+        form.querySelectorAll('input[name=&quot;q[prefecture_id_in][]&quot;]')
+        .forEach(cb => cb.checked = true);
+        })(this)">すべて選択</button>
+
+      <button type="button" class="btn-primary"
+        onclick="(function(btn){
+          const form = btn.closest('form');
+          if(!form) return;
+          form.querySelectorAll('input[name=&quot;q[prefecture_id_in][]&quot;]')
+          .forEach(cb => cb.checked = false);
+        })(this)">すべて解除</button>
+    </div>
+  </div>
 
     <!-- 送信/リセット -->
     <div class="flex items-end gap-2">
