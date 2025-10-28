@@ -5,7 +5,7 @@
 
 @layer components {
   .btn-primary {
-    @apply px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100;
+    @apply px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
   }
   .btn-navbar {
     @apply flex-1 min-w-0 w-full text-center
