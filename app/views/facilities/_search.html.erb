@@ -1,19 +1,35 @@
 <%= search_form_for @q, url: facilities_path, method: :get do |f| %>
-  <div class="flex space-x-2 mt-6 ">
+  <div class="flex flex-col md:flex-row gap-3 mt-6">
+    <!-- キーワード -->
     <div class="flex-1">
       <%= f.label :keyword_cont, t('search.keyword'), class: "block text-sm/6 font-medium text-gray-900" %>
       <%= f.search_field :title_or_overview_or_city_or_street_cont,
             value: @q_params[:title_or_overview_or_city_or_street_cont],
             placeholder: t('search.placeholder'),
             class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
-      <!-- いまのカテゴリを維持する -->
-      <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
+    </div>
 
-      <%= f.submit t('search.button'), class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+    <!-- 都道府県 -->
+    <div>
+      <%= f.label :prefecture_id_eq, t('search.prefecture'), class: "block text-sm/6 font-medium text-gray-900" %>
+      <%= f.collection_select :prefecture_id_eq,
+            Prefecture.order(:code), :id, :name,
+            { include_blank: t('search.all_prefectures')},
+            class: "border block w-full rounded-md bg-white px-3 py-2 text-base" %>
+    </div>
 
+    <!-- 送信/リセット -->
+    <div class="flex items-end gap-2">
+      <%= f.submit t('search.button'), class: "btn-primary bg-indigo-600 !text-white hover:bg-indigo-700" %>
+
+      <!-- 全条件クリア -->
       <%= link_to t('search.reset_filters'),
             facilities_path(q: nil, page: nil),
             class: "btn-primary" %>
     </div>
   </div>
+
+  <!-- いまのカテゴリを維持する -->
+  <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
+
 <% end %>
