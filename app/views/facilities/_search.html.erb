@@ -8,43 +8,15 @@
             placeholder: t('search.placeholder'),
             class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
     </div>
-  </div>
 
-  <!-- 都道府県 -->
-  <div class="mt-4">
-    <div class="mb-2 text-sm/6 font-medium text-gray-900"><%= t('search.prefecture') %></div>
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-      <%= f.collection_check_boxes :prefecture_id_in, Prefecture.order(:code), :id, :name do |b| %>
-        <label class="inline-flex items-center gap-2 rounded-md border border-gray-200 px-2 py-1 hover:bg-gray-50">
-          <%= b.check_box class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
-          <span class="text-sm text-gray-900"><%= b.text %></span>
-        </label>
-      <% end %>
-    </div>
-
-    <!-- まとめてチェック -->
-    <div class="mt-3 flex gap-2 text-sm">
-      <button type="button" class="btn-primary"
-      onclick="(function(btn){
-        const form = btn.closest('form');
-        if(!form) return;
-        form.querySelectorAll('input[name=&quot;q[prefecture_id_in][]&quot;]')
-        .forEach(cb => cb.checked = true);
-        })(this)">すべて選択</button>
-
-      <button type="button" class="btn-primary"
-        onclick="(function(btn){
-          const form = btn.closest('form');
-          if(!form) return;
-          form.querySelectorAll('input[name=&quot;q[prefecture_id_in][]&quot;]')
-          .forEach(cb => cb.checked = false);
-        })(this)">すべて解除</button>
-    </div>
-  </div>
-
-    <!-- 送信/リセット -->
+    <!-- 絞り込みのトリガーボタン -->
     <div class="flex items-end gap-2">
+      <button type="button"
+              class="btn-primary bg-amber-200"
+              data-action="modal#open">
+        都道府県を選ぶ
+      </button>
+
       <%= f.submit t('search.button'), class: "btn-primary bg-indigo-600 !text-white hover:bg-indigo-700" %>
 
       <!-- 全条件クリア -->
@@ -54,7 +26,56 @@
     </div>
   </div>
 
-  <!-- いまのカテゴリを維持する -->
+  <!-- カテゴリなど他条件を維持 -->
   <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
 
+  <!-- 都道府県モーダル：フォームの“内側”に置く -->
+  <div data-controller="modal prefecture-filter"
+       class="hidden fixed inset-0 z-50"
+       aria-hidden="true"
+       data-action="keydown@window->modal#keydown">
+    <!-- backdrop -->
+    <div class="absolute inset-0 bg-black/40"
+         data-modal-target="backdrop"
+         data-action="click->modal#backdropClick"></div>
+
+    <!-- panel -->
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="w-full max-w-3xl rounded-lg bg-white shadow-lg"
+           data-modal-target="panel">
+        <div class="border-b px-4 py-3 flex items-center justify-between">
+          <h3 class="text-lg font-semibold">都道府県で絞り込み</h3>
+          <button type="button" class="btn-primary" data-action="modal#close">閉じる</button>
+        </div>
+
+        <div class="p-4 space-y-3" >
+          <div class="text-sm text-gray-600">
+            選択中：<span data-prefecture-filter-target="count">0</span>件
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+            <%= f.collection_check_boxes :prefecture_id_in, Prefecture.order(:code), :id, :name do |b| %>
+              <label class="inline-flex items-center gap-2 rounded-md border border-gray-200 px-2 py-1 hover:bg-gray-50">
+                <%= b.check_box class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600",
+                                data: { prefecture_filter_target: "box",
+                                        action: "change->prefecture-filter#updateCount" } %>
+                <span class="text-sm text-gray-900"><%= b.text %></span>
+              </label>
+            <% end %>
+          </div>
+
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button type="button" class="btn-primary" data-action="prefecture-filter#selectAll">すべて選択</button>
+            <button type="button" class="btn-primary" data-action="prefecture-filter#clearAll">すべて解除</button>
+
+            <!-- 適用＝フォーム送信 -->
+            <button type="button" class="btn-primary bg-indigo-600 !text-white"
+                    data-action="modal#apply">
+              適用して検索
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>
