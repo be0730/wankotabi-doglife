@@ -1,16 +1,73 @@
 <%= search_form_for @q, url: facilities_path, method: :get do |f| %>
-  <div class="flex space-x-2 mt-6 ">
-    <div class="flex-1">
-      <%= f.label :keyword_cont, t('search.keyword'), class: "block text-sm/6 font-medium text-gray-900" %>
-      <%= f.search_field :title_or_overview_or_city_or_street_cont,
-            value: @q_params[:title_or_overview_or_city_or_street_cont],
-            placeholder: t('search.placeholder'),
-            class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
-      <!-- いまのカテゴリを維持する -->
-      <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
+  <div data-controller="modal prefecture-filter">
+    <div class="flex flex-col md:flex-row gap-3 mt-6">
+      <!-- キーワード -->
+      <div class="flex-1">
+        <%= f.label :keyword_cont, t('search.keyword'), class: "block text-sm/6 font-medium text-gray-900" %>
+        <%= f.search_field :title_or_overview_or_city_or_street_cont,
+              value: @q_params[:title_or_overview_or_city_or_street_cont],
+              placeholder: t('search.placeholder'),
+              class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+      </div>
+
+      <!-- トリガー -->
+      <div class="flex items-end gap-2">
+        <button type="button" class="btn-primary bg-amber-200" data-action="modal#open">
+          都道府県を選ぶ
+        </button>
+        <%= f.submit t('search.button'), class: "btn-primary bg-indigo-600 !text-white hover:bg-indigo-700" %>
+        <%= link_to t('search.reset_filters'), facilities_path(q: nil, page: nil), class: "btn-primary" %>
+      </div>
     </div>
-    <div class="flex items-end">
-      <%= f.submit t('search.button'), class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
-    </div>
-  </div>
+
+    <!-- 他条件維持 -->
+    <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
+
+    <!-- モーダル本体 -->
+    <div class="hidden fixed inset-0 z-50"
+         aria-hidden="true"
+         data-modal-target="root"
+         data-action="keydown@window->modal#keydown">
+      <!-- backdrop -->
+      <div class="absolute inset-0 bg-black/40"
+           data-modal-target="backdrop"
+           data-action="click->modal#backdropClick"></div>
+
+      <!-- panel -->
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="w-full max-w-3xl rounded-lg bg-white shadow-lg"
+             data-modal-target="panel">
+          <div class="border-b px-4 py-3 flex items-center justify-between">
+            <h3 class="text-lg font-semibold">都道府県で絞り込み</h3>
+            <button type="button" class="btn-primary" data-action="modal#close">閉じる</button>
+          </div>
+
+          <div class="p-4 space-y-3">
+            <div class="text-sm text-gray-600">
+              選択中：<span data-prefecture-filter-target="count">0</span>件
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              <%= f.collection_check_boxes :prefecture_id_in, Prefecture.order(:code), :id, :name do |b| %>
+                <label class="inline-flex items-center gap-2 rounded-md border border-gray-200 px-2 py-1 hover:bg-gray-50">
+                  <%= b.check_box class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600",
+                                  data: { prefecture_filter_target: "box",
+                                          action: "change->prefecture-filter#updateCount" } %>
+                  <span class="text-sm text-gray-900"><%= b.text %></span>
+                </label>
+              <% end %>
+            </div>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <button type="button" class="btn-primary" data-action="prefecture-filter#selectAll">すべて選択</button>
+              <button type="button" class="btn-primary" data-action="prefecture-filter#clearAll">すべて解除</button>
+              <button type="button" class="btn-primary bg-indigo-600 !text-white" data-action="modal#apply">
+                適用して検索
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /modal -->
+  </div><!-- /wrapper -->
 <% end %>

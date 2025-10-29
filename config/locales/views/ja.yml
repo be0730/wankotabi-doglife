@@ -105,6 +105,9 @@ ja:
     placeholder: "施設名、住所など"
     button: "検索"
     no_facilities: "施設が見つかりません。"
+    reset_filters: "検索条件をリセット"
+    all_prefectures: "すべての都道府県"
+    prefecture: "都道府県で絞り込む"
   meta:
     index: "施設一覧ページ。犬と一緒に行ける施設を検索できます。"
     show: "施設詳細ページ。施設の情報や場所を確認できます。"
