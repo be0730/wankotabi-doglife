@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
+  get "auth/:provider/callback", to: "sessions#create"
+  get "auth/failure", to: redirect("/")
+  delete "logout", to: "sessions#destroy", as: :logout
 
   resources :users, only: [ :show ] do
     member { get :post_list }
