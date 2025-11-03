@@ -277,6 +277,8 @@ Devise.setup do |config|
     Rails.application.credentials.dig(:google, :client_secret),
     scope: 'email,profile',
     prompt: 'select_account'
+    image_aspect_ratio: 'square',
+    image_size: 256
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
