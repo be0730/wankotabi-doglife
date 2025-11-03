@@ -5,4 +5,9 @@
 <% else %>
   <%= link_to t('header.sign_up'), new_user_registration_path, class: "btn-primary" %>
   <%= link_to t('header.login'), new_user_session_path, class: "btn-primary" %>
+  <%= button_to t('header.google_login'),
+      user_google_oauth2_omniauth_authorize_path,
+      method: :post,
+      data: { turbo: false },
+      class: "btn-primary" %>
 <% end %>
