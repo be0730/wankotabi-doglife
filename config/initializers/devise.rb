@@ -272,13 +272,8 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  google_client_id =
-    ENV["GOOGLE_CLIENT_ID"].presence ||
-    Rails.application.credentials.dig(:google, :client_id)
-
-  google_client_secret =
-    ENV["GOOGLE_CLIENT_SECRET"].presence ||
-    Rails.application.credentials.dig(:google, :client_secret)
+  google_client_id     = ENV["GOOGLE_CLIENT_ID"]
+  google_client_secret = ENV["GOOGLE_CLIENT_SECRET"]
 
   if google_client_id.present? && google_client_secret.present?
     config.omniauth :google_oauth2,
@@ -289,7 +284,7 @@ Devise.setup do |config|
       image_aspect_ratio: "square",
       image_size: 256
   else
-    Rails.logger.warn "Devise/OmniAuth: Google client_id/secret missing; provider not registered."
+    Rails.logger.warn "Devise/OmniAuth: GOOGLE_CLIENT_ID/SECRET missing; provider not registered."
   end
 
   # ==> Warden configuration
