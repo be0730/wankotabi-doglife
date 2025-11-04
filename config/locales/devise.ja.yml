@@ -49,6 +49,7 @@ ja:
       signed_in: "ログインしました。"
       signed_out: "ログアウトしました。"
       already_signed_out: "ログアウトしました。"
+      remember_me: "ログイン状態を保持する"
     unlocks:
       send_instructions: "数分以内に、アカウントのロック解除方法の案内メールをお送りします。"
       send_paranoid_instructions: "アカウントが存在する場合は、数分以内にロック解除の案内メールをお送りします。"
