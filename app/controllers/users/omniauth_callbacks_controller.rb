@@ -2,6 +2,8 @@ require "open-uri"
 
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    include Devise::Controllers::Rememberable
+
     def google_oauth2
       info = request.env["omniauth.auth"]
 
@@ -10,7 +12,7 @@ module Users
         # メール必須のアプリならメールで既存ユーザーをマージしてもOK
         user.email = info.dig("info", "email")
         user.name  = info.dig("info", "name") if user.respond_to?(:name)
-        # パスワード不要で作るならランダムで
+        # パスワード不要なためランダムパスワードを設定
         user.password = Devise.friendly_token[0, 20]
       end
 
@@ -37,6 +39,7 @@ module Users
       end
 
       if user.save
+        remember_me(user)
         sign_in_and_redirect user, event: :authentication
         set_flash_message(:notice, :success, kind: "Google") if is_navigational_format?
       else
