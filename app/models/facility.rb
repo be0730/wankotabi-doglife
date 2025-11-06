@@ -4,6 +4,8 @@ class Facility < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many_attached :images
+  has_many :facilities_tags, dependent: :destroy
+  has_many :tags, through: :facilities_tags
 
   enum :category, {
     accommodation: 0, # 宿泊施設
