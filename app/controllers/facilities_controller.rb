@@ -1,6 +1,7 @@
 class FacilitiesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_facility,       only:   %i[show edit update destroy destroy_image]
+  before_action :set_tags,           only:   %i[new edit create update]
   before_action :authorize_owner!,   only:   %i[edit update destroy destroy_image]
 
   # GET /facilities
@@ -105,6 +106,10 @@ end
     end
   end
 
+  def set_tags
+    @tags = Tag.order(:id)
+  end
+
   def authorize_owner!
     return if @facility.user_id == current_user.id
     redirect_to @facility, alert: "権限がありません"
@@ -113,10 +118,10 @@ end
   def facility_params
     params.require(:facility).permit(
       :title, :category, :postal_code, :prefecture_id,
-      :city, :street, :building, :latitude, :longitude,
+      :full_address, :city, :street, :building, :latitude, :longitude,
       :overview, :phone_number, :business_hours, :closed_day,
       :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement,
-      images: []
+      images: [], tag_ids: []
     )
   end
 end
