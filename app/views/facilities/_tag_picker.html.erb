@@ -4,11 +4,8 @@
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
     <%= f.collection_check_boxes(:tag_ids, @tags, :id, :name) do |b| %>
       <% tag = b.object %>
-      <label
-        class="group relative cursor-pointer rounded-2xl border p-3 flex flex-col items-center gap-2 shadow-sm transition
-               has-[:checked]:border-indigo-500 has-[:checked]:ring-2 has-[:checked]:ring-indigo-200"
-      >
-        <!-- チェックボックス本体は視覚的に隠す -->
+      <label class="relative cursor-pointer rounded-2xl border p-3 flex flex-col items-center gap-2 shadow-sm transition">
+        <!-- 視覚的に隠すが、peer で状態を伝播させる -->
         <%= b.check_box(class: "peer sr-only") %>
 
         <!-- 枠・ハイライト（ラベル自身に peer-checked を付けたい場合は、入れ子の div を作る） -->
@@ -24,7 +21,7 @@
 
         <!-- 選択中バッジ -->
         <span class="pointer-events-none absolute right-2 top-2 hidden
-                     group-has-[:checked]:inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-medium text-white">
+                     peer-checked:inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-medium text-white">
           選択中
         </span>
       </label>
