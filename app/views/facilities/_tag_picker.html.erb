@@ -1,0 +1,33 @@
+<div class="space-y-2">
+  <div class="text-sm text-gray-700">タグ（任意）</div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+    <%= f.collection_check_boxes(:tag_ids, @tags, :id, :name) do |b| %>
+      <% tag = b.object %>
+      <label
+        class="group relative cursor-pointer rounded-2xl border p-3 flex flex-col items-center gap-2 shadow-sm transition
+               has-[:checked]:border-indigo-500 has-[:checked]:ring-2 has-[:checked]:ring-indigo-200"
+      >
+        <!-- チェックボックス本体は視覚的に隠す -->
+        <%= b.check_box(class: "peer sr-only") %>
+
+        <!-- 枠・ハイライト（ラベル自身に peer-checked を付けたい場合は、入れ子の div を作る） -->
+        <div class="w-full h-full rounded-xl p-1 transition
+                    peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-200 border">
+          <div class="flex flex-col items-center gap-2">
+            <%= image_tag(tag.icon_asset_path, alt: tag.name, class: "h-12 w-12 object-contain pointer-events-none") %>
+            <span class="text-xs text-gray-700 peer-checked:text-indigo-700">
+              <%= tag.name %>
+            </span>
+          </div>
+        </div>
+
+        <!-- 選択中バッジ -->
+        <span class="pointer-events-none absolute right-2 top-2 hidden
+                     group-has-[:checked]:inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-medium text-white">
+          選択中
+        </span>
+      </label>
+    <% end %>
+  </div>
+</div>

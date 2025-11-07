@@ -13,7 +13,7 @@ class FacilitiesController < ApplicationController
       :title_or_overview_or_city_or_street_cont,
       prefecture_id_in: []
     )
-    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).page(params[:page]).per(6)
+    @facilities = @q.result.includes(:user, :prefecture, :tags).order(created_at: :desc).page(params[:page]).per(6)
   end
 
   # GET /facilities/1
