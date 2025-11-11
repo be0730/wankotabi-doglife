@@ -1,7 +1,7 @@
 class FacilitiesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_facility,       only:   %i[show edit update destroy destroy_image]
-  before_action :set_tags,           only:   %i[new edit create update]
+  before_action :set_tags,           only:   %i[index new edit create update]
   before_action :authorize_owner!,   only:   %i[edit update destroy destroy_image]
 
   # GET /facilities
@@ -11,9 +11,13 @@ class FacilitiesController < ApplicationController
       :category_eq,
       :prefecture_id_eq,
       :title_or_overview_or_city_or_street_cont,
-      prefecture_id_in: []
+      prefecture_id_in: [],
+      tags_id_in: []
     )
-    @facilities = @q.result.includes(:user, :prefecture, :tags).order(created_at: :desc).page(params[:page]).per(6)
+    @facilities = @q.result(distinct: true)
+                    .includes(:user, :prefecture, :tags)
+                    .order(created_at: :desc)
+                    .page(params[:page]).per(6)
   end
 
   # GET /facilities/1
