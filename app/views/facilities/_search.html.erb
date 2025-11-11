@@ -23,6 +23,34 @@
     <!-- 他条件維持 -->
     <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
 
+    <!-- ★ タグで絞り込み -->
+    <div class="mt-4">
+      <div class="text-sm font-medium text-gray-900 mb-2">
+        タグで絞り込み
+      </div>
+
+      <% selected_tag_ids = Array(@q_params[:tags_id_in]).reject(&:blank?) %>
+
+      <!-- チェックが全部外されたときにも q[tags_id_in] が送られるように hidden を1個入れておく -->
+      <%= hidden_field_tag "q[tags_id_in][]", '' %>
+
+      <div class="flex flex-wrap gap-2">
+        <% @tags.each do |tag| %>
+          <% checked = selected_tag_ids.include?(tag.id.to_s) %>
+
+          <label class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm cursor-pointer transition
+              <%= checked ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-900 border-gray-200 hover:bg-gray-50' %>">
+            <%= check_box_tag 'q[tags_id_in][]',
+                              tag.id,
+                              checked,
+                              class: "sr-only",
+                              onchange: "this.form.requestSubmit();" %>
+            <span><%= tag.name %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
     <!-- モーダル本体 -->
     <div class="hidden fixed inset-0 z-50"
          aria-hidden="true"
