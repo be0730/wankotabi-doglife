@@ -9,13 +9,12 @@
         <%= b.check_box(class: "peer sr-only") %>
 
         <!-- 枠・ハイライト（ラベル自身に peer-checked を付けたい場合は、入れ子の div を作る） -->
-        <div class="w-full h-full rounded-xl p-1 transition
+        <div class="w-full h-full rounded-xl p-2 transition
                     peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-200 border">
-          <div class="flex flex-col items-center gap-2">
-            <%= image_tag(tag.icon_asset_path, alt: tag.name, class: "h-12 w-12 object-contain pointer-events-none") %>
-            <span class="text-xs text-gray-700 peer-checked:text-indigo-700">
-              <%= tag.name %>
-            </span>
+          <div class="flex flex-col items-center gap-3">
+            <% if (src = tag.icon_asset_path).present? %>
+              <%= image_tag src,alt: tag.name,loading: "lazy",class: "h-20 w-20 md:h-24 md:w-24 object-contain pointer-events-none" %>
+            <% end %>
           </div>
         </div>
 
