@@ -1,7 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 1
   user: one
   title: MyString
   category: accommodation
@@ -10,7 +9,6 @@ one:
   street: 丸の内1-1-1
 
 two:
-  id: 2
   user: one
   title: Anothor
   category: restaurant
