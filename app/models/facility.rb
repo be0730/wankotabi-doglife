@@ -35,7 +35,7 @@ class Facility < ApplicationRecord
   end
 
   def self.ransackable_associations(_ = nil)
-    %w[user prefecture]
+    %w[user prefecture tags]
   end
 
   # geocoder を使うなら（住所変更時のみジオコーディング）
