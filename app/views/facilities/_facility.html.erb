@@ -25,11 +25,10 @@
       </div>
 
       <% if facility.tags.any? %>
-        <div class="mt-4 flex flex-wrap gap-2">
+        <div class="my-4 flex flex-wrap gap-2">
           <% facility.tags.each do |tag| %>
-            <span class="inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs text-gray-700">
-              <%= image_tag tag.icon_asset_path, alt: "", class: "h-4 w-4" %>
-              <%= tag.name %>
+            <span class="inline-flex items-center gap-1 px-2 text-xs text-gray-700">
+              <%= image_tag tag.icon_asset_path, class: "h-12 w-12" %>
             </span>
           <% end %>
         </div>
