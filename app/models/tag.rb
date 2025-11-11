@@ -9,4 +9,12 @@ class Tag < ApplicationRecord
   def icon_asset_path
     "tags/#{key}.svg"
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id key name]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[facilities]
+  end
 end
