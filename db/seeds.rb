@@ -28,7 +28,7 @@ fixed = [
   { key: "medium_ok", name: "中型犬OK" },
   { key: "large_ok",  name: "大型犬OK" },
   { key: "multi_ok",  name: "多頭OK"   },
-  { key: "indoor_ok", name: "室内OK"  },
+  { key: "indoor_ok", name: "室内OK"  }
 ]
 fixed.each do |h|
   Tag.find_or_create_by!(key: h[:key]) do |t|
