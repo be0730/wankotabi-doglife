@@ -44,7 +44,7 @@
 
       <div class="mb-6">
         <% if resource.avatar_attachment&.attached? %>
-          <%= image_tag resource.avatar.variant(resize_to_fill: [160,160]).processed, class: "h-16 w-16 rounded-full" %>
+          <%= image_tag resource.avatar.variant(resize_to_fill: [160,160]), class: "h-16 w-16 rounded-full" %>
         <% else %>
           <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>
         <% end %><br>
