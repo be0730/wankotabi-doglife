@@ -22,3 +22,16 @@ pref_names.each_with_index do |name, i|
   end
 end
 puts "Seeded #{Prefecture.count} prefectures"
+
+fixed = [
+  { key: "small_ok",  name: "小型犬OK" },
+  { key: "medium_ok", name: "中型犬OK" },
+  { key: "large_ok",  name: "大型犬OK" },
+  { key: "multi_ok",  name: "多頭OK"   },
+  { key: "indoor_ok", name: "室内OK"  }
+]
+fixed.each do |h|
+  Tag.find_or_create_by!(key: h[:key]) do |t|
+    t.name = h[:name]
+  end
+end

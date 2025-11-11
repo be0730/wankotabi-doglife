@@ -1,6 +1,7 @@
 class FacilitiesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_facility,       only:   %i[show edit update destroy destroy_image]
+  before_action :set_tags,           only:   %i[index new edit create update]
   before_action :authorize_owner!,   only:   %i[edit update destroy destroy_image]
 
   # GET /facilities
@@ -10,9 +11,13 @@ class FacilitiesController < ApplicationController
       :category_eq,
       :prefecture_id_eq,
       :title_or_overview_or_city_or_street_cont,
-      prefecture_id_in: []
+      prefecture_id_in: [],
+      tags_id_in: []
     )
-    @facilities = @q.result.includes(:user, :prefecture).order(created_at: :desc).page(params[:page]).per(6)
+    @facilities = @q.result(distinct: true)
+                    .includes(:user, :prefecture, :tags)
+                    .order(created_at: :desc)
+                    .page(params[:page]).per(6)
   end
 
   # GET /facilities/1
@@ -105,6 +110,10 @@ end
     end
   end
 
+  def set_tags
+    @tags = Tag.order(:id)
+  end
+
   def authorize_owner!
     return if @facility.user_id == current_user.id
     redirect_to @facility, alert: "権限がありません"
@@ -113,10 +122,10 @@ end
   def facility_params
     params.require(:facility).permit(
       :title, :category, :postal_code, :prefecture_id,
-      :city, :street, :building, :latitude, :longitude,
+      :full_address, :city, :street, :building, :latitude, :longitude,
       :overview, :phone_number, :business_hours, :closed_day,
       :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement,
-      images: []
+      images: [], tag_ids: []
     )
   end
 end

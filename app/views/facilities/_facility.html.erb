@@ -17,13 +17,22 @@
     <%= render partial: (local_assigns[:full_image] ? "facilities/image_full" : "facilities/image_small"),
               locals: { facility: facility } %>
 
-    <!-- ２段目：タイトル ＋ 住所 ＋ お気に入りボタン ＋ 詳細ボタン -->
+    <!-- ２段目：タイトル ＋ 住所 ＋ タグ　＋　お気に入りボタン ＋ 詳細ボタン -->
     <h3 class="truncate text-lg font-semibold text-gray-900 mb-2"><%= facility.title %></h3>
     <div class="flex flex-col min-w-0">
       <div class="mt-2 space-y-1 text-lg text-gray-900">
         <%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %>
       </div>
 
+      <% if facility.tags.any? %>
+        <div class="my-4 flex flex-wrap gap-2">
+          <% facility.tags.each do |tag| %>
+            <span class="inline-flex items-center gap-1 px-2 text-xs text-gray-700">
+              <%= image_tag tag.icon_asset_path, class: "h-12 w-12" %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
 
       <% if user_signed_in? && facility.user_id != current_user.id %>
         <div class="mt-3 ml-auto text-end " id="<%= dom_id(facility, :favorite_buttons) %>">

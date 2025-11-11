@@ -4,6 +4,8 @@ class Facility < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many_attached :images
+  has_many :facilities_tags, dependent: :destroy
+  has_many :tags, through: :facilities_tags
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -33,7 +35,7 @@ class Facility < ApplicationRecord
   end
 
   def self.ransackable_associations(_ = nil)
-    %w[user prefecture]
+    %w[user prefecture tags]
   end
 
   # geocoder を使うなら（住所変更時のみジオコーディング）

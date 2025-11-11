@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_31_024638) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_06_021227) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -85,6 +85,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_31_024638) do
     t.index ["user_id"], name: "index_facilities_on_user_id"
   end
 
+  create_table "facilities_tags", force: :cascade do |t|
+    t.bigint "facility_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["facility_id", "tag_id"], name: "index_facilities_tags_on_facility_id_and_tag_id", unique: true
+    t.index ["facility_id"], name: "index_facilities_tags_on_facility_id"
+    t.index ["tag_id"], name: "index_facilities_tags_on_tag_id"
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "facility_id"
@@ -100,6 +108,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_31_024638) do
     t.integer "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_tags_on_key", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,6 +140,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_31_024638) do
   add_foreign_key "comments", "users"
   add_foreign_key "facilities", "prefectures"
   add_foreign_key "facilities", "users"
+  add_foreign_key "facilities_tags", "facilities", on_delete: :cascade
+  add_foreign_key "facilities_tags", "tags", on_delete: :cascade
   add_foreign_key "favorites", "facilities"
   add_foreign_key "favorites", "users"
 end
