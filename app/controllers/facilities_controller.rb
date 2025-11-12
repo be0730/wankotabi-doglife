@@ -29,11 +29,11 @@ class FacilitiesController < ApplicationController
     og_img =
       if @facility.images.attached?
         rails_representation_url(
-          @facility.images.first.variant(resize_to_fill: [1200, 630]).processed,
+          @facility.images.first.variant(resize_to_fill: [ 1200, 630 ]).processed,
           host: request.base_url
         )
       else
-        image_url("ogp.png")
+        helpers.image_url("ogp.png")
       end
 
     set_meta_tags(
