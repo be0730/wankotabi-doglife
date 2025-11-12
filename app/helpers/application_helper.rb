@@ -26,7 +26,7 @@ module ApplicationHelper
       description: "犬と一緒に行ける施設を検索・共有できるサービスです。",
       keywords:    %w[犬 犬連れ 旅行 お出かけ ドッグラン カフェ ホテル 施設 検索 共有],
       canonical:   request.original_url,
-      noindex:     ! Rails.env.production?,
+      noindex:     !Rails.env.production?,
       icon: [
         { href: image_url("favicon.ico") },
         { href: image_url("icon.png"), rel: "apple-touch-icon", sizes: "192x192", type: "image/png" }
@@ -42,7 +42,6 @@ module ApplicationHelper
       },
       twitter: {
         card: "summary_large_image",
-        site: "@",
         image: image_url("ogp.png")
       }
     }

@@ -25,6 +25,31 @@ class FacilitiesController < ApplicationController
     @facility = Facility.find(params[:id])
     @comment  = Comment.new
     @comments = @facility.comments.includes(:user).order(created_at: :desc)
+
+    og_img =
+      if @facility.images.attached?
+        rails_representation_url(
+          @facility.images.first.variant(resize_to_fill: [1200, 630]).processed,
+          host: request.base_url
+        )
+      else
+        image_url("ogp.png")
+      end
+
+    set_meta_tags(
+      title: @facility.title,
+      canonical: request.original_url,
+      og: {
+        title: @facility.title,
+        type:  "article",
+        url:   request.original_url,
+        image: og_img
+      },
+      twitter: {
+        card:  "summary_large_image",
+        image: og_img
+      }
+    )
   end
 
   # GET /facilities/new
