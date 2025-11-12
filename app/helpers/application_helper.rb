@@ -27,9 +27,9 @@ module ApplicationHelper
       keywords:    %w[犬 犬連れ 旅行 お出かけ ドッグラン カフェ ホテル 施設 検索 共有],
       canonical:   request.original_url,
       noindex:     ! Rails.env.production?,
-      icon:[
+      icon: [
         { href: image_url("favicon.ico") },
-        { href: image_url("icon.png"), rel: "apple-touch-icon", sizes: "192x192", type: "image/png" },
+        { href: image_url("icon.png"), rel: "apple-touch-icon", sizes: "192x192", type: "image/png" }
       ],
       og: {
         site_name:   :site,
@@ -38,7 +38,7 @@ module ApplicationHelper
         url:         :canonical,
         description: :description,
         image:       image_url("ogp.png"),
-        locale:      "ja_JP",
+        locale:      "ja_JP"
       },
       twitter: {
         card: "summary_large_image",
