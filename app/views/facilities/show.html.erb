@@ -1,9 +1,10 @@
 <% content_for :title, t('show_facility') %>
+<% breadcrumb :facility, @facility %>
 
 <div class="mx-auto max-w-7xl px-4">
   <%= render "shared/flash_message" %>
 
-  <h1 class="my-12 font-bold text-4xl"><%= t('show_facility') %></h1>
+  <h1 class="my-4 font-bold text-2xl"><%= t('show_facility') %></h1>
 
   <%= render 'facilities/facility',
            facility: @facility,

@@ -1,20 +1,32 @@
 crumb :root do
-  link "Home", root_path
+  link "トップページ", root_path
 end
 
-# crumb :projects do
-#   link "Projects", projects_path
-# end
+crumb :facility do |facility|
+  link facility.title, facility_path(facility)
+  parent :root
+end
 
-# crumb :project do |project|
-#   link project.name, project_path(project)
-#   parent :projects
-# end
+crumb :facility_edit do |facility|
+  link "投稿編集"
+  parent :facility, facility
+end
 
-# crumb :project_issues do |project|
-#   link "Issues", project_issues_path(project)
-#   parent :project, project
-# end
+crumb :facility_new do
+  link "新規投稿"
+  parent :root
+end
+
+crumb :users do |user|
+  link "マイページ", user_path(user)
+  parent :root
+end
+
+crumb :users_edit do |user|
+  link "プロフィール編集", edit_user_registration_path
+  parent :users, user
+end
+
 
 # crumb :issue do |issue|
 #   link issue.title, issue_path(issue)
