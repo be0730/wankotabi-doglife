@@ -4,8 +4,10 @@ class Facility < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many_attached :images
+  MAX_DIM = 2000
   has_many :facilities_tags, dependent: :destroy
   has_many :tags, through: :facilities_tags
+  before_save :downsize_images
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -57,5 +59,15 @@ class Facility < ApplicationRecord
     will_save_change_to_city? ||
     will_save_change_to_street? ||
     will_save_change_to_building?
+  end
+
+  def downsize_images
+    return unless images.attached?
+    images.each do |att|
+      next unless att.variable?
+      variant = att.variant(resize_to_limit: [ MAX_DIM, MAX_DIM ], saver: { quality: 80, strip: true }).processed
+      # 置き換え（ActiveStorageは直接差し替えが難しいので、必要なら別添付化して古い方をpurge等、要件に合わせて）
+      # シンプルに「配信は常に variant 経由」に統一すれば、保存置換は不要
+    end
   end
 end
