@@ -1,12 +1,42 @@
 <div class="w-full h-56 md:h-64 rounded-md overflow-hidden flex items-center justify-center">
   <% if facility.images.attached? %>
     <% begin %>
-      <%= image_tag facility.images.first.variant(resize_to_limit: [1280, 960]),
-            class: "max-h-full max-w-full object-contain" %>
+      <% img    = facility.images.first %>
+      <% small  = img.variant(resize_to_fill: [480, 320],  saver: { quality: 70, strip: true }) %>
+      <% medium = img.variant(resize_to_fill: [768, 512],  saver: { quality: 70, strip: true }) %>
+      <% large  = img.variant(resize_to_fill: [1280, 854], saver: { quality: 70, strip: true }) %>
+
+      <%= picture_tag(
+            url_for(large), # フォールバック(JPEG等)
+            sources: [
+              { srcset: [
+                  "#{url_for(small,  format: :avif)} 480w",
+                  "#{url_for(medium, format: :avif)} 768w",
+                  "#{url_for(large,  format: :avif)} 1280w"
+                ].join(", "),
+                type: "image/avif",
+                sizes: "(max-width: 768px) 100vw, 768px" },
+              { srcset: [
+                  "#{url_for(small,  format: :webp)} 480w",
+                  "#{url_for(medium, format: :webp)} 768w",
+                  "#{url_for(large,  format: :webp)} 1280w"
+                ].join(", "),
+                type: "image/webp",
+                sizes: "(max-width: 768px) 100vw, 768px" }
+            ],
+            img: {
+              alt: facility.title,
+              loading: "lazy",
+              decoding: "async",
+              fetchpriority: "low",
+              class: "h-full w-full object-cover",  # 余白を無くして切り抜き
+              width: 1280, height: 854              # レイアウトシフト対策
+            }
+          ) %>
     <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
-      <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain" %>
+      <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" %>
     <% end %>
   <% else %>
-    <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain" %>
+    <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" %>
   <% end %>
 </div>
