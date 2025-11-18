@@ -75,9 +75,9 @@ class Facility < ApplicationRecord
         end
 
         # ここでは「元を圧縮して置き換え」ではなく、必要なvariantを先に生成しておく(キャッシュ)だけ
-        image.variant(resize_to_limit: [1600, 1200]).processed
-        image.variant(resize_to_limit: [1280, 960]).processed
-        image.variant(resize_to_limit: [768, 576]).processed
+        image.variant(resize_to_limit: [ 1600, 1200 ]).processed
+        image.variant(resize_to_limit: [ 1280, 960 ]).processed
+        image.variant(resize_to_limit: [ 768, 576 ]).processed
       rescue ActiveStorage::FileNotFoundError, Aws::S3::Errors::NoSuchKey => e
         Rails.logger.warn "[downsize_images] not found #{blob.key}: #{e.class}"
         next
