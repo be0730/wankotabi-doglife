@@ -1,41 +1,42 @@
 <div class="max-w-5xl mx-auto">
   <% if facility.images.attached? %>
     <% begin %>
-      <% img    = facility.images.first %>
-      <% small  = img.variant(resize_to_fit: [768, 512],    saver: { quality: 75, strip: true }) %>
-      <% medium = img.variant(resize_to_fit: [1200, 800],   saver: { quality: 75, strip: true }) %>
-      <% large  = img.variant(resize_to_fit: [1600, 1067],  saver: { quality: 75, strip: true }) %>
+      <% img = facility.images.first %>
 
-      <%= picture_tag(
-            url_for(large),
-            sources: [
-              { srcset: [
-                  "#{url_for(small,  format: :avif)} 768w",
-                  "#{url_for(medium, format: :avif)} 1200w",
-                  "#{url_for(large,  format: :avif)} 1600w"
-                ].join(", "),
-                type: "image/avif",
-                sizes: "100vw" },
-              { srcset: [
-                  "#{url_for(small,  format: :webp)} 768w",
-                  "#{url_for(medium, format: :webp)} 1200w",
-                  "#{url_for(large,  format: :webp)} 1600w"
-                ].join(", "),
-                type: "image/webp",
-                sizes: "100vw" }
-            ],
-            img: {
-              alt: facility.title,
-              loading: "lazy",
-              decoding: "async",
-              class: "block w-full h-auto rounded-md object-cover",
-              width: 1600, height: 1067
-            }
-          ) %>
+      <% small_avif  = img.variant(resize_to_limit: [768,  576],  format: :avif, saver: { quality: 50 }) %>
+      <% medium_avif = img.variant(resize_to_limit: [1200, 900],  format: :avif, saver: { quality: 50 }) %>
+      <% large_avif  = img.variant(resize_to_limit: [1600, 1200], format: :avif, saver: { quality: 50 }) %>
+
+      <% small_jpg   = img.variant(resize_to_limit: [768,  576],  format: :jpg,  saver: { quality: 70 }) %>
+      <% medium_jpg  = img.variant(resize_to_limit: [1200, 900],  format: :jpg,  saver: { quality: 70 }) %>
+      <% large_jpg   = img.variant(resize_to_limit: [1600, 1200], format: :jpg,  saver: { quality: 70 }) %>
+
+      <%= picture_tag url_for(large_jpg),
+        sources: [
+          {
+            srcset: [
+              "#{url_for small_avif} 768w",
+              "#{url_for medium_avif} 1200w",
+              "#{url_for large_avif} 1600w"
+            ].join(", "),
+            type: "image/avif",
+            sizes: "(max-width: 1024px) 768px, (max-width: 1280px) 1200px, 1600px"
+          },
+          {
+            srcset: [
+              "#{url_for small_jpg} 768w",
+              "#{url_for medium_jpg} 1200w",
+              "#{url_for large_jpg} 1600w"
+            ].join(", "),
+            type: "image/jpeg",
+            sizes: "(max-width: 1024px) 768px, (max-width: 1280px) 1200px, 1600px"
+          }
+        ],
+        img: { class: "block w-full h-auto rounded-md", loading: "lazy", decoding: "async" } %>
     <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
-      <%= image_tag "sample.png", class: "block w-full h-auto rounded-md", loading: "lazy", decoding: "async" %>
+      <%= image_tag "sample.png", class: "block w-full h-auto rounded-md" %>
     <% end %>
   <% else %>
-    <%= image_tag "sample.png", class: "block w-full h-56 rounded-md", loading: "lazy", decoding: "async" %>
+    <%= image_tag "sample.png", class: "block w-full h-auto rounded-md" %>
   <% end %>
 </div>

@@ -1,38 +1,37 @@
 <div class="w-full h-56 md:h-64 rounded-md overflow-hidden flex items-center justify-center">
   <% if facility.images.attached? %>
     <% begin %>
-      <% img    = facility.images.first %>
-      <% small  = img.variant(resize_to_fill: [480, 320],  saver: { quality: 70, strip: true }) %>
-      <% medium = img.variant(resize_to_fill: [768, 512],  saver: { quality: 70, strip: true }) %>
-      <% large  = img.variant(resize_to_fill: [1280, 854], saver: { quality: 70, strip: true }) %>
+      <% img = facility.images.first %>
 
-      <%= picture_tag(
-            url_for(large), # フォールバック(JPEG等)
-            sources: [
-              { srcset: [
-                  "#{url_for(small,  format: :avif)} 480w",
-                  "#{url_for(medium, format: :avif)} 768w",
-                  "#{url_for(large,  format: :avif)} 1280w"
-                ].join(", "),
-                type: "image/avif",
-                sizes: "(max-width: 768px) 100vw, 768px" },
-              { srcset: [
-                  "#{url_for(small,  format: :webp)} 480w",
-                  "#{url_for(medium, format: :webp)} 768w",
-                  "#{url_for(large,  format: :webp)} 1280w"
-                ].join(", "),
-                type: "image/webp",
-                sizes: "(max-width: 768px) 100vw, 768px" }
-            ],
-            img: {
-              alt: facility.title,
-              loading: "lazy",
-              decoding: "async",
-              fetchpriority: "low",
-              class: "h-full w-full object-cover",  # 余白を無くして切り抜き
-              width: 1280, height: 854              # レイアウトシフト対策
-            }
-          ) %>
+      <% small_avif  = img.variant(resize_to_limit: [480, 360],  format: :avif, saver: { quality: 50 }) %>
+      <% medium_avif = img.variant(resize_to_limit: [768, 576],  format: :avif, saver: { quality: 50 }) %>
+      <% large_avif  = img.variant(resize_to_limit: [1280, 960], format: :avif, saver: { quality: 50 }) %>
+
+      <% small_jpg   = img.variant(resize_to_limit: [480, 360],  format: :jpg,  saver: { quality: 70 }) %>
+      <% medium_jpg  = img.variant(resize_to_limit: [768, 576],  format: :jpg,  saver: { quality: 70 }) %>
+      <% large_jpg   = img.variant(resize_to_limit: [1280, 960], format: :jpg,  saver: { quality: 70 }) %>
+
+      <%= picture_tag url_for(large_jpg),
+        sources: [
+          { srcset: [
+              "#{url_for small_avif} 480w",
+              "#{url_for medium_avif} 768w",
+              "#{url_for large_avif} 1280w"
+            ].join(", "),
+            type: "image/avif",
+            sizes: "(max-width: 640px) 480px, (max-width: 1024px) 768px, 1280px"
+          },
+          { srcset: [
+              "#{url_for small_jpg} 480w",
+              "#{url_for medium_jpg} 768w",
+              "#{url_for large_jpg} 1280w"
+            ].join(", "),
+            type: "image/jpeg",
+            sizes: "(max-width: 640px) 480px, (max-width: 1024px) 768px, 1280px"
+          }
+        ],
+        img: { class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" } %>
+
     <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
       <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" %>
     <% end %>
