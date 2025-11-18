@@ -80,16 +80,17 @@ Rails.application.configure do
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: "wankotabi-doglife.onrender.com/" }
+  config.action_mailer.default_url_options = { host: "wankotabi-doglife.onrender.com" }
+  config.action_mailer.default_options = { from: ENV.fetch("MAILER_FROM", ENV["MAILER_SENDER"]) }
   config.action_mailer.asset_host = "https://#{ENV.fetch("APP_HOST")}"
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "robyofi@momoi.uk",
+    address: "smtp.gmail.com",
     port: 587,
     domain: "wankotabi-doglife.onrender.com",
     user_name: ENV["MAILER_SENDER"],
     password: ENV["MAILER_PASSWORD"],
-    authentication: :login,
+    authentication: :plain,
     enable_starttls_auto: true
   }
 
