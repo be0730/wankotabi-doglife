@@ -65,8 +65,9 @@ class Facility < ApplicationRecord
     return unless images.attached?
     images.each do |att|
       next unless att.variable?
-      variant = att.variant(resize_to_limit: [MAX_DIM, MAX_DIM], saver: { quality: 80, strip: true }).processed
+      variant = att.variant(resize_to_limit: [ MAX_DIM, MAX_DIM ], saver: { quality: 80, strip: true }).processed
       # 置き換え（ActiveStorageは直接差し替えが難しいので、必要なら別添付化して古い方をpurge等、要件に合わせて）
       # シンプルに「配信は常に variant 経由」に統一すれば、保存置換は不要
+    end
   end
 end
