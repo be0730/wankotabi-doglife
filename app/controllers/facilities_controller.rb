@@ -145,12 +145,13 @@ end
   end
 
   def facility_params
-    params.require(:facility).permit(
-      :title, :category, :postal_code, :prefecture_id,
-      :full_address, :city, :street, :building, :latitude, :longitude,
-      :overview, :phone_number, :business_hours, :closed_day,
+    p = params.require(:facility).permit(
+      :title, :category, :postal_code, :prefecture_id, :full_address, :city, :street, :building,
+      :latitude, :longitude, :overview, :phone_number, :business_hours, :closed_day,
       :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement,
       images: [], tag_ids: []
     )
+    p[:images] = Array(p[:images]).reject(&:blank?) if p[:images]
+    p
   end
 end

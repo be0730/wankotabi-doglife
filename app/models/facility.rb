@@ -7,7 +7,7 @@ class Facility < ApplicationRecord
   MAX_DIM = 2000
   has_many :facilities_tags, dependent: :destroy
   has_many :tags, through: :facilities_tags
-  before_save :downsize_images
+  after_commit :downsize_images, on: %i[create update]
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -62,12 +62,26 @@ class Facility < ApplicationRecord
   end
 
   def downsize_images
-    return unless images.attached?
-    images.each do |att|
-      next unless att.variable?
-      variant = att.variant(resize_to_limit: [ MAX_DIM, MAX_DIM ], saver: { quality: 80, strip: true }).processed
-      # 置き換え（ActiveStorageは直接差し替えが難しいので、必要なら別添付化して古い方をpurge等、要件に合わせて）
-      # シンプルに「配信は常に variant 経由」に統一すれば、保存置換は不要
+    images.each do |image|
+      # Blobがなければスキップ
+      blob = image.blob
+      next unless blob
+
+      begin
+        # 実体がS3に存在するかを念のため確認（サービスによってexist?が無い場合は省略可）
+        if blob.service.respond_to?(:exist?) && !blob.service.exist?(blob.key)
+          Rails.logger.warn "[downsize_images] missing on storage: #{blob.key}"
+          next
+        end
+
+        # ここでは「元を圧縮して置き換え」ではなく、必要なvariantを先に生成しておく(キャッシュ)だけ
+        image.variant(resize_to_limit: [1600, 1200]).processed
+        image.variant(resize_to_limit: [1280, 960]).processed
+        image.variant(resize_to_limit: [768, 576]).processed
+      rescue ActiveStorage::FileNotFoundError, Aws::S3::Errors::NoSuchKey => e
+        Rails.logger.warn "[downsize_images] not found #{blob.key}: #{e.class}"
+        next
+      end
     end
   end
 end
