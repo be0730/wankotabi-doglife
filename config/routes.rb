@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks",
-                                    registrations: "users/registrations" }
+                                    registrations:      "users/registrations",
+                                    passwords:          "users/passwords" }
 
   resources :users, only: [ :show ] do
     member { get :post_list }
