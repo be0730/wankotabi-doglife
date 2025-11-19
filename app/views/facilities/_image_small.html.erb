@@ -1,41 +1,68 @@
-<div class="w-full h-56 md:h-64 rounded-md overflow-hidden flex items-center justify-center">
-  <% if facility.images.attached? %>
-    <% begin %>
-      <% img = facility.images.first %>
+<div class="js-swiper container mx-auto">
+  <div class="swiper h-full min-h-0">
+    <div class="swiper-wrapper h-full min-h-0">
+      <% if facility.images.attached? %>
+        <% facility.images.each do |img| %>
+          <div class="swiper-slide h-full min-h-0">
+            <div class="relative aspect-[4/3] rounded-md bg-white overflow-hidden">
+              <div class="absolute inset-0 flex items-center justify-center p-2">
+                <% begin %>
+                  <% small_avif  = img.variant(resize_to_limit: [480, 360],  format: :avif, saver: { quality: 50 }) %>
+                  <% medium_avif = img.variant(resize_to_limit: [768, 576],  format: :avif, saver: { quality: 50 }) %>
+                  <% large_avif  = img.variant(resize_to_limit: [1280, 960], format: :avif, saver: { quality: 50 }) %>
 
-      <% small_avif  = img.variant(resize_to_limit: [480, 360],  format: :avif, saver: { quality: 50 }) %>
-      <% medium_avif = img.variant(resize_to_limit: [768, 576],  format: :avif, saver: { quality: 50 }) %>
-      <% large_avif  = img.variant(resize_to_limit: [1280, 960], format: :avif, saver: { quality: 50 }) %>
+                  <% small_png  = img.variant(resize_to_limit: [480, 360],  format: :png, saver: { compression: 9 }) %>
+                  <% medium_png = img.variant(resize_to_limit: [768, 576],  format: :png, saver: { compression: 9 }) %>
+                  <% large_png  = img.variant(resize_to_limit: [1280, 960], format: :png, saver: { compression: 9 }) %>
 
-      <% small_jpg   = img.variant(resize_to_limit: [480, 360],  format: :jpg,  saver: { quality: 70 }) %>
-      <% medium_jpg  = img.variant(resize_to_limit: [768, 576],  format: :jpg,  saver: { quality: 70 }) %>
-      <% large_jpg   = img.variant(resize_to_limit: [1280, 960], format: :jpg,  saver: { quality: 70 }) %>
+                  <%= picture_tag url_for(large_png),
+                        class: "block h-full w-full",  # ← 重要
+                        sources: [
+                          { srcset: [
+                              "#{url_for small_avif} 480w",
+                              "#{url_for medium_avif} 768w",
+                              "#{url_for large_avif} 1280w"
+                            ].join(", "),
+                            type: "image/avif",
+                            sizes: "(max-width: 640px) 480px, (max-width: 1024px) 768px, 1280px"
+                          },
+                          { srcset: [
+                              "#{url_for small_png} 480w",
+                              "#{url_for medium_png} 768w",
+                              "#{url_for large_png} 1280w"
+                            ].join(", "),
+                            type: "image/png",
+                            sizes: "(max-width: 640px) 480px, (max-width: 1024px) 768px, 1280px"
+                          }
+                        ],
+                        img: {
+                          class: "block h-full w-full max-h-full max-w-full object-contain object-center",
+                          loading: "lazy", decoding: "async", alt: facility.title
+                        } %>
+                <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
+                  <%= image_tag "sample.png",
+                        class: "block h-full w-full object-contain",
+                        loading: "lazy", decoding: "async", alt: facility.title %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="swiper-slide h-full min-h-0">
+          <div class="relative aspect-[4/3] rounded-md bg-white overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center p-2">
+              <%= image_tag "sample.png",
+                    class: "block h-full w-full object-contain",
+                    loading: "lazy", decoding: "async", alt: facility.title %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
-      <%= picture_tag url_for(large_jpg),
-        sources: [
-          { srcset: [
-              "#{url_for small_avif} 480w",
-              "#{url_for medium_avif} 768w",
-              "#{url_for large_avif} 1280w"
-            ].join(", "),
-            type: "image/avif",
-            sizes: "(max-width: 640px) 480px, (max-width: 1024px) 768px, 1280px"
-          },
-          { srcset: [
-              "#{url_for small_jpg} 480w",
-              "#{url_for medium_jpg} 768w",
-              "#{url_for large_jpg} 1280w"
-            ].join(", "),
-            type: "image/jpeg",
-            sizes: "(max-width: 640px) 480px, (max-width: 1024px) 768px, 1280px"
-          }
-        ],
-        img: { class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" } %>
-
-    <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
-      <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" %>
-    <% end %>
-  <% else %>
-    <%= image_tag "sample.png", class: "max-h-full max-w-full object-contain", loading: "lazy", decoding: "async" %>
-  <% end %>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
 </div>
