@@ -113,7 +113,7 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    "wankotabi-doglife.onrender.com"
+    "wankotabi-doglife.onrender.com",
     "wankotabi-doglife.com",
     "www.wankotabi-doglife.com"
   ]
