@@ -24,11 +24,10 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = ENV.fetch("MAILER_SENDER", "no-reply@wankotabi-doglife.onrender.com")
+  config.mailer_sender = ENV.fetch("MAILER_SENDER", "no-reply@wankotabi-doglife.com")
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
-  config.mailer.default_url_options = { host: ENV.fetch("APP_HOST"), protocol: "https" }
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
@@ -276,7 +275,6 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :google_oauth2, ENV["GOOGLE_CLIENT_ID"], ENV["GOOGLE_CLIENT_SECRET"]
 
   google_client_id     = ENV["GOOGLE_CLIENT_ID"]
   google_client_secret = ENV["GOOGLE_CLIENT_SECRET"]
