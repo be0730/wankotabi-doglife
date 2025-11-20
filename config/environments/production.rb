@@ -1,10 +1,10 @@
 require "active_support/core_ext/integer/time"
 
-Rails.application.routes.default_url_options[:host] = "wankotabi-doglife.onrender.com"
+Rails.application.routes.default_url_options[:host] = "wankotabi-doglife.com"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  host = ENV.fetch("APP_HOST", "wankotabi-doglife.com")
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
@@ -17,6 +17,7 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
+  config.action_controller.default_url_options = { host:, protocol: "https" }
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
@@ -80,14 +81,14 @@ Rails.application.configure do
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: "wankotabi-doglife.onrender.com" }
+  config.action_mailer.default_url_options = { host:, protocol: "https" }
   config.action_mailer.default_options = { from: ENV.fetch("MAILER_FROM", ENV["MAILER_SENDER"]) }
-  config.action_mailer.asset_host = "https://#{ENV.fetch("APP_HOST")}"
+  config.action_mailer.asset_host = "https://#{host}"
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "wankotabi-doglife.onrender.com",
+    domain: "wankotabi-doglife.com",
     user_name: ENV["MAILER_SENDER"],
     password: ENV["MAILER_PASSWORD"],
     authentication: :plain,
@@ -109,10 +110,10 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
+  config.hosts = [
+    "wankotabi-doglife.com",
+    "www.wankotabi-doglife.com"
+  ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
