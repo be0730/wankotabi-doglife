@@ -1,8 +1,8 @@
 <%= search_form_for @q, url: facilities_path, method: :get do |f| %>
   <div data-controller="modal prefecture-filter">
-    <div class="flex flex-col md:flex-row gap-3 mt-6">
+    <div class="flex flex-col md:flex-row md:items-end gap-3 mt-6">
       <!-- キーワード -->
-      <div class="flex-1">
+      <div class="w-full md:flex-1">
         <%= f.label :keyword_cont, t('search.keyword'), class: "block text-sm/6 font-medium text-gray-900" %>
         <%= f.search_field :title_or_overview_or_city_or_street_cont,
               value: @q_params[:title_or_overview_or_city_or_street_cont],
@@ -11,19 +11,19 @@
       </div>
 
       <!-- トリガー -->
-      <div class="flex items-end gap-2">
+      <div class="w-full md:w-auto grid grid-cols-1 gap-2 md:flex md:gap-2">
         <button type="button" class="btn-primary bg-amber-200" data-action="modal#open">
           都道府県を選ぶ
         </button>
         <%= f.submit t('search.button'), class: "btn-primary bg-indigo-600 !text-white hover:bg-indigo-700" %>
-        <%= link_to t('search.reset_filters'), facilities_path(q: nil, page: nil), class: "btn-primary" %>
+        <%= link_to t('search.reset_filters'), facilities_path(q: nil, page: nil), class: "btn-primary inline-flex justify-center" %>
       </div>
     </div>
 
     <!-- 他条件維持 -->
     <%= f.hidden_field :category_eq, value: @q_params[:category_eq] %>
 
-    <!-- ★ タグで絞り込み -->
+    <!-- タグで絞り込み -->
     <div class="mt-4">
       <div class="text-sm font-medium text-gray-900 mb-2">
         タグで絞り込み
@@ -52,25 +52,30 @@
     </div>
 
     <!-- モーダル本体 -->
-    <div class="hidden fixed inset-0 z-50"
-         aria-hidden="true"
-         data-modal-target="root"
-         data-action="keydown@window->modal#keydown">
+    <div class="hidden fixed inset-0 z-50 overflow-y-auto"
+        aria-hidden="true"
+        data-modal-target="root"
+        data-action="keydown@window->modal#keydown">
+
       <!-- backdrop -->
       <div class="absolute inset-0 bg-black/40"
-           data-modal-target="backdrop"
-           data-action="click->modal#backdropClick"></div>
+          data-modal-target="backdrop"
+          data-action="click->modal#backdropClick"></div>
 
-      <!-- panel -->
-      <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="w-full max-w-3xl rounded-lg bg-white shadow-lg"
-             data-modal-target="panel">
+      <!-- container -->
+      <div class="relative min-h-full flex items-center justify-center p-4">
+        <!-- panel -->
+        <div class="w-full max-w-3xl bg-white rounded-lg shadow-lg flex flex-col max-h-[calc(100vh-2rem)]"
+            data-modal-target="panel">
+
+          <!-- header -->
           <div class="border-b px-4 py-3 flex items-center justify-between">
             <h3 class="text-lg font-semibold">都道府県で絞り込み</h3>
             <button type="button" class="btn-primary" data-action="modal#close">閉じる</button>
           </div>
 
-          <div class="p-4 space-y-3">
+          <!-- scrollable content -->
+          <div class="flex-1 overflow-y-auto p-4 space-y-3">
             <div class="text-sm text-gray-600">
               選択中：<span data-prefecture-filter-target="count">0</span>件
             </div>
@@ -85,14 +90,15 @@
                 </label>
               <% end %>
             </div>
+          </div>
 
-            <div class="mt-3 flex flex-wrap gap-2">
-              <button type="button" class="btn-primary" data-action="prefecture-filter#selectAll">すべて選択</button>
-              <button type="button" class="btn-primary" data-action="prefecture-filter#clearAll">すべて解除</button>
-              <button type="button" class="btn-primary bg-indigo-600 !text-white" data-action="modal#apply">
-                適用して検索
-              </button>
-            </div>
+          <!-- footer -->
+          <div class="sticky bottom-0 bg-white border-t px-4 py-3 flex flex-wrap gap-2">
+            <button type="button" class="btn-primary" data-action="prefecture-filter#selectAll">すべて選択</button>
+            <button type="button" class="btn-primary" data-action="prefecture-filter#clearAll">すべて解除</button>
+            <button type="button" class="btn-primary bg-indigo-600 !text-white" data-action="modal#apply">
+              適用して検索
+            </button>
           </div>
         </div>
       </div>
