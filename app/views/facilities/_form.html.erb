@@ -70,16 +70,22 @@
         <!-- 施設画像 -->
         <div class="col-span-full">
           <%= f.label :images, t('form.basic_info.image'), class:"title-text" %><br>
-          <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true %>
+          <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true, include_hidden: false %>
           <% if @facility.persisted? && @facility.images.attached? %>
             <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              <% @facility.images.each do |image| %>
-                <div class="relative">
-                  <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "h-32 w-full object-cover rounded-md" %>
-                  <%= link_to "×", facility_image_path(@facility, image.signed_id),
-                      method: :delete,
-                      data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-                      class: "absolute top-1 right-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white hover:bg-red-700" %>
+              <%= f.fields_for :images_attachments do |ia| %>
+                <% attachment = ia.object %>
+                <div class="relative rounded-md border p-2">
+                  <%= image_tag attachment.variant(resize_to_limit: [300, 300]),
+                        class: "h-32 w-full object-cover rounded" %>
+
+                  <%= ia.hidden_field :id %>
+
+                  <!-- 削除チェック -->
+                  <label class="mt-2 flex items-center gap-2">
+                    <%= ia.check_box :_destroy, class: "h-4 w-4 accent-red-600" %>
+                    <span class="text-sm text-red-700 font-medium">この画像を削除</span>
+                  </label>
                 </div>
               <% end %>
             </div>

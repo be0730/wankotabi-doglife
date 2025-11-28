@@ -96,9 +96,15 @@ end
 
   # PATCH/PUT /facilities/1
   def update
-    if @facility.update(facility_params)
+    attrs, new_images = split_images(facility_params)
+
+    begin
+      Facility.transaction do
+        @facility.update!(attrs)                               # ← 画像に触れない
+        @facility.images.attach(new_images) if new_images.present? # ← 追加のみ
+      end
       redirect_to @facility, success: "施設を更新しました。"
-    else
+    rescue ActiveRecord::RecordInvalid
       flash.now[:danger] = "施設の更新に失敗しました。"
       render :edit, status: :unprocessable_entity
     end
@@ -149,9 +155,20 @@ end
       :title, :category, :postal_code, :prefecture_id, :full_address, :city, :street, :building,
       :latitude, :longitude, :overview, :phone_number, :business_hours, :closed_day,
       :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement,
-      images: [], tag_ids: []
+      images: [], tag_ids: [], images_attachments_attributes: [:id, :_destroy]
     )
-    p[:images] = Array(p[:images]).reject(&:blank?) if p[:images]
+    # 空要素除去（空配列が置換トリガになるのを防止）
+    if p.key?(:images)
+      arr = Array(p[:images]).reject(&:blank?)
+      arr.empty? ? p.delete(:images) : p[:images] = arr
+    end
     p
+  end
+
+  # images を mass-assign から外して返す
+  def split_images(p)
+    attrs = p.dup
+    new_images = attrs.delete(:images) # ← これで update/create への代入から除外
+    [attrs, Array(new_images)]
   end
 end

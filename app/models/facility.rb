@@ -47,6 +47,8 @@ class Facility < ApplicationRecord
   geocoded_by :full_address
   after_validation :geocode, if: :should_geocode?
 
+  accepts_nested_attributes_for :images_attachments, allow_destroy: true
+
   private
 
   def should_geocode?

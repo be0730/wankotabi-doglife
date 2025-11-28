@@ -27,7 +27,7 @@
                 locals: { facility: facility } %>
     </div>
 
-    <!-- ２段目：タイトル ＋ 住所 ＋ タグ　＋　お気に入りボタン ＋ 詳細ボタン -->
+    <!-- ２段目：タイトル以下投稿内容（一覧時はタイトル、郵便番号、住所のみ）＋ タグ ＋ お気に入りボタン -->
     <h3 class="truncate text-lg font-semibold text-gray-900 mb-2"><%= facility.title %></h3>
     <div class="flex flex-col min-w-0">
       <div class="mt-2 space-y-1 text-lg text-gray-900">
@@ -52,7 +52,7 @@
         </div>
       <% end %>
 
-      <!-- 施設詳細ページでは詳細ボタンを表示させない -->
+      <!-- 施設詳細ページでは投稿者情報を表示させない -->
       <% unless current_page?(facility_path(facility)) %>
         <div class="mt-4 flex justify-end md:mt-auto"> <!-- CHANGED: md 以上で下寄せ（mt-auto） -->
           <div class="min-w-0 flex-1 items-start">

@@ -25,6 +25,8 @@ module Myapp
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.default_locale = :ja
 
+    config.active_storage.replace_on_assign_to_many = false
+
     config.autoload_paths << Rails.root.join("app/presenters")
     config.eager_load_paths << Rails.root.join("app/presenters")
   end
