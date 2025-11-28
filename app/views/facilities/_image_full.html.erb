@@ -2,7 +2,7 @@
   <div class="swiper h-full min-h-0">
     <div class="swiper-wrapper h-full min-h-0">
       <% if facility.images.attached? %>
-        <% facility.images.each do |img| %>
+        <% facility.images.attachments.order('active_storage_attachments.created_at ASC, active_storage_attachments.id ASC').each do |img| %>
           <div class="swiper-slide h-full min-h-0">
             <div class="relative aspect-[4/3] rounded-md bg-white overflow-hidden">
               <div class="absolute inset-0 flex items-center justify-center p-2">

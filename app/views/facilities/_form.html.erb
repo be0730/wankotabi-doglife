@@ -73,7 +73,7 @@
           <%= f.file_field :images, multiple: true, accept: "image/*", direct_upload: true, include_hidden: false %>
           <% if @facility.persisted? && @facility.images.attached? %>
             <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              <%= f.fields_for :images_attachments do |ia| %>
+              <%= f.fields_for :images_attachments, @facility.images.attachments.order(:created_at) do |ia| %>
                 <% attachment = ia.object %>
                 <div class="relative rounded-md border p-2">
                   <%= image_tag attachment.variant(resize_to_limit: [300, 300]),
