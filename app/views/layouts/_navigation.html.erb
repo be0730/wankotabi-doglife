@@ -1,26 +1,38 @@
 <div class="w-full mt-4">
   <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
     <% q_base = @q_params.to_h %>
+    <% current_category = q_base[:category_eq].to_s.presence %>
 
-    <%= link_to "一覧",
-    facilities_path(q: q_base.except(:category_eq), page: nil),
-    class: "btn-navbar bg-yellow-300" %>
+    <%# 表示ラベル, 値(nil=一覧), 背景色 %>
+    <% nav_items = [
+      ["一覧", nil, "bg-yellow-300"],
+      ["宿泊施設", Facility.categories[:accommodation].to_s, "bg-green-300"],
+      ["飲食店",   Facility.categories[:restaurant].to_s,   "bg-red-300"],
+      ["レジャー施設", Facility.categories[:leisure].to_s,  "bg-blue-300"],
+      ["ショップ", Facility.categories[:shop].to_s,         "bg-purple-300"]
+    ] %>
 
-    <%= link_to "宿泊施設",
-    facilities_path(q: q_base.merge(category_eq: Facility.categories[:accommodation]), page: nil),
-    class: "btn-navbar bg-green-300" %>
+    <% base_btn = "btn-navbar block rounded-xl px-4 py-3 text-center shadow-sm transition" %>
+    <% selected_on  = "border-2 border-indigo-500 ring-2 ring-indigo-200" %>
+    <% selected_off = "border border-transparent hover:border-gray-200" %>
 
-    <%= link_to "飲食店",
-    facilities_path(q: q_base.merge(category_eq: Facility.categories[:restaurant]), page: nil),
-    class: "btn-navbar bg-red-300" %>
+    <% nav_items.each do |label, value, bg| %>
+      <% selected =
+          (value.nil?  && current_category.blank?) ||
+          (value.present? && current_category == value) %>
 
-    <%= link_to "レジャー施設",
-    facilities_path(q: q_base.merge(category_eq: Facility.categories[:leisure]), page: nil),
-    class: "btn-navbar bg-blue-300" %>
+      <% path =
+          if value.nil?
+            facilities_path(q: q_base.except(:category_eq), page: nil)
+          else
+            facilities_path(q: q_base.merge(category_eq: value), page: nil)
+          end %>
 
-    <%= link_to "ショップ",
-    facilities_path(q: q_base.merge(category_eq: Facility.categories[:shop]), page: nil),
-    class: "btn-navbar bg-purple-300" %>
-
+      <%= link_to path,
+                  class: [base_btn, bg, (selected ? selected_on : selected_off)].join(" "),
+                  aria: { current: (selected ? "page" : nil) } do %>
+        <span class="font-medium"><%= label %></span>
+      <% end %>
+    <% end %>
   </div>
 </div>
