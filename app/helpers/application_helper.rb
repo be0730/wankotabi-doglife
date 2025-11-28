@@ -17,6 +17,20 @@ module ApplicationHelper
     image_tag(src, **options)
   end
 
+  def user_badge(user, size: 32, link: true, class_name: "")
+    return "" unless user
+
+    display_name = user.name.presence || user.email || "匿名ユーザー"
+
+    avatar = avatar_image_tag(user, size: size, class: "rounded-full object-cover")
+
+    inner = content_tag(:div, class: "flex items-center gap-2 #{class_name}") do
+      avatar + content_tag(:span, display_name, class: "truncate text-sm text-gray-900")
+    end
+
+    link ? link_to(inner, user_path(user), class: "inline-flex items-center gap-2") : inner
+  end
+
   def default_meta_tags
     {
       site:        "WankoTabi DogLife",
