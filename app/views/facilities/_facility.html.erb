@@ -9,7 +9,6 @@
     <% unless current_page?(facility_path(facility)) %>
       <%= link_to facility_path(facility),
                   data: { turbo_frame: "_top" },
-                  aria: { label: t('buttons.detail', default: '詳細を見る') },
                   class: "absolute inset-0 z-10 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
       <% end %>
     <% end %>

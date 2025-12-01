@@ -15,12 +15,13 @@
   <% marker =
     if @facility.latitude.present? && @facility.longitude.present?
       [{
-        id:      @facility.id,
-        lat:     @facility.latitude.to_f,
-        lng:     @facility.longitude.to_f,
-        title:   @facility.title,
-        address: @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
-        url:     facility_path(@facility)
+        id:       @facility.id,
+        lat:      @facility.latitude.to_f,
+        lng:      @facility.longitude.to_f,
+        title:    @facility.title,
+        address:  @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
+        url:      facility_path(@facility),
+        category: @facility.category
       }]
     else
       []
