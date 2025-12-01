@@ -54,7 +54,7 @@
 
         <!-- 施設名 -->
         <div class="sm:col-span-3">
-          <label class="title-text"><%= t('form.basic_info.name') %></label>
+          <label class="title-text"><%= t('form.basic_info.name') %></label> <label class="text-sm text-red-500">（必須）</label>
           <div>
             <%= f.text_field :title, required: true, placeholder: t('placeholders.name'),class: "text-field" %>
           </div>
@@ -106,7 +106,7 @@
                   class: "text-field" %>
           </div>
           <!-- 都道府県選択 -->
-          <label class="title-text"><%= t('form.address_info.prefecture') %></label>
+          <label class="title-text"><%= t('form.address_info.prefecture') %></label> <label class="text-sm text-red-500">（必須）</label>
           <div class="mt-2">
             <%= f.collection_select :prefecture_id,
                   Prefecture.order(:code),     # 1..47 の順で表示
@@ -114,19 +114,15 @@
                   :name,                       # 表示名
                   { prompt: "選択してください" },
                   class: "text-field" %>
-
-            <% if @facility.errors[:prefecture].present? %>
-              <p class="mt-1 text-xl text-red-600"><%= @facility.errors[:prefecture].first %></p>
-            <% end %>
           </div>
           <!-- 市区町村 -->
-          <label class="title-text"><%= t('form.address_info.city') %></label>
+          <label class="title-text"><%= t('form.address_info.city') %></label> <label class="text-sm text-red-500">（必須）</label>
           <div class="mt-2">
-            <%= f.text_field :city, placeholder: t('placeholders.city'),class: "text-field" %>
+            <%= f.text_field :city, required: true,placeholder: t('placeholders.city'),class: "text-field" %>
           <!-- 町丁目・番地 -->
-          <label class="title-text"><%= t('form.address_info.street') %></label>
+          <label class="title-text"><%= t('form.address_info.street') %></label> <label class="text-sm text-red-500">（必須）</label>
           <div class="mt-2">
-            <%= f.text_field :street, placeholder: t('placeholders.street'),class: "text-field" %>
+            <%= f.text_field :street, required: true, placeholder: t('placeholders.street'),class: "text-field" %>
           </div>
           <!-- 建物名・部屋番号 -->
           <label class="title-text"><%= t('form.address_info.building') %></label>
