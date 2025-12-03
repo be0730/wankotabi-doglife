@@ -1,10 +1,17 @@
 <div id="<%= dom_id(facility) %>"
-    class="my-2 md:my-3
+    class="relative my-2 md:my-3
           rounded-none md:rounded-md   <!-- スマホは端まで、md以上で角丸 -->
           border-0 md:border md:border-gray-200
           bg-white p-4 shadow-sm
           min-w-0"> <!-- 重要：子の truncate が効くように -->
   <div class="flex flex-col gap-6">
+
+    <% unless current_page?(facility_path(facility)) %>
+      <%= link_to facility_path(facility),
+                  data: { turbo_frame: "_top" },
+                  class: "absolute inset-0 z-10 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+      <% end %>
+    <% end %>
 
     <!-- １段目：カテゴリ ＋ 画像 -->
     <div class="flex items-start justify-end gap-4">
@@ -14,14 +21,18 @@
       </span>
     </div>
 
-    <%= render partial: (local_assigns[:full_image] ? "facilities/image_full" : "facilities/image_small"),
-              locals: { facility: facility } %>
+    <div class="relative z-20">
+      <%= render partial: (local_assigns[:full_image] ? "facilities/image_full" : "facilities/image_small"),
+                locals: { facility: facility } %>
+    </div>
 
-    <!-- ２段目：タイトル ＋ 住所 ＋ タグ　＋　お気に入りボタン ＋ 詳細ボタン -->
+    <!-- ２段目：タイトル以下投稿内容（一覧時はタイトル、郵便番号、住所のみ）＋ タグ ＋ お気に入りボタン -->
     <h3 class="truncate text-lg font-semibold text-gray-900 mb-2"><%= facility.title %></h3>
     <div class="flex flex-col min-w-0">
       <div class="mt-2 space-y-1 text-lg text-gray-900">
-        <%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %>
+        <% p = ::FacilityPresenter.new(facility, view_context: self) %>
+        <% context = current_page?(facility_path(facility)) ? :show : :index %>
+        <%= render_facility_rows(p.rows(context: context)) %>
       </div>
 
       <% if facility.tags.any? %>
@@ -35,20 +46,19 @@
       <% end %>
 
       <% if user_signed_in? && facility.user_id != current_user.id %>
-        <div class="mt-3 ml-auto text-end " id="<%= dom_id(facility, :favorite_buttons) %>">
+        <div class="mt-3 ml-auto text-end relative z-20 pointer-events-auto" id="<%= dom_id(facility, :favorite_buttons) %>">
           <%= render "facilities/favorite_buttons", facility: facility %>
         </div>
       <% end %>
 
-      <!-- 施設詳細ページでは詳細ボタンを表示させない -->
+      <!-- 施設詳細ページでは投稿者情報を表示させない -->
       <% unless current_page?(facility_path(facility)) %>
         <div class="mt-4 flex justify-end md:mt-auto"> <!-- CHANGED: md 以上で下寄せ（mt-auto） -->
-          <%= link_to t('buttons.detail'), facility_path(facility),
-              class: "btn-primary",
-              data: { turbo_frame: "_top" } %>
+          <div class="min-w-0 flex-1 items-start">
+            <%= user_badge(facility.user, size: 32) %>
+          </div>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-

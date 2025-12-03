@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
     <script defer>
       function initAllSwipers(root = document) {
+        if (typeof window.Swiper === "undefined") return;
         root.querySelectorAll(".js-swiper").forEach((wrap) => {
           if (wrap.dataset.swiperInited === "1") return; // 二重初期化防止
 

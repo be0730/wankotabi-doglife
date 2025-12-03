@@ -20,3 +20,43 @@
   }
 }
 
+.map-canvas img {
+  max-width: none !important;
+  height: auto !important;
+}
+
+/* ピッカー地図内だけ、Advanced Marker にイベントを届かせる */
+#picker-map .gm-style .gmp-advanced-marker {
+  pointer-events: auto !important;
+  touch-action: none;           /* タッチでのパンを抑制してドラッグ優先 */
+  cursor: grab;
+}
+
+/* ← これがキモ：ピンの上に被っている z-index:107 レイヤーのイベントを無効化 */
+#picker-map .gm-style > div[style*="z-index: 107"] {
+  pointer-events: none !important;
+}
+
+/* 念のため 106 レイヤー配下はイベント通す（ピンがここに乗る） */
+#picker-map .gm-style > div[style*="z-index: 106"] {
+  pointer-events: auto;
+}
+
+/* ピンの内側もイベントを通す */
+#picker-map .gm-style .gmp-advanced-marker * {
+  pointer-events: auto !important;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ピッカー地図内だけ、ドラッグを最優先にする */
+#picker-map gmp-advanced-marker {
+  pointer-events: auto !important;
+  touch-action: none !important;
+  cursor: grab;
+}
+
+/* 以前の“上に被るレイヤー”対策（必要なら残す） */
+#picker-map .gm-style > div[style*="z-index: 107"] {
+  pointer-events: none !important;
+}

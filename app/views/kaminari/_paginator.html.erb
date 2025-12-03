@@ -1,0 +1,43 @@
+<%# app/views/kaminari/_paginator.html.erb %>
+<%# available locals: current_page, total_pages, per_page, remote, paginator %>
+
+<div class="mt-8 flex justify-center text-base md:text-lg">
+  <%= paginator.render do %>
+    <nav class="inline-flex items-center" role="navigation" aria-label="ページネーション">
+      <ul class="inline-flex items-center gap-1">
+        <%# « 最初 / ← 前へ %>
+        <li>
+        <%= first_page_tag %>
+        </li>
+        <% unless current_page.first? %>
+          <li>
+            <%= prev_page_tag %>
+          </li>
+        <% end %>
+
+        <%# 中央のページ番号たち %>
+        <% each_page do |page| %>
+          <% if page.display_tag? %>
+            <li>
+              <%= page_tag page %>
+            </li>
+          <% elsif !page.was_truncated? %>
+            <li>
+              <%= gap_tag %>
+            </li>
+          <% end %>
+        <% end %>
+
+        <%# → 次へ / » 最後 %>
+        <% unless current_page.out_of_range? || current_page.last? %>
+          <li>
+            <%= next_page_tag %>
+          </li>
+        <% end %>
+        <li>
+          <%= last_page_tag %>
+        </li>
+      </ul>
+    </nav>
+  <% end %>
+</div>

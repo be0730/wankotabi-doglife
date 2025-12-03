@@ -15,12 +15,13 @@
   <% marker =
     if @facility.latitude.present? && @facility.longitude.present?
       [{
-        id:      @facility.id,
-        lat:     @facility.latitude.to_f,
-        lng:     @facility.longitude.to_f,
-        title:   @facility.title,
-        address: @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
-        url:     facility_path(@facility)
+        id:       @facility.id,
+        lat:      @facility.latitude.to_f,
+        lng:      @facility.longitude.to_f,
+        title:    @facility.title,
+        address:  @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
+        url:      facility_path(@facility),
+        category: @facility.category
       }]
     else
       []
@@ -42,7 +43,7 @@
     <%# 投稿者がログインユーザーと同じ場合、編集・削除ボタンを表示 %>
     <% if @facility.user == current_user %>
       <%= link_to t('helpers.facilities.edit'), edit_facility_path(@facility), class: "btn-primary bg-amber-400" %>
-      <%= button_to t('helpers.facilities.delete'), @facility, method: :delete, class: "mb-12 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
+      <%= button_to t('helpers.facilities.delete'), facility_path(@facility), method: :delete, data: {turbo_confirm: "削除しますか？"}, class: "mb-12 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
     <% end %>
   </div>
 

@@ -6,6 +6,19 @@
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { class: "space-y-6", method: :put }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <%= f.hidden_field :reset_password_token %>
+      <div class="field">
+        <%= f.label :email, "メールアドレス" %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+        class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6",
+        value: resource.email %>
+      </div>
+
+      <div class="field">
+        <%= f.label user_name, "ユーザー名" %><br />
+        <%= f.text_field :user_name, autofocus: true, autocomplete: "username",
+        class: "border block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6",
+        value: resource.user_name %>
+      </div>
 
       <div class="field">
         <%= f.label :password, "新しいパスワード" %>

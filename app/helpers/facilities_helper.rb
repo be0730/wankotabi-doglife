@@ -16,4 +16,13 @@ module FacilitiesHelper
     }
     map.fetch(category.to_s, "bg-gray-100 text-gray-700")
   end
+
+  def render_facility_rows(rows)
+    safe_join(rows.map { |label, val|
+      content_tag(:div, class: "flex gap-1") do
+        content_tag(:span, "#{label}：", class: "font-normal") +
+        content_tag(:span, val.to_s.html_safe)
+      end
+    })
+  end
 end

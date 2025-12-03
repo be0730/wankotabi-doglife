@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+
   def show
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   def post_list
-    @user = User.find(params[:id])
+    @user = current_user
     @facilities = @user.facilities.order(created_at: :desc).page(params[:page])
   end
 

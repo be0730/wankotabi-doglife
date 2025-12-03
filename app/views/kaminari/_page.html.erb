@@ -1,0 +1,22 @@
+<%# app/views/kaminari/_page.html.erb %>
+<%# locals: page, url, current_page, total_pages, per_page, remote %>
+
+<% base_classes = "inline-flex items-center justify-center min-w-[2.5rem] px-4 py-2 rounded-md border text-base md:text-lg" %>
+
+<% if page.current? %>
+  <span class="page">
+    <span
+      class="<%= "#{base_classes} border-indigo-600 bg-indigo-600 text-white cursor-default" %>"
+      aria-current="page">
+      <%= page %>
+    </span>
+  </span>
+<% else %>
+  <span class="page">
+    <%= link_to page,
+                url,
+                class: "#{base_classes} border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
+                remote: remote,
+                rel: page.rel %>
+  </span>
+<% end %>

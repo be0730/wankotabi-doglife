@@ -21,21 +21,24 @@
             lng:     f.longitude.to_f,
             title:   f.title,
             address: f.respond_to?(:full_address) ? f.full_address : [f.prefecture&.name, f.city, f.street, f.building].compact.join,
-            url:     facility_path(f)
+            url:     facility_path(f),
+            category: f.category
           }
         } %>
 
   <turbo-frame id="facilities">
-    <div id="index-map"
-        class="mt-6 h-[480px] w-full rounded-md border border-gray-200 "
-        style="min-height: 480px"
-        data-markers="<%= markers.to_json %>"
-        data-center-lat="35.6895"
-        data-center-lng="139.6917"
-        data-zoom="8"
-        data-min-zoom="6"
-        data-zoom-single="16">
-    </div>
+    <%= tag.div id: "index-map",
+        class: "mt-6 h-[480px] w-full rounded-md border border-gray-200 ",
+        style: "min-height: 480px",
+        data: {
+          markers: raw(markers.to_json),
+          map_mode: "index",
+          center_lat: 35.6895,
+          center_lng: 139.6917,
+          zoom: 8,
+          min_zoom: 6,
+          zoom_single: 16
+        } %>
 
   <!-- 検索結果 / 一覧 -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
