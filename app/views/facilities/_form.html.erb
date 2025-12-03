@@ -129,6 +129,22 @@
           <div class="mt-2">
             <%= f.text_field :building, placeholder: t('placeholders.building'),class: "text-field" %>
           </div>
+          <!-- ピンの位置調整 -->
+          <% if f.object.persisted? %>
+            <div class="mt-6">
+              <label class="title-text">位置（ドラッグで調整）</label>
+                <div
+                  id="picker-map"
+                  style="display:block; height:320px; border-radius:8px; border:1px solid #e5e7eb;"
+                  data-lat="<%= (@facility.latitude  || 35.681236) %>"  data-lng="<%= (@facility.longitude || 139.767125) %>"
+                  data-zoom="15">
+                </div>
+
+              <%= f.hidden_field :latitude,  id: "facility_latitude"  %>
+              <%= f.hidden_field :longitude, id: "facility_longitude" %>
+              <p class="mt-2 text-sm text-gray-600">ピンをドラッグで位置を変更できます。</p>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

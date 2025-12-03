@@ -155,7 +155,7 @@ end
       :title, :category, :postal_code, :prefecture_id, :full_address, :city, :street, :building,
       :latitude, :longitude, :overview, :phone_number, :business_hours, :closed_day,
       :homepage_url, :instagram_url, :facebook_url, :x_url, :supplement,
-      images: [], tag_ids: [], images_attachments_attributes: [:id, :_destroy]
+      images: [], tag_ids: [], images_attachments_attributes: [ :id, :_destroy ]
     )
     # 空要素除去（空配列が置換トリガになるのを防止）
     if p.key?(:images)
@@ -169,6 +169,6 @@ end
   def split_images(p)
     attrs = p.dup
     new_images = attrs.delete(:images) # ← これで update/create への代入から除外
-    [attrs, Array(new_images)]
+    [ attrs, Array(new_images) ]
   end
 end

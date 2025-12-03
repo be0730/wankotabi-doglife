@@ -31,15 +31,14 @@
         class: "mt-6 h-[480px] w-full rounded-md border border-gray-200 ",
         style: "min-height: 480px",
         data: {
+          markers: raw(markers.to_json),
           map_mode: "index",
-          markers:  markers,
           center_lat: 35.6895,
           center_lng: 139.6917,
           zoom: 8,
           min_zoom: 6,
           zoom_single: 16
         } %>
-    </div>
 
   <!-- 検索結果 / 一覧 -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

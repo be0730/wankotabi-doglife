@@ -32,7 +32,7 @@ class FacilityPresenter
     keys.filter_map { |k|
       v = value_for(k)
       next if v.blank?
-      [label_for(k), v]
+      [ label_for(k), v ]
     }
   end
 
