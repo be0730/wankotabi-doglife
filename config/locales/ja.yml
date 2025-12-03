@@ -44,3 +44,9 @@ ja:
         restaurant: "飲食店"
         leisure: "レジャー施設"
         shop: "ショップ"
+  views:
+    pagination:
+      previous: "前へ"
+      next: "次へ"
+      first: "最初"
+      last: "最後"

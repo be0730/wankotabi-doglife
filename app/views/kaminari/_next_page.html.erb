@@ -1,11 +1,20 @@
-<%# Link to the "Next" page
-  - available local variables
-    url:           url to the next page
-    current_page:  a page object for the currently displayed page
-    total_pages:   total number of pages
-    per_page:      number of items to fetch per page
-    remote:        data-remote
--%>
-<span class="next">
-  <%= link_to_unless current_page.last?, t('views.pagination.next').html_safe, url, rel: 'next', remote: remote %>
-</span>
+<%# app/views/kaminari/_next_page.html.erb %>
+<%# locals: url, current_page, total_pages, per_page, remote %>
+
+<% base_classes = "inline-flex items-center justify-center px-4 py-2 rounded-md border text-base md:text-lg" %>
+
+<% if current_page.last? || current_page.out_of_range? %>
+  <span class="next">
+    <span class="<%= "#{base_classes} border-gray-200 text-gray-300 bg-white cursor-not-allowed" %>">
+      <%= t('views.pagination.next') %>
+    </span>
+  </span>
+<% else %>
+  <span class="next">
+    <%= link_to t('views.pagination.next').html_safe,
+                url,
+                class: "#{base_classes} border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
+                rel: 'next',
+                remote: remote %>
+  </span>
+<% end %>

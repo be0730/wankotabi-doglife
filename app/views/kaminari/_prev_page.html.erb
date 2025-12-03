@@ -1,11 +1,20 @@
-<%# Link to the "Previous" page
-  - available local variables
-    url:           url to the previous page
-    current_page:  a page object for the currently displayed page
-    total_pages:   total number of pages
-    per_page:      number of items to fetch per page
-    remote:        data-remote
--%>
-<span class="prev">
-  <%= link_to_unless current_page.first?, t('views.pagination.previous').html_safe, url, rel: 'prev', remote: remote %>
-</span>
+<%# app/views/kaminari/_prev_page.html.erb %>
+<%# locals: url, current_page, total_pages, per_page, remote %>
+
+<% base_classes = "inline-flex items-center justify-center px-4 py-2 rounded-md border text-base md:text-lg" %>
+
+<% if current_page.first? %>
+  <span class="prev">
+    <span class="<%= "#{base_classes} border-gray-200 text-gray-300 bg-white cursor-not-allowed" %>">
+      <%= t('views.pagination.previous') %>
+    </span>
+  </span>
+<% else %>
+  <span class="prev">
+    <%= link_to t('views.pagination.previous').html_safe,
+                url,
+                class: "#{base_classes} border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
+                rel: 'prev',
+                remote: remote %>
+  </span>
+<% end %>
