@@ -7,16 +7,6 @@ module FacilitiesHelper
     ]
   end
 
-  def category_badge_classes(category)
-    map = {
-      "accommodation"  => "bg-green-100 text-green-800",
-      "restaurant"  => "bg-amber-100 text-amber-800",
-      "leisure" => "bg-blue-100 text-blue-800",
-      "shop"  => "bg-purple-100 text-purple-800"
-    }
-    map.fetch(category.to_s, "bg-gray-100 text-gray-700")
-  end
-
   def render_facility_rows(rows)
     safe_join(rows.map { |label, val|
       content_tag(:div, class: "flex gap-1") do
