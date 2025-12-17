@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-    describe 'バリデーションチェック' do
+  describe 'バリデーションチェック' do
     it "nameが空欄の場合、バリデーションエラーになるか" do
       user = User.new(name: "")
       user.valid?
