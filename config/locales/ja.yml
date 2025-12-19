@@ -4,6 +4,7 @@ ja:
       facility: "施設"
       facilities: "施設一覧"
       user: "ユーザー"
+      comment: "コメント"
     attributes:
       user:
         name: "ユーザー名"
@@ -27,6 +28,8 @@ ja:
         phone_number: "電話番号"
         website_url: "ウェブサイトURL"
         image: "画像"
+      comment:
+        body: "コメント"
     errors:
       models:
         user:

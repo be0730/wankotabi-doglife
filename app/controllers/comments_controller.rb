@@ -9,8 +9,9 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to facility_path(@facility), success: "コメントを投稿しました。"
     else
+      @comments = @facility.comments.includes(:user)
       flash.now[:danger] = "コメントの投稿に失敗しました。"
-      redirect_to facility_path(@facility), status: :unprocessable_entity
+      render 'facilities/show', status: :unprocessable_entity
     end
   end
 
