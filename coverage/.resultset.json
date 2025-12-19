@@ -90,12 +90,6 @@
           null
         ]
       },
-      "/myapp/app/helpers/favorites_helper.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
       "/myapp/app/helpers/share_helper.rb": {
         "lines": [
           1,
@@ -117,14 +111,29 @@
           null
         ]
       },
-      "/myapp/app/helpers/static_pages_helper.rb": {
+      "/myapp/app/models/comment.rb": {
         "lines": [
+          1,
+          1,
+          1,
+          null,
           1,
           null
         ]
       },
-      "/myapp/app/helpers/users_helper.rb": {
+      "/myapp/app/models/application_record.rb": {
         "lines": [
+          1,
+          1,
+          null
+        ]
+      },
+      "/myapp/app/models/facilities_tag.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
           1,
           null
         ]
@@ -154,7 +163,7 @@
           1,
           null,
           1,
-          4,
+          6,
           null,
           null,
           1,
@@ -185,11 +194,11 @@
           1,
           null,
           1,
-          5,
+          6,
           null,
           null,
           1,
-          5,
+          6,
           null,
           null,
           null,
@@ -197,7 +206,7 @@
           null,
           null,
           1,
-          1,
+          2,
           null,
           0,
           0,
@@ -219,13 +228,6 @@
           null,
           null,
           null,
-          null
-        ]
-      },
-      "/myapp/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
           null
         ]
       },
@@ -307,8 +309,8 @@
           null,
           1,
           null,
-          3,
-          3,
+          4,
+          4,
           null,
           null
         ]
@@ -327,24 +329,6 @@
           null,
           null
         ]
-      },
-      "/myapp/app/channels/application_cable/channel.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/myapp/app/channels/application_cable/connection.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {}
       },
       "/myapp/app/controllers/application_controller.rb": {
         "lines": [
@@ -741,44 +725,10 @@
         ],
         "branches": {}
       },
-      "/myapp/app/jobs/application_job.rb": {
-        "lines": [
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          0
-        ],
-        "branches": {}
-      },
       "/myapp/app/mailers/application_mailer.rb": {
         "lines": [
           0,
           0,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/myapp/app/models/comment.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          null,
-          0,
-          0
-        ],
-        "branches": {}
-      },
-      "/myapp/app/models/facilities_tag.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          null,
           0,
           0
         ],
@@ -876,6 +826,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1765974527
+    "timestamp": 1766123486
   }
 }
