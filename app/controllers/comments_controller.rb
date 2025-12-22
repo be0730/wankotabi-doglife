@@ -11,7 +11,7 @@ class CommentsController < ApplicationController
     else
       @comments = @facility.comments.includes(:user)
       flash.now[:danger] = "コメントの投稿に失敗しました。"
-      render 'facilities/show', status: :unprocessable_entity
+      render "facilities/show", status: :unprocessable_entity
     end
   end
 

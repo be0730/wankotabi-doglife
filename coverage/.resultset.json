@@ -241,6 +241,21 @@
           null
         ]
       },
+      "/myapp/app/models/prefecture.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
       "/myapp/app/models/tag.rb": {
         "lines": [
           1,
@@ -315,21 +330,6 @@
           null
         ]
       },
-      "/myapp/app/models/prefecture.rb": {
-        "lines": [
-          1,
-          1,
-          null,
-          1,
-          0,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null
-        ]
-      },
       "/myapp/app/controllers/application_controller.rb": {
         "lines": [
           0,
@@ -372,6 +372,7 @@
           0,
           0,
           null,
+          0,
           0,
           0,
           0,
@@ -826,6 +827,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1766124990
+    "timestamp": 1766364049
   }
 }
