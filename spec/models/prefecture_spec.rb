@@ -2,11 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Prefecture, type: :model do
   describe 'アソシエーションチェック' do
-    it '施設が存在する場合は都道府県を削除できないこと' do
-      expect(described_class)
-        .to have_many(:facilities)
-        .dependent(:restrict_with_exception)
-    end
+    it { is_expected.to have_many(:facilities).dependent(:restrict_with_exception) }
   end
 
   describe '検索属性チェック' do
