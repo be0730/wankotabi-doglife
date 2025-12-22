@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe FacilitiesTag, type: :model do
-  describe 'associations' do
+  describe 'アソシエーションチェック' do
     it { is_expected.to belong_to(:tag) }
     it { is_expected.to belong_to(:facility) }
   end
 
-  describe 'validations' do
+  describe 'バリデーションチェック' do
     subject { build(:facilities_tag) }
 
     it do
