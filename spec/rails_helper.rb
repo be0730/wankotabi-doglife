@@ -74,11 +74,7 @@ RSpec.configure do |config|
   config.include LoginMacros
 
   config.before(:each, type: :system) do
-    driven_by :remote_chrome
-    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
-    Capybara.server_port = 4444
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
-    Capybara.ignore_hidden_elements = false
+    driven_by :rack_test
   end
 end
 
