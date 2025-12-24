@@ -2,53 +2,64 @@ require "open-uri"
 
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    include Devise::Controllers::Rememberable
-
     def google_oauth2
-      info = request.env["omniauth.auth"]
+      auth  = request.env["omniauth.auth"]
+      email = auth.dig("info", "email")
 
-      user = User.find_or_initialize_by(provider: info["provider"], uid: info["uid"])
-      if user.new_record?
-        # メール必須のアプリならメールで既存ユーザーをマージしてもOK
-        user.email = info.dig("info", "email")
-        user.name  = info.dig("info", "name") if user.respond_to?(:name)
-        # パスワード不要なためランダムパスワードを設定
+      # 1) provider/uid で探す → なければ email で既存ユーザーを拾って紐付け
+      user = User.find_by(provider: auth["provider"], uid: auth["uid"]) ||
+             User.find_by(email: email) ||
+             User.new
+
+      user.provider = auth["provider"]
+      user.uid      = auth["uid"]
+
+      user.email = email if user.email.blank?
+      user.name  = auth.dig("info", "name") if user.respond_to?(:name) && user.name.blank?
+
+      # password 必須バリデーションがある場合の保険
+      if user.encrypted_password.blank?
         user.password = Devise.friendly_token[0, 20]
       end
 
-      # 画像添付：まだavatar未設定で、Googleから画像URLが来ていれば保存
-      if user.avatar.blank?
-        image_url = info.dig("info", "image") || info.dig("extra", "raw_info", "picture")
-        if image_url.present?
-          # サイズを強制したい場合（返ってくるクエリに応じて調整）
-          image_url = image_url.gsub(/=s\d+-c$/, "=s256-c")
-          image_url = image_url.sub(/\?sz=\d+/, "?sz=256") unless image_url.include?("sz=")
+      # confirmable を使っているなら必要に応じて
+      user.skip_confirmation! if user.respond_to?(:skip_confirmation!) && user.confirmed_at.blank?
 
-          begin
-            file = URI.open(image_url)  # ネットワーク例外の可能性あり
-            content_type = file.content_type.presence || "image/jpeg"
-            user.avatar.attach(
-              io: file,
-              filename: "avatar-#{user.id}.jpg",
-              content_type: content_type
-            )
-          rescue => e
-            Rails.logger.warn("[OAuth Avatar] download failed: #{e.class} #{e.message}")
-          end
-        end
-      end
+      attach_google_avatar!(user, auth)
 
       if user.save
-        remember_me(user)
-        sign_in_and_redirect user, event: :authentication
-        set_flash_message(:notice, :success, kind: "Google") if is_navigational_format?
+        sign_in(user)
+        redirect_to root_path, notice: "Googleでログインしました。"
       else
-        redirect_to new_user_session_path, alert: "Google ログインに失敗しました。"
+        Rails.logger.warn("[OAuth] save failed: #{user.errors.full_messages.join(', ')}")
+        redirect_to new_user_session_path, alert: "Google ログインに失敗しました。入力内容をご確認ください。"
       end
     end
 
     def failure
-      redirect_to root_path, alert: "Google ログインに失敗しました。"
+      redirect_to new_user_session_path, alert: "Google ログインに失敗しました。"
+    end
+
+    private
+
+    def attach_google_avatar!(user, auth)
+      return if user.avatar.attached?
+
+      image_url = auth.dig("info", "image") || auth.dig("extra", "raw_info", "picture")
+      return if image_url.blank?
+
+      # サイズ調整（来るURL形式に合わせて）
+      image_url = image_url.gsub(/=s\d+-c$/, "=s256-c")
+      image_url = image_url.sub(/\?sz=\d+/, "?sz=256") unless image_url.include?("sz=")
+
+      file = URI.open(image_url)
+      user.avatar.attach(
+        io: file,
+        filename: "avatar.jpg",
+        content_type: file.content_type.presence || "image/jpeg"
+      )
+    rescue => e
+      Rails.logger.warn("[OAuth Avatar] download failed: #{e.class} #{e.message}")
     end
   end
 end

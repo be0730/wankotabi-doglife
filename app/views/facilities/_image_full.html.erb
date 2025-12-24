@@ -1,9 +1,9 @@
-<div class="js-swiper container mx-auto max-w-5xl">
-  <div class="swiper h-full min-h-0">
-    <div class="swiper-wrapper h-full min-h-0">
+<div class="js-swiper container mx-auto max-w-5xl bg-white">
+  <div class="swiper h-full min-h-0 bg-white">
+    <div class="swiper-wrapper h-full min-h-0 bg-white">
       <% if facility.images.attached? %>
         <% facility.images.attachments.order('active_storage_attachments.created_at ASC, active_storage_attachments.id ASC').each do |img| %>
-          <div class="swiper-slide h-full min-h-0">
+          <div class="swiper-slide h-full min-h-0 bg-white">
             <div class="relative aspect-[4/3] rounded-md bg-white overflow-hidden">
               <div class="absolute inset-0 flex items-center justify-center p-2">
                 <% begin %>
@@ -11,30 +11,30 @@
                   <% medium_avif = img.variant(resize_to_limit: [1200, 900],  format: :avif, saver: { quality: 50 }) %>
                   <% large_avif  = img.variant(resize_to_limit: [1600, 1200], format: :avif, saver: { quality: 50 }) %>
 
-                  <% small_png  = img.variant(resize_to_limit: [480, 360],  format: :png, saver: { compression: 9 }) %>
-                  <% medium_png = img.variant(resize_to_limit: [768, 576],  format: :png, saver: { compression: 9 }) %>
-                  <% large_png  = img.variant(resize_to_limit: [1280, 960], format: :png, saver: { compression: 9 }) %>
+                  <% small_jpg  = img.variant(resize_to_limit: [900,  600],  format: :jpg, saver: { quality: 75 }) %>
+                  <% medium_jpg = img.variant(resize_to_limit: [1200, 900],  format: :jpg, saver: { quality: 75 }) %>
+                  <% large_jpg  = img.variant(resize_to_limit: [1600, 1200], format: :jpg, saver: { quality: 75 }) %>
 
-                  <%= picture_tag url_for(large_png),
-                        class: "block h-full w-full",  # ← 重要
+                  <%= picture_tag url_for(large_jpg),
+                        class: "block h-full w-full",
                         sources: [
                           {
                             srcset: [
-                              "#{url_for small_avif} 768w",
-                              "#{url_for medium_avif} 1200w",
-                              "#{url_for large_avif} 1600w"
+                              "#{url_for(small_avif)} 900w",
+                              "#{url_for(medium_avif)} 1200w",
+                              "#{url_for(large_avif)} 1600w"
                             ].join(", "),
                             type:  "image/avif",
-                            sizes: "(max-width: 1024px) 768px, (max-width: 1280px) 1200px, 1600px"
+                            sizes: "(max-width: 1024px) 900px, (max-width: 1280px) 1200px, 1600px"
                           },
                           {
                             srcset: [
-                              "#{url_for small_png} 768w",
-                              "#{url_for medium_png} 1200w",
-                              "#{url_for large_png} 1600w"
+                              "#{url_for(small_jpg)} 900w",
+                              "#{url_for(medium_jpg)} 1200w",
+                              "#{url_for(large_jpg)} 1600w"
                             ].join(", "),
-                            type:  "image/png",
-                            sizes: "(max-width: 1024px) 768px, (max-width: 1280px) 1200px, 1600px"
+                            type:  "image/jpeg",
+                            sizes: "(max-width: 1024px) 900px, (max-width: 1280px) 1200px, 1600px"
                           }
                         ],
                         img: {

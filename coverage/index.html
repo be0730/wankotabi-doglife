@@ -13,7 +13,7 @@
       <img src="./assets/0.13.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2025-12-23T14:12:05+09:00">2025-12-23T14:12:05+09:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2025-12-24T14:11:47+09:00">2025-12-24T14:11:47+09:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -22,14 +22,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="red">
-  57.22%
+  56.62%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         3.49
+         3.46
        </span>
     </span> hits/line
     )
@@ -42,11 +42,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>381</b> relevant lines,
+    <b>385</b> relevant lines,
     <span class="green"><b>218</b> lines covered</span> and
-    <span class="red"><b>163</b> lines missed. </span>
+    <span class="red"><b>167</b> lines missed. </span>
     (<span class="red">
-  57.22%
+  56.62%
 </span>
 )
   </div>
@@ -116,10 +116,10 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#e89cefb011c28ab7a0516a073f59517a1728230b" class="src_link" title="app/controllers/users/omniauth_callbacks_controller.rb">app/controllers/users/omniauth_callbacks_controller.rb</a></td>
             <td class="red strong cell--number t-file__coverage">0.00 %</td>
-            <td class="cell--number">54</td>
-            <td class="cell--number">43</td>
+            <td class="cell--number">65</td>
+            <td class="cell--number">47</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">43</td>
+            <td class="cell--number">47</td>
             <td class="cell--number">0.00</td>
             
           </tr>
@@ -312,14 +312,14 @@
     <span class="group_name">Controllers</span>
     (<span class="covered_percent">
       <span class="red">
-  35.38%
+  34.72%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.89
+         0.87
        </span>
     </span> hits/line
     )
@@ -332,11 +332,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>212</b> relevant lines,
+    <b>216</b> relevant lines,
     <span class="green"><b>75</b> lines covered</span> and
-    <span class="red"><b>137</b> lines missed. </span>
+    <span class="red"><b>141</b> lines missed. </span>
     (<span class="red">
-  35.38%
+  34.72%
 </span>
 )
   </div>
@@ -406,10 +406,10 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#e89cefb011c28ab7a0516a073f59517a1728230b" class="src_link" title="app/controllers/users/omniauth_callbacks_controller.rb">app/controllers/users/omniauth_callbacks_controller.rb</a></td>
             <td class="red strong cell--number t-file__coverage">0.00 %</td>
-            <td class="cell--number">54</td>
-            <td class="cell--number">43</td>
+            <td class="cell--number">65</td>
+            <td class="cell--number">47</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">43</td>
+            <td class="cell--number">47</td>
             <td class="cell--number">0.00</td>
             
           </tr>
@@ -3048,7 +3048,7 @@
 
             
 
-            <code class="ruby">    redirect_to facilities_path, status: :see_other, success: &quot;施設を削除しました。&quot;</code>
+            <code class="ruby">    redirect_to facilities_path, status: :see_other, notice: &quot;施設を削除しました。&quot;</code>
           </li>
         </div>
       
@@ -3948,9 +3948,9 @@
     
 
     <div class="t-line-summary">
-      <b>43</b> relevant lines.
+      <b>47</b> relevant lines.
       <span class="green"><b>0</b> lines covered</span> and
-      <span class="red"><b>43</b> lines missed.</span>
+      <span class="red"><b>47</b> lines missed.</span>
     </div>
 
     
@@ -4006,17 +4006,17 @@
 
             
 
-            <code class="ruby">    include Devise::Controllers::Rememberable</code>
+            <code class="ruby">    def google_oauth2</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="6">
+          <li class="missed" data-hits="0" data-linenumber="6">
             
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      auth  = request.env[&quot;omniauth.auth&quot;]</code>
           </li>
         </div>
       
@@ -4026,17 +4026,17 @@
 
             
 
-            <code class="ruby">    def google_oauth2</code>
+            <code class="ruby">      email = auth.dig(&quot;info&quot;, &quot;email&quot;)</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="8">
+          <li class="never" data-hits="" data-linenumber="8">
             
 
             
 
-            <code class="ruby">      info = request.env[&quot;omniauth.auth&quot;]</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -4046,7 +4046,7 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      # 1) provider/uid で探す → なければ email で既存ユーザーを拾って紐付け</code>
           </li>
         </div>
       
@@ -4056,7 +4056,7 @@
 
             
 
-            <code class="ruby">      user = User.find_or_initialize_by(provider: info[&quot;provider&quot;], uid: info[&quot;uid&quot;])</code>
+            <code class="ruby">      user = User.find_by(provider: auth[&quot;provider&quot;], uid: auth[&quot;uid&quot;]) ||</code>
           </li>
         </div>
       
@@ -4066,27 +4066,27 @@
 
             
 
-            <code class="ruby">      if user.new_record?</code>
+            <code class="ruby">             User.find_by(email: email) ||</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="12">
+          <li class="missed" data-hits="0" data-linenumber="12">
             
 
             
 
-            <code class="ruby">        # メール必須のアプリならメールで既存ユーザーをマージしてもOK</code>
+            <code class="ruby">             User.new</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="13">
+          <li class="never" data-hits="" data-linenumber="13">
             
 
             
 
-            <code class="ruby">        user.email = info.dig(&quot;info&quot;, &quot;email&quot;)</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -4096,27 +4096,27 @@
 
             
 
-            <code class="ruby">        user.name  = info.dig(&quot;info&quot;, &quot;name&quot;) if user.respond_to?(:name)</code>
+            <code class="ruby">      user.provider = auth[&quot;provider&quot;]</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="15">
+          <li class="missed" data-hits="0" data-linenumber="15">
             
 
             
 
-            <code class="ruby">        # パスワード不要なためランダムパスワードを設定</code>
+            <code class="ruby">      user.uid      = auth[&quot;uid&quot;]</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="16">
+          <li class="never" data-hits="" data-linenumber="16">
             
 
             
 
-            <code class="ruby">        user.password = Devise.friendly_token[0, 20]</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -4126,17 +4126,17 @@
 
             
 
-            <code class="ruby">      end</code>
+            <code class="ruby">      user.email = email if user.email.blank?</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="18">
+          <li class="missed" data-hits="0" data-linenumber="18">
             
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      user.name  = auth.dig(&quot;info&quot;, &quot;name&quot;) if user.respond_to?(:name) &amp;&amp; user.name.blank?</code>
           </li>
         </div>
       
@@ -4146,17 +4146,17 @@
 
             
 
-            <code class="ruby">      # 画像添付：まだavatar未設定で、Googleから画像URLが来ていれば保存</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="20">
+          <li class="never" data-hits="" data-linenumber="20">
             
 
             
 
-            <code class="ruby">      if user.avatar.blank?</code>
+            <code class="ruby">      # password 必須バリデーションがある場合の保険</code>
           </li>
         </div>
       
@@ -4166,7 +4166,7 @@
 
             
 
-            <code class="ruby">        image_url = info.dig(&quot;info&quot;, &quot;image&quot;) || info.dig(&quot;extra&quot;, &quot;raw_info&quot;, &quot;picture&quot;)</code>
+            <code class="ruby">      if user.encrypted_password.blank?</code>
           </li>
         </div>
       
@@ -4176,42 +4176,22 @@
 
             
 
-            <code class="ruby">        if image_url.present?</code>
+            <code class="ruby">        user.password = Devise.friendly_token[0, 20]</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="23">
+          <li class="missed" data-hits="0" data-linenumber="23">
             
 
             
 
-            <code class="ruby">          # サイズを強制したい場合（返ってくるクエリに応じて調整）</code>
+            <code class="ruby">      end</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="24">
-            
-
-            
-
-            <code class="ruby">          image_url = image_url.gsub(/=s\d+-c$/, &quot;=s256-c&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="25">
-            
-
-            
-
-            <code class="ruby">          image_url = image_url.sub(/\?sz=\d+/, &quot;?sz=256&quot;) unless image_url.include?(&quot;sz=&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="26">
+          <li class="never" data-hits="" data-linenumber="24">
             
 
             
@@ -4221,12 +4201,32 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="27">
+          <li class="never" data-hits="" data-linenumber="25">
             
 
             
 
-            <code class="ruby">          begin</code>
+            <code class="ruby">      # confirmable を使っているなら必要に応じて</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="26">
+            
+
+            
+
+            <code class="ruby">      user.skip_confirmation! if user.respond_to?(:skip_confirmation!) &amp;&amp; user.confirmed_at.blank?</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="27">
+            
+
+            
+
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -4236,17 +4236,17 @@
 
             
 
-            <code class="ruby">            file = URI.open(image_url)  # ネットワーク例外の可能性あり</code>
+            <code class="ruby">      attach_google_avatar!(user, auth)</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="29">
+          <li class="never" data-hits="" data-linenumber="29">
             
 
             
 
-            <code class="ruby">            content_type = file.content_type.presence || &quot;image/jpeg&quot;</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -4256,7 +4256,7 @@
 
             
 
-            <code class="ruby">            user.avatar.attach(</code>
+            <code class="ruby">      if user.save</code>
           </li>
         </div>
       
@@ -4266,7 +4266,7 @@
 
             
 
-            <code class="ruby">              io: file,</code>
+            <code class="ruby">        sign_in(user)</code>
           </li>
         </div>
       
@@ -4276,7 +4276,7 @@
 
             
 
-            <code class="ruby">              filename: &quot;avatar-#{user.id}.jpg&quot;,</code>
+            <code class="ruby">        redirect_to root_path, notice: &quot;Googleでログインしました。&quot;</code>
           </li>
         </div>
       
@@ -4286,7 +4286,7 @@
 
             
 
-            <code class="ruby">              content_type: content_type</code>
+            <code class="ruby">      else</code>
           </li>
         </div>
       
@@ -4296,7 +4296,7 @@
 
             
 
-            <code class="ruby">            )</code>
+            <code class="ruby">        Rails.logger.warn(&quot;[OAuth] save failed: #{user.errors.full_messages.join(&#39;, &#39;)}&quot;)</code>
           </li>
         </div>
       
@@ -4306,7 +4306,7 @@
 
             
 
-            <code class="ruby">          rescue =&gt; e</code>
+            <code class="ruby">        redirect_to new_user_session_path, alert: &quot;Google ログインに失敗しました。入力内容をご確認ください。&quot;</code>
           </li>
         </div>
       
@@ -4316,7 +4316,7 @@
 
             
 
-            <code class="ruby">            Rails.logger.warn(&quot;[OAuth Avatar] download failed: #{e.class} #{e.message}&quot;)</code>
+            <code class="ruby">      end</code>
           </li>
         </div>
       
@@ -4326,17 +4326,17 @@
 
             
 
-            <code class="ruby">          end</code>
+            <code class="ruby">    end</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="38">
+          <li class="never" data-hits="" data-linenumber="38">
             
 
             
 
-            <code class="ruby">        end</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -4346,17 +4346,17 @@
 
             
 
-            <code class="ruby">      end</code>
+            <code class="ruby">    def failure</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="40">
+          <li class="missed" data-hits="0" data-linenumber="40">
             
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      redirect_to new_user_session_path, alert: &quot;Google ログインに失敗しました。&quot;</code>
           </li>
         </div>
       
@@ -4366,82 +4366,12 @@
 
             
 
-            <code class="ruby">      if user.save</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="42">
-            
-
-            
-
-            <code class="ruby">        remember_me(user)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="43">
-            
-
-            
-
-            <code class="ruby">        sign_in_and_redirect user, event: :authentication</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="44">
-            
-
-            
-
-            <code class="ruby">        set_flash_message(:notice, :success, kind: &quot;Google&quot;) if is_navigational_format?</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="45">
-            
-
-            
-
-            <code class="ruby">      else</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="46">
-            
-
-            
-
-            <code class="ruby">        redirect_to new_user_session_path, alert: &quot;Google ログインに失敗しました。&quot;</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="47">
-            
-
-            
-
-            <code class="ruby">      end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="48">
-            
-
-            
-
             <code class="ruby">    end</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="49">
+          <li class="never" data-hits="" data-linenumber="42">
             
 
             
@@ -4451,22 +4381,92 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="50">
+          <li class="missed" data-hits="0" data-linenumber="43">
             
 
             
 
-            <code class="ruby">    def failure</code>
+            <code class="ruby">    private</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="51">
+          <li class="never" data-hits="" data-linenumber="44">
             
 
             
 
-            <code class="ruby">      redirect_to root_path, alert: &quot;Google ログインに失敗しました。&quot;</code>
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="45">
+            
+
+            
+
+            <code class="ruby">    def attach_google_avatar!(user, auth)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="46">
+            
+
+            
+
+            <code class="ruby">      return if user.avatar.attached?</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="47">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="48">
+            
+
+            
+
+            <code class="ruby">      image_url = auth.dig(&quot;info&quot;, &quot;image&quot;) || auth.dig(&quot;extra&quot;, &quot;raw_info&quot;, &quot;picture&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="49">
+            
+
+            
+
+            <code class="ruby">      return if image_url.blank?</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="50">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="51">
+            
+
+            
+
+            <code class="ruby">      # サイズ調整（来るURL形式に合わせて）</code>
           </li>
         </div>
       
@@ -4476,7 +4476,7 @@
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">      image_url = image_url.gsub(/=s\d+-c$/, &quot;=s256-c&quot;)</code>
           </li>
         </div>
       
@@ -4486,12 +4486,122 @@
 
             
 
+            <code class="ruby">      image_url = image_url.sub(/\?sz=\d+/, &quot;?sz=256&quot;) unless image_url.include?(&quot;sz=&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="54">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="55">
+            
+
+            
+
+            <code class="ruby">      file = URI.open(image_url)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="56">
+            
+
+            
+
+            <code class="ruby">      user.avatar.attach(</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="57">
+            
+
+            
+
+            <code class="ruby">        io: file,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="58">
+            
+
+            
+
+            <code class="ruby">        filename: &quot;avatar.jpg&quot;,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="59">
+            
+
+            
+
+            <code class="ruby">        content_type: file.content_type.presence || &quot;image/jpeg&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="60">
+            
+
+            
+
+            <code class="ruby">      )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="61">
+            
+
+            
+
+            <code class="ruby">    rescue =&gt; e</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="62">
+            
+
+            
+
+            <code class="ruby">      Rails.logger.warn(&quot;[OAuth Avatar] download failed: #{e.class} #{e.message}&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="63">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="64">
+            
+
+            
+
             <code class="ruby">  end</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="54">
+          <li class="missed" data-hits="0" data-linenumber="65">
             
 
             

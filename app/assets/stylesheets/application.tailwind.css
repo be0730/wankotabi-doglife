@@ -60,3 +60,9 @@
 #picker-map .gm-style > div[style*="z-index: 107"] {
   pointer-events: none !important;
 }
+
+@layer components {
+  .facility-rows a {
+    @apply text-blue-600 underline hover:text-blue-800;
+  }
+}
