@@ -113,7 +113,7 @@ end
   # DELETE /facilities/1
   def destroy
     @facility.destroy
-    redirect_to facilities_path, status: :see_other, success: "施設を削除しました。"
+    redirect_to facilities_path, status: :see_other, notice: "施設を削除しました。"
   end
 
   def favorites
