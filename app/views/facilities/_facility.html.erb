@@ -38,7 +38,9 @@
       <div class="mt-2 space-y-1 text-lg text-gray-900">
         <% p = ::FacilityPresenter.new(facility, view_context: self) %>
         <% context = current_page?(facility_path(facility)) ? :show : :index %>
-        <%= render_facility_rows(p.rows(context: context)) %>
+        <div class="facility-rows mt-2 space-y-1 text-lg text-gray-900">
+          <%= render_facility_rows(p.rows(context: context)) %>
+        </div>
       </div>
 
       <% if facility.tags.any? %>
