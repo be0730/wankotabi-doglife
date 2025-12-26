@@ -82,6 +82,7 @@
 | VCS | github|
 
 ### ・画面遷移図
+https://www.figma.com/design/gx9Oif4cW0cVPMLRsoh8id/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3%EF%BC%88%E3%82%8F%E3%82%93%E3%81%93%E3%81%9F%E3%81%B3%EF%BC%89?node-id=0-1&t=eFqXpk7qf6UnKC95-1
 
 ### ・ER図
 <img width="10735" height="10033" alt="ER図（わんこたび）" src="https://github.com/user-attachments/assets/7ff07f8e-28a4-4b54-ba86-190823d64cb7" />
