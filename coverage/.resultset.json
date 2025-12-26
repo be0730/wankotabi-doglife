@@ -80,9 +80,17 @@
           null,
           null,
           1,
-          18,
-          18,
-          18,
+          0,
+          null,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           null,
@@ -833,6 +841,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1766624820
+    "timestamp": 1766712421
   }
 }

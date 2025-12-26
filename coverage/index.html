@@ -13,7 +13,7 @@
       <img src="./assets/0.13.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2025-12-25T10:07:00+09:00">2025-12-25T10:07:00+09:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2025-12-26T10:27:01+09:00">2025-12-26T10:27:01+09:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -22,14 +22,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="red">
-  56.62%
+  55.7%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         3.46
+         3.31
        </span>
     </span> hits/line
     )
@@ -42,11 +42,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>385</b> relevant lines,
-    <span class="green"><b>218</b> lines covered</span> and
-    <span class="red"><b>167</b> lines missed. </span>
+    <b>386</b> relevant lines,
+    <span class="green"><b>215</b> lines covered</span> and
+    <span class="red"><b>171</b> lines missed. </span>
     (<span class="red">
-  56.62%
+  55.7%
 </span>
 )
   </div>
@@ -170,12 +170,12 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#da02bb2862606db064acdcc1c21453554b3b439a" class="src_link" title="app/helpers/facilities_helper.rb">app/helpers/facilities_helper.rb</a></td>
-            <td class="yellow strong cell--number t-file__coverage">85.71 %</td>
-            <td class="cell--number">18</td>
-            <td class="cell--number">7</td>
-            <td class="cell--number">6</td>
-            <td class="cell--number">1</td>
-            <td class="cell--number">8.14</td>
+            <td class="red strong cell--number t-file__coverage">37.50 %</td>
+            <td class="cell--number">26</td>
+            <td class="cell--number">8</td>
+            <td class="cell--number">3</td>
+            <td class="cell--number">5</td>
+            <td class="cell--number">0.38</td>
             
           </tr>
         
@@ -730,15 +730,15 @@
   <h2>
     <span class="group_name">Helpers</span>
     (<span class="covered_percent">
-      <span class="green">
-  92.31%
+      <span class="yellow">
+  82.5%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         13.79
+         12.1
        </span>
     </span> hits/line
     )
@@ -751,11 +751,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>39</b> relevant lines,
-    <span class="green"><b>36</b> lines covered</span> and
-    <span class="red"><b>3</b> lines missed. </span>
-    (<span class="green">
-  92.31%
+    <b>40</b> relevant lines,
+    <span class="green"><b>33</b> lines covered</span> and
+    <span class="red"><b>7</b> lines missed. </span>
+    (<span class="yellow">
+  82.5%
 </span>
 )
   </div>
@@ -791,12 +791,12 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#da02bb2862606db064acdcc1c21453554b3b439a" class="src_link" title="app/helpers/facilities_helper.rb">app/helpers/facilities_helper.rb</a></td>
-            <td class="yellow strong cell--number t-file__coverage">85.71 %</td>
-            <td class="cell--number">18</td>
-            <td class="cell--number">7</td>
-            <td class="cell--number">6</td>
-            <td class="cell--number">1</td>
-            <td class="cell--number">8.14</td>
+            <td class="red strong cell--number t-file__coverage">37.50 %</td>
+            <td class="cell--number">26</td>
+            <td class="cell--number">8</td>
+            <td class="cell--number">3</td>
+            <td class="cell--number">5</td>
+            <td class="cell--number">0.38</td>
             
           </tr>
         
@@ -5779,8 +5779,8 @@
   <div class="header">
     <h3>app/helpers/facilities_helper.rb</h3>
     <h4>
-      <span class="yellow">
-  85.71%
+      <span class="red">
+  37.5%
 </span>
 
       lines covered
@@ -5789,9 +5789,9 @@
     
 
     <div class="t-line-summary">
-      <b>7</b> relevant lines.
-      <span class="green"><b>6</b> lines covered</span> and
-      <span class="red"><b>1</b> lines missed.</span>
+      <b>8</b> relevant lines.
+      <span class="green"><b>3</b> lines covered</span> and
+      <span class="red"><b>5</b> lines missed.</span>
     </div>
 
     
@@ -5908,38 +5908,32 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="11">
-            
-              <span class="hits">18</span>
+          <li class="missed" data-hits="0" data-linenumber="11">
             
 
             
 
-            <code class="ruby">    safe_join(rows.map { |label, val|</code>
+            <code class="ruby">    safe_join(</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="12">
-            
-              <span class="hits">18</span>
+          <li class="never" data-hits="" data-linenumber="12">
             
 
             
 
-            <code class="ruby">      content_tag(:div, class: &quot;flex gap-1&quot;) do</code>
+            <code class="ruby">      rows.map do |label, val|</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="13">
-            
-              <span class="hits">18</span>
+          <li class="missed" data-hits="0" data-linenumber="13">
             
 
             
 
-            <code class="ruby">        content_tag(:span, &quot;#{label}：&quot;, class: &quot;font-normal&quot;) +</code>
+            <code class="ruby">        safe_val = val.is_a?(ActiveSupport::SafeBuffer) ? val : h(val.to_s)</code>
           </li>
         </div>
       
@@ -5949,27 +5943,27 @@
 
             
 
-            <code class="ruby">        content_tag(:span, val.to_s.html_safe)</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="15">
+          <li class="missed" data-hits="0" data-linenumber="15">
             
 
             
 
-            <code class="ruby">      end</code>
+            <code class="ruby">        content_tag(:div, class: &quot;grid grid-cols-[auto,1fr] gap-x-1 min-w-0&quot;) do</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="16">
+          <li class="missed" data-hits="0" data-linenumber="16">
             
 
             
 
-            <code class="ruby">    })</code>
+            <code class="ruby">          content_tag(:span, &quot;#{label}：&quot;, class: &quot;font-normal shrink-0&quot;) +</code>
           </li>
         </div>
       
@@ -5979,12 +5973,92 @@
 
             
 
-            <code class="ruby">  end</code>
+            <code class="ruby">            content_tag(</code>
           </li>
         </div>
       
         <div>
           <li class="never" data-hits="" data-linenumber="18">
+            
+
+            
+
+            <code class="ruby">              :span,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="19">
+            
+
+            
+
+            <code class="ruby">              safe_val,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="20">
+            
+
+            
+
+            <code class="ruby">              class: &quot;min-w-0 [overflow-wrap:anywhere] break-words whitespace-normal [&amp;_a]:[overflow-wrap:anywhere] [&amp;_a]:break-words [&amp;_a]:whitespace-normal&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="21">
+            
+
+            
+
+            <code class="ruby">            )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="22">
+            
+
+            
+
+            <code class="ruby">        end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="23">
+            
+
+            
+
+            <code class="ruby">      end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="24">
+            
+
+            
+
+            <code class="ruby">    )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="25">
+            
+
+            
+
+            <code class="ruby">  end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="26">
             
 
             
