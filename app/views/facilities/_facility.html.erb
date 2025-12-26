@@ -38,8 +38,20 @@
       <div class="mt-2 space-y-1 text-lg text-gray-900">
         <% p = ::FacilityPresenter.new(facility, view_context: self) %>
         <% context = current_page?(facility_path(facility)) ? :show : :index %>
-        <div class="facility-rows mt-2 space-y-1 text-lg text-gray-900">
-          <%= render_facility_rows(p.rows(context: context)) %>
+        <div class="facility-rows mt-2 space-y-1 text-lg text-gray-900 min-w-0">
+          <% p.rows(context: context).each do |label, val| %>
+            <% safe_val = val.is_a?(ActiveSupport::SafeBuffer) ? val : h(val.to_s) %>
+
+            <div class="grid grid-cols-[auto,1fr] gap-x-1 min-w-0">
+              <span class="shrink-0 font-normal"><%= label %>：</span>
+
+              <span
+                class="min-w-0 whitespace-normal overflow-hidden [overflow-wrap:anywhere] break-words
+                      [&_a]:[overflow-wrap:anywhere] [&_a]:break-words [&_a]:whitespace-normal">
+                <%= safe_val %>
+              </span>
+            </div>
+          <% end %>
         </div>
       </div>
 

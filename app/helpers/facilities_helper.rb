@@ -8,11 +8,19 @@ module FacilitiesHelper
   end
 
   def render_facility_rows(rows)
-    safe_join(rows.map { |label, val|
-      content_tag(:div, class: "flex gap-1") do
-        content_tag(:span, "#{label}：", class: "font-normal") +
-        content_tag(:span, val.to_s.html_safe)
+    safe_join(
+      rows.map do |label, val|
+        safe_val = val.is_a?(ActiveSupport::SafeBuffer) ? val : h(val.to_s)
+
+        content_tag(:div, class: "grid grid-cols-[auto,1fr] gap-x-1 min-w-0") do
+          content_tag(:span, "#{label}：", class: "font-normal shrink-0") +
+            content_tag(
+              :span,
+              safe_val,
+              class: "min-w-0 [overflow-wrap:anywhere] break-words whitespace-normal [&_a]:[overflow-wrap:anywhere] [&_a]:break-words [&_a]:whitespace-normal"
+            )
+        end
       end
-    })
+    )
   end
 end
