@@ -43,14 +43,18 @@
 
 **ログイン不要で利用できる機能**<br>
 | 投稿一覧 | 投稿検索 | 投稿詳細 |
-
-| 投稿一覧（ログイン前）.mov | 投稿検索 | 投稿詳細 |
+| ![投稿一覧（ログイン前）](https://github.com/user-attachments/assets/1bc11dbc-3ebd-4faf-adbd-6fed9cb1403e)
+ | ![投稿検索（ログイン前）](https://github.com/user-attachments/assets/0e7f4c6c-cadd-499e-ac8c-06d658018369)
+ | ![投稿詳細（ログイン前）](https://github.com/user-attachments/assets/40ae71ad-ccbf-46dd-83f5-8ba569256ab9)
+ |
 
 
 **ログイン後に利用できる機能**<br>
 | 新規投稿 | お気に入り | コメント |
-
-| 投稿一覧 | 投稿検索 | 投稿詳細 |
+| ![新規投稿（ログイン後）](https://github.com/user-attachments/assets/5771967b-03c7-4940-bbb2-92dce78f5507)
+ | ![お気に入り（ログイン後）](https://github.com/user-attachments/assets/265d2931-4281-49b3-b861-e6407946250d)
+ | ![コメント（ログイン後）](https://github.com/user-attachments/assets/a5250f3a-9315-4b67-960f-94a31416c6ad)
+ |
 
 
 ### ・機能の実装方針予定
@@ -69,7 +73,7 @@
 
 | カテゴリ | 技術 |
 | ---- | ---- |
-| フロントエンド | TailwindCSS 3.4.17 / daisyUI / Hotwire / Javascript|
+| フロントエンド | TailwindCSS 3.4.17 / Hotwire / Javascript|
 | バックエンド | Ruby 3.3.6 / Rails 8.0.2|
 | データベース | PostgreSQL|
 | インフラ | Render|
@@ -80,3 +84,5 @@
 ### ・画面遷移図
 
 ### ・ER図
+<img width="10735" height="10033" alt="ER図（わんこたび）" src="https://github.com/user-attachments/assets/7ff07f8e-28a4-4b54-ba86-190823d64cb7" />
+
