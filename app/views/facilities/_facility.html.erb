@@ -1,48 +1,84 @@
-<div id="<%= dom_id(facility) %>" class="mx-12 my-2 rounded-md border border-gray-200 bg-white p-4 shadow-sm">
-  <div class="flex items-start justify-between gap-4">
-    <h3 class="truncate text-lg font-semibold text-gray-900"><%= facility.title %></h3>
-    <span class="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-xl text-gray-700">
-      <%= t("enums.facility.category.#{facility.category}", default: facility.category) %>
-    </span>
-  </div>
+<div id="<%= dom_id(facility) %>"
+    class="relative my-2 md:my-3
+          rounded-none md:rounded-md   <!-- スマホは端まで、md以上で角丸 -->
+          border-0 md:border md:border-gray-200
+          bg-white p-4 shadow-sm
+          min-w-0"> <!-- 重要：子の truncate が効くように -->
+  <div class="flex flex-col gap-6">
 
-  <% if facility.images.attached? %>
-    <% begin %>
-      <%= image_tag facility.images.first.variant(resize_to_limit: [400, 300]).processed,
-            class: "block max-h-[300px] max-w-full rounded-md" %>
-    <% rescue ActiveStorage::FileNotFoundError, Errno::ENOENT %>
-      <%= image_tag "sample.png", class: "block max-h-[300px] max-w-full rounded-md" %>
+    <% unless current_page?(facility_path(facility)) %>
+      <%= link_to facility_path(facility),
+                  data: { turbo_frame: "_top" },
+                  class: "absolute inset-0 z-10 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+      <% end %>
     <% end %>
-  <% else %>
-    <%= image_tag "sample.png", class: "block max-h-[300px] max-w-full rounded-md" %>
-  <% end %>
 
-  <div class="mt-2 space-y-1 text-lg text-gray-900">
-    <p><%= t('form.address_info.address') %>：<%= facility.respond_to?(:full_address) ? facility.full_address : [facility.prefecture_name, facility.city, facility.street, facility.building].compact.join %></p>
-    <p><%= t('form.basic_info.overview') %>：<%= facility.overview %></p>
-    <p><%= t('form.phone_hours_info.phone_number') %>：<%= facility.phone_number %></p>
-    <p><%= t('form.phone_hours_info.business_hours') %>：<%= facility.business_hours %></p>
-    <p><%= t('form.phone_hours_info.closed_day') %>：<%= facility.closed_day %></p>
-    <p><%= t('form.url_info.homepage') %>：<%= facility.homepage_url %></p>
-    <p><%= t('form.url_info.instagram') %>：<%= facility.instagram_url %></p>
-    <p><%= t('form.url_info.facebook') %>：<%= facility.facebook_url %></p>
-    <p><%= t('form.url_info.x_twitter') %>：<%= facility.x_url %></p>
-    <p><%= t('form.supplement') %>：<%= facility.supplement %></p>
+    <!-- １段目：カテゴリ ＋ 画像 -->
+    <div class="flex items-start justify-end gap-4">
+      <span class="shrink-0 px-2 py-0.5 text-xl rounded-full
+        <%= case facility.category.to_s
+            when "accommodation" then "bg-green-100 text-green-800"
+            when "restaurant"    then "bg-red-100 text-red-800"
+            when "leisure"       then "bg-blue-100 text-blue-800"
+            when "shop"          then "bg-purple-100 text-purple-800"
+            else "bg-gray-100 text-gray-700"
+            end %>">
+        <%= t("enums.facility.category.#{facility.category}", default: facility.category) %>
+      </span>
+    </div>
+
+    <div class="relative z-20">
+      <%= render partial: (local_assigns[:full_image] ? "facilities/image_full" : "facilities/image_small"),
+                locals: { facility: facility } %>
+    </div>
+
+    <!-- ２段目：タイトル以下投稿内容（一覧時はタイトル、郵便番号、住所のみ）＋ タグ ＋ お気に入りボタン -->
+    <h3 class="truncate text-lg font-semibold text-gray-900 mb-2"><%= facility.title %></h3>
+    <div class="flex flex-col min-w-0">
+      <div class="mt-2 space-y-1 text-lg text-gray-900">
+        <% p = ::FacilityPresenter.new(facility, view_context: self) %>
+        <% context = current_page?(facility_path(facility)) ? :show : :index %>
+        <div class="facility-rows mt-2 space-y-1 text-lg text-gray-900 min-w-0">
+          <% p.rows(context: context).each do |label, val| %>
+            <% safe_val = val.is_a?(ActiveSupport::SafeBuffer) ? val : h(val.to_s) %>
+
+            <div class="grid grid-cols-[auto,1fr] gap-x-1 min-w-0">
+              <span class="shrink-0 font-normal"><%= label %>：</span>
+
+              <span
+                class="min-w-0 whitespace-normal overflow-hidden [overflow-wrap:anywhere] break-words
+                      [&_a]:[overflow-wrap:anywhere] [&_a]:break-words [&_a]:whitespace-normal">
+                <%= safe_val %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <% if facility.tags.any? %>
+        <div class="my-4 flex flex-wrap gap-2">
+          <% facility.tags.each do |tag| %>
+            <span class="inline-flex items-center gap-1 px-2 text-xs text-gray-700">
+              <%= image_tag tag.icon_asset_path, class: "h-12 w-12" %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if user_signed_in? && facility.user_id != current_user.id %>
+        <div class="mt-3 ml-auto text-end relative z-20 pointer-events-auto" id="<%= dom_id(facility, :favorite_buttons) %>">
+          <%= render "facilities/favorite_buttons", facility: facility %>
+        </div>
+      <% end %>
+
+      <!-- 施設詳細ページでは投稿者情報を表示させない -->
+      <% unless current_page?(facility_path(facility)) %>
+        <div class="mt-4 flex justify-end md:mt-auto"> <!-- CHANGED: md 以上で下寄せ（mt-auto） -->
+          <div class="min-w-0 flex-1 items-start">
+            <%= user_badge(facility.user, size: 32) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-
-  <% if user_signed_in? && facility.user_id != current_user.id %>
-    <div class="ms-auto text-end " id="<%= dom_id(facility, :favorite_buttons) %>">
-      <%= render "facilities/favorite_buttons", facility: facility %>
-    </div>
-  <% end %>
-
-  <!-- 施設詳細ページでは詳細ボタンを表示させない -->
-  <% unless current_page?(facility_path(facility)) %>
-    <div class="mt-4 flex items-center justify-end gap-2">
-      <%= link_to t('buttons.detail'), facility_path(facility),
-            class: "inline-block rounded-md bg-gray-100 px-3 py-1.5 text-xl font-medium hover:bg-gray-50" %>
-    </div>
-  <% end %>
 </div>
-

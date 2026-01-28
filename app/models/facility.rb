@@ -4,6 +4,10 @@ class Facility < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many_attached :images
+  MAX_DIM = 2000
+  has_many :facilities_tags, dependent: :destroy
+  has_many :tags, through: :facilities_tags
+  after_commit :downsize_images, on: %i[create update]
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -33,7 +37,7 @@ class Facility < ApplicationRecord
   end
 
   def self.ransackable_associations(_ = nil)
-    %w[user prefecture]
+    %w[user prefecture tags]
   end
 
   # geocoder を使うなら（住所変更時のみジオコーディング）
@@ -42,6 +46,8 @@ class Facility < ApplicationRecord
 
   geocoded_by :full_address
   after_validation :geocode, if: :should_geocode?
+
+  accepts_nested_attributes_for :images_attachments, allow_destroy: true
 
   private
 
@@ -55,5 +61,29 @@ class Facility < ApplicationRecord
     will_save_change_to_city? ||
     will_save_change_to_street? ||
     will_save_change_to_building?
+  end
+
+  def downsize_images
+    images.each do |image|
+      # Blobがなければスキップ
+      blob = image.blob
+      next unless blob
+
+      begin
+        # 実体がS3に存在するかを念のため確認（サービスによってexist?が無い場合は省略可）
+        if blob.service.respond_to?(:exist?) && !blob.service.exist?(blob.key)
+          Rails.logger.warn "[downsize_images] missing on storage: #{blob.key}"
+          next
+        end
+
+        # ここでは「元を圧縮して置き換え」ではなく、必要なvariantを先に生成しておく(キャッシュ)だけ
+        image.variant(resize_to_limit: [ 1600, 1200 ]).processed
+        image.variant(resize_to_limit: [ 1280, 960 ]).processed
+        image.variant(resize_to_limit: [ 768, 576 ]).processed
+      rescue ActiveStorage::FileNotFoundError, Aws::S3::Errors::NoSuchKey => e
+        Rails.logger.warn "[downsize_images] not found #{blob.key}: #{e.class}"
+        next
+      end
+    end
   end
 end

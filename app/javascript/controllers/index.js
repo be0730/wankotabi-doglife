@@ -6,3 +6,12 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import NavbarController from "./navbar_controller"
+application.register("navbar", NavbarController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
+import PrefectureFilterController from "./prefecture_filter_controller"
+application.register("prefecture-filter", PrefectureFilterController)

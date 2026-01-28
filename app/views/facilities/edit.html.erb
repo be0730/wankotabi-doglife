@@ -1,4 +1,6 @@
 <!-- app/views/facilities/edit.html.erb -->
 <% content_for :title, t('edit_facility') %>
-<h1 class="m-6 text-2xl font-bold text-gray-900"><%= t('edit_facility') %></h1>
+<% breadcrumb :facility_edit, @facility %>
+
+<h1 class="mx-auto max-w-7xl px-4 text-2xl font-bold text-gray-900"><%= t('edit_facility') %></h1>
 <%= render "form", facility: @facility %>

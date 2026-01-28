@@ -24,7 +24,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = ENV.fetch("MAILER_SENDER", "no-reply@wankotabi-doglife.com")
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -164,17 +164,20 @@ Devise.setup do |config|
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  # config.remember_for = 2.weeks
+  config.remember_for = 4.weeks
 
   # Invalidates all the remember me tokens when the user signs out.
   config.expire_all_remember_me_on_sign_out = true
 
   # If true, extends the user's remember period when remembered via cookie.
-  # config.extend_remember_period = false
+  config.extend_remember_period = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # secure: true in order to force SSL only cookies.
-  # config.rememberable_options = {}
+  config.rememberable_options = {
+    secure: Rails.env.production?,
+    same_site: :lax
+  }
 
   # ==> Configuration for :validatable
   # Range for password length.
@@ -228,7 +231,7 @@ Devise.setup do |config|
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
-  # config.sign_in_after_reset_password = true
+  config.sign_in_after_reset_password = false
 
   # ==> Configuration for :encryptable
   # Allow you to use another hashing or encryption algorithm besides bcrypt (default).
@@ -272,6 +275,21 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
+  google_client_id     = ENV["GOOGLE_CLIENT_ID"]
+  google_client_secret = ENV["GOOGLE_CLIENT_SECRET"]
+
+  if google_client_id.present? && google_client_secret.present?
+    config.omniauth :google_oauth2,
+      google_client_id,
+      google_client_secret,
+      scope: "email,profile",
+      prompt: "select_account",
+      image_aspect_ratio: "square",
+      image_size: 256
+  else
+    Rails.logger.warn "Devise/OmniAuth: GOOGLE_CLIENT_ID/SECRET missing; provider not registered."
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

@@ -1,29 +1,36 @@
 <% content_for :title, t('show_facility') %>
+<% breadcrumb :facility, @facility %>
 
-<div class="mx-12">
+<div class="mx-auto max-w-7xl px-4">
   <%= render "shared/flash_message" %>
 
-  <h1 class="my-12 font-bold text-4xl"><%= t('show_facility') %></h1>
+  <h1 class="my-4 font-bold text-2xl"><%= t('show_facility') %></h1>
 
-  <%= render 'facilities/facility',facility: @facility, show_actions: false %>
+  <%= render 'facilities/facility',
+           facility: @facility,
+           show_actions: false,
+           full_image: true %>
 
+  <!-- data-markers（marker.to_json）へのデータ変換用 -->
   <% marker =
     if @facility.latitude.present? && @facility.longitude.present?
       [{
-        id:      @facility.id,
-        lat:     @facility.latitude.to_f,
-        lng:     @facility.longitude.to_f,
-        title:   @facility.title,
-        address: @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
-        url:     facility_path(@facility)
+        id:       @facility.id,
+        lat:      @facility.latitude.to_f,
+        lng:      @facility.longitude.to_f,
+        title:    @facility.title,
+        address:  @facility.respond_to?(:full_address) ? @facility.full_address : [@facility.prefecture&.name, @facility.city, @facility.street, @facility.building].compact.join,
+        url:      facility_path(@facility),
+        category: @facility.category
       }]
     else
       []
     end
   %>
 
+  <!-- 地図表示 -->
   <div id="index-map"
-      class="mx-12 mt-6 h-[480px] rounded-md border border-gray-200"
+      class="mx-auto max-w-7xl h-[480px] rounded-md border border-gray-200"
       style="min-height: 480px"
       data-markers="<%= marker.to_json %>"
       data-zoom="8"
@@ -31,13 +38,23 @@
       data-zoom-single="16">
   </div>
 
-  <div class="mx-12 flex-row my-8 text-end gap-4">
-    <%= link_to t('buttons.back_to_list'), facilities_path, class: "mx-4 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <div class="my-6 flex flex-col items-end gap-4">
+    <%= link_to t('buttons.back_to_list'), facilities_path, class: "btn-primary bg-yellow-200" %>
     <%# 投稿者がログインユーザーと同じ場合、編集・削除ボタンを表示 %>
     <% if @facility.user == current_user %>
-      <%= link_to t('helpers.facilities.edit'), edit_facility_path(@facility), class: "my-4 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-      <%= button_to t('helpers.facilities.delete'), @facility, method: :delete, class: "my-4 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
+      <%= link_to t('helpers.facilities.edit'), edit_facility_path(@facility), class: "btn-primary bg-amber-400" %>
+      <%= button_to t('helpers.facilities.delete'), facility_path(@facility), method: :delete, data: {turbo_confirm: "削除しますか？"}, class: "mb-12 rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium" %>
     <% end %>
+  </div>
+
+  <% share_text = "#{@facility.title}｜犬と行けるスポット 🐶" %>
+  <% share_url  = add_utm(request.original_url) %>
+
+  <div class="my-4 flex">
+    <%= link_to "Xで共有",
+      share_on_x_url(text: share_text, url: share_url, hashtags: %w[犬連れ わんこたび], via: "WankoTabi"),
+      target: "_blank", rel: "noopener", data: { turbo: false },
+      class: "ml-auto inline-flex items-center gap-2 rounded-md bg-[#111] px-4 py-2 text-white hover:opacity-90" %>
   </div>
 
   <%= render 'comments/form', facility: @facility, comment: @comment %>

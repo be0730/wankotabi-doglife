@@ -2,12 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
 
 @layer components {
   .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+    @apply px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+  }
+  .btn-navbar {
+    @apply flex-1 min-w-0 w-full text-center
+          sm:px-4 py-2
+          text-[11px] sm:text-xl leading-tight;
+  }
+  .text-field {
+    @apply block w-full ml-6 my-6 rounded-md border border-gray-300 px-3 py-2;
+  }
+  .title-text {
+    @apply text-xl text-gray-900;
   }
 }
 
-*/
+.map-canvas img {
+  max-width: none !important;
+  height: auto !important;
+}
+
+/* ピッカー地図内だけ、Advanced Marker にイベントを届かせる */
+#picker-map .gm-style .gmp-advanced-marker {
+  pointer-events: auto !important;
+  touch-action: none;           /* タッチでのパンを抑制してドラッグ優先 */
+  cursor: grab;
+}
+
+/* ← これがキモ：ピンの上に被っている z-index:107 レイヤーのイベントを無効化 */
+#picker-map .gm-style > div[style*="z-index: 107"] {
+  pointer-events: none !important;
+}
+
+/* 念のため 106 レイヤー配下はイベント通す（ピンがここに乗る） */
+#picker-map .gm-style > div[style*="z-index: 106"] {
+  pointer-events: auto;
+}
+
+/* ピンの内側もイベントを通す */
+#picker-map .gm-style .gmp-advanced-marker * {
+  pointer-events: auto !important;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ピッカー地図内だけ、ドラッグを最優先にする */
+#picker-map gmp-advanced-marker {
+  pointer-events: auto !important;
+  touch-action: none !important;
+  cursor: grab;
+}
+
+/* 以前の“上に被るレイヤー”対策（必要なら残す） */
+#picker-map .gm-style > div[style*="z-index: 107"] {
+  pointer-events: none !important;
+}
+
+@layer components {
+  .facility-rows a {
+    @apply text-blue-600 underline hover:text-blue-800;
+  }
+}

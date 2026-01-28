@@ -1,4 +1,5 @@
 <% content_for :title, "#{@user.name}さんの t('header.my_page')" %>
+<% breadcrumb :users, @user %>
 <div class="max-w-3xl mx-auto my-6 p-6 border border-gray-500 rounded-md bg-white">
   <h1 class="font-bold text-4xl"><%= t('users.my_page') %></h1>
   <div class="my-6 text-lg">
@@ -12,7 +13,7 @@
   <p class="my-6 text-lg">
     <strong><%= t('users.image') %></strong>
     <% if @user.avatar.attached? %>
-      <%= image_tag @user.avatar.variant(resize_to_fill: [160,160]).processed, class: "h-16 w-16 rounded-full" %>
+      <%= image_tag @user.avatar.variant(resize_to_fill: [160,160]), class: "h-16 w-16 rounded-full" %>
     <% else %>
       <% begin %>
       <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>

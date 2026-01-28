@@ -1,0 +1,14 @@
+.swiper,
+.swiper .swiper-wrapper,
+.swiper .swiper-slide { min-height: 0 !important; }
+
+.swiper .swiper-slide picture,
+.swiper .swiper-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block;
+}

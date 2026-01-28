@@ -1,3 +1,4 @@
+<!-- 新規登録 -->
 <% content_for :title, t('header.sign_up') %>
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -41,14 +42,17 @@
         </div>
       </div>
 
-      <div class="mb-6">
-        <% if resource.avatar_attachment&.attached? %>
-          <%= image_tag resource.avatar.variant(resize_to_fill: [160,160]).processed, class: "h-16 w-16 rounded-full" %>
-        <% else %>
-          <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>
-        <% end %><br>
+      <div>
+        <%= f.label :avatar, t('users.image'), class: "block text-sm/6 font-medium text-gray-900" %>
+        <div class="mb-6">
+          <% if resource.avatar_attachment&.attached? %>
+            <%= image_tag resource.avatar.variant(resize_to_fill: [160,160]), class: "h-16 w-16 rounded-full" %>
+          <% else %>
+            <%= image_tag "default_avatar.png", class: "h-16 w-16 rounded-full" %>
+          <% end %><br>
 
-        <%= f.file_field :avatar, accept: "image/*", direct_upload: true %>
+          <%= f.file_field :avatar, accept: "image/*", direct_upload: true %>
+        </div>
       </div>
 
       <div>

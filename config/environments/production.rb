@@ -1,8 +1,10 @@
 require "active_support/core_ext/integer/time"
 
+Rails.application.routes.default_url_options[:host] = "wankotabi-doglife.com"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  host = ENV.fetch("APP_HOST", "wankotabi-doglife.com")
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
@@ -15,10 +17,11 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
+  config.action_controller.default_url_options = { host:, protocol: "https" }
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
-  # config.require_master_key = true
+  config.require_master_key = false
 
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
   # config.public_file_server.enabled = true
@@ -39,6 +42,8 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
   config.active_storage.variant_processor = :vips
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
+  config.active_storage.service_urls_expire_in = 1.hour
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -47,7 +52,7 @@ Rails.application.configure do
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  # config.assume_ssl = true
+  config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
@@ -78,6 +83,19 @@ Rails.application.configure do
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host:, protocol: "https" }
+  config.action_mailer.default_options = { from: ENV.fetch("MAILER_FROM", ENV["MAILER_SENDER"]) }
+  config.action_mailer.asset_host = "https://#{host}"
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "wankotabi-doglife.com",
+    user_name: ENV["MAILER_SENDER"],
+    password: ENV["MAILER_PASSWORD"],
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -94,10 +112,11 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
+  config.hosts = [
+    "wankotabi-doglife.onrender.com",
+    "wankotabi-doglife.com",
+    "www.wankotabi-doglife.com"
+  ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end

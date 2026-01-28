@@ -6,21 +6,70 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= display_meta_tags(default_meta_tags) %>
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <script defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV.fetch("GOOGLE_MAPS_API_KEY", "") %>&callback=initMaps"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer></script>
+    <script defer>
+      function initAllSwipers(root = document) {
+        if (typeof window.Swiper === "undefined") return;
+        root.querySelectorAll(".js-swiper").forEach((wrap) => {
+          if (wrap.dataset.swiperInited === "1") return; // 二重初期化防止
+
+          const swiperEl = wrap.querySelector(".swiper");
+          const slides   = wrap.querySelectorAll(".swiper-slide").length;
+
+          // スライドが1枚以下ならループ/ナビを無効化
+          const paginationEl = wrap.querySelector(".swiper-pagination");
+          const nextEl       = wrap.querySelector(".swiper-button-next");
+          const prevEl       = wrap.querySelector(".swiper-button-prev");
+
+          new Swiper(swiperEl, {
+            loop: slides > 1,
+            watchOverflow: true,
+            observer: true,        // DOM変化監視
+            observeParents: true,  // 親の変化も監視
+            pagination: paginationEl ? { el: paginationEl, clickable: true } : undefined,
+            navigation: (nextEl && prevEl) ? { nextEl, prevEl } : undefined,
+          });
+
+          wrap.dataset.swiperInited = "1";
+        });
+      }
+
+      // 初回
+      window.addEventListener("turbo:load", () => initAllSwipers());
+
+      // Turboで部分差し替えされた時にも再初期化
+      window.addEventListener("turbo:render", () => initAllSwipers());
+
+      // 追加で、動的挿入も拾えるように（フィルタ結果等）
+      const mo = new MutationObserver((muts) => {
+        for (const m of muts) {
+          m.addedNodes.forEach((n) => {
+            if (n.nodeType === 1) initAllSwipers(n);
+          });
+        }
+      });
+      mo.observe(document.documentElement, { childList: true, subtree: true });
+    </script>
   </head>
 
-  <body>
+  <body class="bg-amber-50 min-h-screen flex flex-col" data-controller="navbar">
     <%= render 'shared/header' %>
-    <%= yield %>
+      <div class="container mx-auto px-8 py-3">
+        <%= breadcrumbs separator: " >  ", class: "mx-auto max-w-7xl mb-12 text-sm text-gray-600" %>
+      <%= yield %>
+      </div>
     <%= render 'shared/footer' %>
   </body>
 </html>
