@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "/how_to_use", to: "pages#how_to_use", as: :how_to_use
+
   if Rails.env.development?
     require "letter_opener_web"
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

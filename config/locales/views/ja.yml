@@ -14,6 +14,7 @@ ja:
       send: "送信"
   header:
     top: "トップページ"
+    how_to_use: "使い方"
     new_post: "投稿する"
     sign_up: "新規登録"
     login: "メールでログイン"

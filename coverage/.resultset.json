@@ -38,7 +38,7 @@
           null,
           1,
           null,
-          34,
+          35,
           null,
           null,
           null,
@@ -338,6 +338,47 @@
           null
         ]
       },
+      "/myapp/app/controllers/pages_controller.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          null
+        ]
+      },
+      "/myapp/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          1,
+          1,
+          28,
+          28,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          null,
+          1,
+          0,
+          null,
+          null
+        ]
+      },
       "/myapp/app/controllers/facilities_controller.rb": {
         "lines": [
           1,
@@ -512,39 +553,6 @@
           1,
           1,
           1,
-          null,
-          null
-        ]
-      },
-      "/myapp/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          1,
-          0,
-          null,
-          0,
-          0,
-          null,
-          null,
-          1,
-          1,
-          28,
-          28,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          1,
-          null,
-          1,
-          0,
           null,
           null
         ]
@@ -841,6 +849,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1766712421
+    "timestamp": 1769757128
   }
 }
