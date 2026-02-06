@@ -14,7 +14,7 @@ class Facility < ApplicationRecord
     restaurant:    1, # 飲食店
     leisure:       2, # レジャー施設
     shop:          3  # ショップ
-  }, prefix: :true
+  }, prefix: true
 
   validates :title, :category, :city, :street, presence: true
 
@@ -39,10 +39,6 @@ class Facility < ApplicationRecord
   def self.ransackable_associations(_ = nil)
     %w[user prefecture tags]
   end
-
-  # geocoder を使うなら（住所変更時のみジオコーディング）
-  # geocoded_by :full_address
-  # after_validation :geocode, if: :will_save_change_to_full_address?
 
   geocoded_by :full_address
   after_validation :geocode, if: :should_geocode?
