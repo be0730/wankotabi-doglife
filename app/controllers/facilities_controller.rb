@@ -6,7 +6,6 @@ class FacilitiesController < ApplicationController
 
   # GET /facilities
   def index
-    @q = Facility.ransack(params[:q])
     @q_params = params.fetch(:q, {}).permit(
       :category_eq,
       :prefecture_id_eq,
@@ -14,6 +13,7 @@ class FacilitiesController < ApplicationController
       prefecture_id_in: [],
       tags_id_in: []
     )
+    @q = Facility.ransack(params[:q])
     @facilities = @q.result(distinct: true)
                     .includes(:user, :prefecture, :tags)
                     .order(created_at: :desc)
@@ -56,27 +56,6 @@ class FacilitiesController < ApplicationController
   def new
     @facility = current_user.facilities.new
   end
-
-  def confirm
-  if params[:id].present?          # 編集の確認
-    @facility = current_user.facilities.find(params[:id])
-    @facility.assign_attributes(facility_params)
-    back_template = :edit
-  else                              # 新規の確認
-    @facility = current_user.facilities.new(facility_params)
-    back_template = :new
-  end
-
-  return render(back_template) if params[:back]
-
-  if @facility.valid?
-    render :confirm
-  else
-    flash.now[:danger] = "入力に誤りがあります。"
-    render back_template, status: :unprocessable_entity
-  end
-end
-
 
   # GET /facilities/1/edit
   def edit; end
