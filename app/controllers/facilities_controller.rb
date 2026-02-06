@@ -22,7 +22,6 @@ class FacilitiesController < ApplicationController
 
   # GET /facilities/1
   def show
-    @facility = Facility.find(params[:id])
     @comment  = Comment.new
     @comments = @facility.comments.includes(:user).order(created_at: :desc)
 
