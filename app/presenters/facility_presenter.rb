@@ -20,7 +20,7 @@ class FacilityPresenter
           address
           phone_number
           business_hours
-          closed_days
+          closed_day
           homepage_url
           instagram_url
           facebook_url
@@ -49,7 +49,7 @@ class FacilityPresenter
       overview: "概要",
       phone_number: "電話番号",
       business_hours: "営業時間",
-      closed_days: "定休日",
+      closed_day: "定休日",
       homepage_url: "公式ホームページ",
       instagram_url: "公式Instagram",
       facebook_url: "公式Facebook",
