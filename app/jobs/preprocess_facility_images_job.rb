@@ -2,9 +2,9 @@ class PreprocessFacilityImagesJob < ApplicationJob
   queue_as :default
 
   VARIANTS = [
-    { resize_to_limit: [1600, 1200] },
-    { resize_to_limit: [1280,  960] },
-    { resize_to_limit: [ 768,  576] }
+    { resize_to_limit: [ 1600, 1200 ] },
+    { resize_to_limit: [ 1280,  960 ] },
+    { resize_to_limit: [ 768,  576 ] }
   ].freeze
 
   def perform(facility_id, attachment_ids)
