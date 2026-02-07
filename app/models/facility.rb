@@ -7,7 +7,8 @@ class Facility < ApplicationRecord
   MAX_DIM = 2000
   has_many :facilities_tags, dependent: :destroy
   has_many :tags, through: :facilities_tags
-  after_commit :downsize_images, on: %i[create update]
+  attr_accessor :preprocess_attachment_ids
+  after_commit :enqueue_preprocess_images, on: %i[create update]
 
   enum :category, {
     accommodation: 0, # 宿泊施設
@@ -46,6 +47,16 @@ class Facility < ApplicationRecord
   accepts_nested_attributes_for :images_attachments, allow_destroy: true
 
   private
+
+  def enqueue_preprocess_images
+    ids = Array(preprocess_attachment_ids).map(&:to_i).uniq
+    return if ids.empty?
+
+    PreprocessFacilityImagesJob.perform_later(id, ids)
+
+    # 同一インスタンスで再コミットが走ったときの二重enqueue防止（保険）
+    self.preprocess_attachment_ids = nil
+  end
 
   def should_geocode?
     address_parts_changed? && !full_address.blank?
