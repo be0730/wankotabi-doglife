@@ -29,14 +29,16 @@
   %>
 
   <!-- 地図表示 -->
-  <div id="index-map"
-      class="mx-auto max-w-7xl h-[480px] rounded-md border border-gray-200"
-      style="min-height: 480px"
-      data-markers="<%= marker.to_json %>"
-      data-zoom="8"
-      data-min-zoom="6"
-      data-zoom-single="16">
-  </div>
+  <%= tag.div id: "index-map",
+    class: "mx-auto max-w-7xl h-[480px] rounded-md border border-gray-200",
+    style: "min-height: 480px",
+    data: {
+      markers: marker.to_json,
+      zoom: 8,
+      min_zoom: 6,
+      zoom_single: 16,
+      map_mode: "show"
+    } %>
 
   <div class="my-6 flex flex-col items-end gap-4">
     <%= link_to t('buttons.back_to_list'), facilities_path, class: "btn-primary bg-yellow-200" %>
