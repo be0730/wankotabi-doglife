@@ -78,9 +78,17 @@ class FacilitiesController < ApplicationController
 
     begin
       Facility.transaction do
-        @facility.update!(attrs)                               # ← 画像に触れない
-        @facility.images.attach(new_images) if new_images.present? # ← 追加のみ
+        before_ids = @facility.images.attachments.pluck(:id)
+
+        @facility.update!(attrs)
+
+        if new_images.present?
+          @facility.images.attach(new_images)
+          after_ids = @facility.images.attachments.pluck(:id)
+          @facility.preprocess_attachment_ids = (after_ids - before_ids)
+        end
       end
+
       redirect_to @facility, success: "施設を更新しました。"
     rescue ActiveRecord::RecordInvalid
       flash.now[:danger] = "施設の更新に失敗しました。"
