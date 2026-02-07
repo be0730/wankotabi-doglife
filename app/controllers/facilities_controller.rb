@@ -18,12 +18,22 @@ class FacilitiesController < ApplicationController
                     .includes(:user, :prefecture, :tags)
                     .order(created_at: :desc)
                     .page(params[:page]).per(6)
+
+    if current_user
+      favs = current_user.favorites.where(facility_id: @facilities.map(&:id)).select(:id, :facility_id)
+      @favorite_by_facility_id = favs.index_by(&:facility_id)
+    end
   end
 
   # GET /facilities/1
   def show
     @comment  = Comment.new
     @comments = @facility.comments.includes(:user).order(created_at: :desc)
+
+    if current_user
+      fav = current_user.favorites.select(:id, :facility_id).find_by(facility_id: @facility.id)
+      @favorite_by_facility_id = fav ? { @facility.id => fav } : {}
+    end
 
     og_img =
       if @facility.images.attached?
@@ -104,6 +114,10 @@ class FacilitiesController < ApplicationController
 
   def favorites
     @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
+    if current_user
+      favs = current_user.favorites.where(facility_id: @favorite_facilities.map(&:id)).select(:id, :facility_id)
+      @favorite_by_facility_id = favs.index_by(&:facility_id)
+    end
   end
 
   def destroy_image
