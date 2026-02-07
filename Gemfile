@@ -79,3 +79,5 @@ gem "meta-tags"
 gem "gretel"
 gem "letter_opener_web"
 gem "ruby-vips"
+
+gem "solid_queue", "~> 1.3"
