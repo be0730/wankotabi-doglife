@@ -114,10 +114,8 @@ class FacilitiesController < ApplicationController
 
   def favorites
     @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
-    if current_user
-      favs = current_user.favorites.where(facility_id: @favorite_facilities.map(&:id)).select(:id, :facility_id)
-      @favorite_by_facility_id = favs.index_by(&:facility_id)
-    end
+    favs = current_user.favorites.where(facility_id: @favorite_facilities.map(&:id)).select(:id, :facility_id)
+    @favorite_by_facility_id = favs.index_by(&:facility_id)
   end
 
   def destroy_image
