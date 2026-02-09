@@ -2,10 +2,8 @@
 module ApplicationHelper
   def avatar_image_tag(user = nil, size: 32, **options)
     src =
-      if user&.respond_to?(:avatar?) && user.avatar? # CarrierWave
-        user.avatar.url
-      elsif user&.respond_to?(:avatar) && user.avatar.respond_to?(:attached?) && user.avatar.attached? # ActiveStorage
-        rails_blob_path(user.avatar, only_path: true)  # 相対パスでOK
+      if user&.avatar&.attached?
+        url_for(user.avatar.variant(resize_to_fill: [ size, size ]).processed)
       else
         asset_path("avatar_placeholder.png")           # 置き画像を用意
       end

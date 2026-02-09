@@ -60,6 +60,16 @@
       minZoom,
     });
 
+    function escapeHtml(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[c]));
+    }
+
     const iw = new google.maps.InfoWindow();
     const bounds = new google.maps.LatLngBounds();
 
@@ -79,6 +89,7 @@
           <div style="font-size:12px;color:#555">${m.address ?? ""}</div>
           <div style="margin-top:6px"><a href="${m.url}" class="text-indigo-600 underline">詳細を見る</a></div>
         </div>`;
+
       marker.addListener("click", () => { iw.setContent(html); iw.open(map, marker); });
 
       bounds.extend(pos);

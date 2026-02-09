@@ -6,7 +6,6 @@ class FacilitiesController < ApplicationController
 
   # GET /facilities
   def index
-    @q = Facility.ransack(params[:q])
     @q_params = params.fetch(:q, {}).permit(
       :category_eq,
       :prefecture_id_eq,
@@ -14,17 +13,27 @@ class FacilitiesController < ApplicationController
       prefecture_id_in: [],
       tags_id_in: []
     )
+    @q = Facility.ransack(params[:q])
     @facilities = @q.result(distinct: true)
                     .includes(:user, :prefecture, :tags)
                     .order(created_at: :desc)
                     .page(params[:page]).per(6)
+
+    if current_user
+      favs = current_user.favorites.where(facility_id: @facilities.map(&:id)).select(:id, :facility_id)
+      @favorite_by_facility_id = favs.index_by(&:facility_id)
+    end
   end
 
   # GET /facilities/1
   def show
-    @facility = Facility.find(params[:id])
     @comment  = Comment.new
     @comments = @facility.comments.includes(:user).order(created_at: :desc)
+
+    if current_user
+      fav = current_user.favorites.select(:id, :facility_id).find_by(facility_id: @facility.id)
+      @favorite_by_facility_id = fav ? { @facility.id => fav } : {}
+    end
 
     og_img =
       if @facility.images.attached?
@@ -57,27 +66,6 @@ class FacilitiesController < ApplicationController
     @facility = current_user.facilities.new
   end
 
-  def confirm
-  if params[:id].present?          # 編集の確認
-    @facility = current_user.facilities.find(params[:id])
-    @facility.assign_attributes(facility_params)
-    back_template = :edit
-  else                              # 新規の確認
-    @facility = current_user.facilities.new(facility_params)
-    back_template = :new
-  end
-
-  return render(back_template) if params[:back]
-
-  if @facility.valid?
-    render :confirm
-  else
-    flash.now[:danger] = "入力に誤りがあります。"
-    render back_template, status: :unprocessable_entity
-  end
-end
-
-
   # GET /facilities/1/edit
   def edit; end
 
@@ -100,9 +88,17 @@ end
 
     begin
       Facility.transaction do
-        @facility.update!(attrs)                               # ← 画像に触れない
-        @facility.images.attach(new_images) if new_images.present? # ← 追加のみ
+        before_ids = @facility.images.attachments.pluck(:id)
+
+        @facility.update!(attrs)
+
+        if new_images.present?
+          @facility.images.attach(new_images)
+          after_ids = @facility.images.attachments.pluck(:id)
+          @facility.preprocess_attachment_ids = (after_ids - before_ids)
+        end
       end
+
       redirect_to @facility, success: "施設を更新しました。"
     rescue ActiveRecord::RecordInvalid
       flash.now[:danger] = "施設の更新に失敗しました。"
@@ -118,6 +114,8 @@ end
 
   def favorites
     @favorite_facilities = current_user.favorite_facilities.includes(:user, :prefecture).order(created_at: :desc).page(params[:page])
+    favs = current_user.favorites.where(facility_id: @favorite_facilities.map(&:id)).select(:id, :facility_id)
+    @favorite_by_facility_id = favs.index_by(&:facility_id)
   end
 
   def destroy_image

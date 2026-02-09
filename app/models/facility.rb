@@ -7,18 +7,29 @@ class Facility < ApplicationRecord
   MAX_DIM = 2000
   has_many :facilities_tags, dependent: :destroy
   has_many :tags, through: :facilities_tags
-  after_commit :downsize_images, on: %i[create update]
+  attr_accessor :preprocess_attachment_ids
+  after_commit :enqueue_preprocess_images, on: %i[create update]
 
   enum :category, {
     accommodation: 0, # 宿泊施設
     restaurant:    1, # 飲食店
     leisure:       2, # レジャー施設
     shop:          3  # ショップ
-  }, prefix: :true
+  }, prefix: true
 
   validates :title, :category, :city, :street, presence: true
 
   delegate :name, to: :prefecture, prefix: true, allow_nil: true
+
+  VALID_HTTP_URL = /\Ahttps?:\/\/[^\s]+\z/i
+
+  with_options format: { with: VALID_HTTP_URL }, allow_blank: true do
+    validates :homepage_url
+    validates :instagram_url
+    validates :facebook_url
+    validates :x_url
+  end
+
 
   def full_address
     [ prefecture_name, city.presence, street.presence, building.presence ].compact.join
@@ -40,16 +51,22 @@ class Facility < ApplicationRecord
     %w[user prefecture tags]
   end
 
-  # geocoder を使うなら（住所変更時のみジオコーディング）
-  # geocoded_by :full_address
-  # after_validation :geocode, if: :will_save_change_to_full_address?
-
   geocoded_by :full_address
   after_validation :geocode, if: :should_geocode?
 
   accepts_nested_attributes_for :images_attachments, allow_destroy: true
 
   private
+
+  def enqueue_preprocess_images
+    ids = Array(preprocess_attachment_ids).map(&:to_i).uniq
+    return if ids.empty?
+
+    PreprocessFacilityImagesJob.perform_later(id, ids)
+
+    # 同一インスタンスで再コミットが走ったときの二重enqueue防止（保険）
+    self.preprocess_attachment_ids = nil
+  end
 
   def should_geocode?
     address_parts_changed? && !full_address.blank?

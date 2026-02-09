@@ -1,4 +1,3 @@
 <%= turbo_stream.update dom_id(@facility, :favorite_buttons) do %>
-  <%= render "shared/flash_message" %>
   <%= render "facilities/favorite_buttons", facility: @facility %>
 <% end %>
