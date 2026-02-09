@@ -21,6 +21,16 @@ class Facility < ApplicationRecord
 
   delegate :name, to: :prefecture, prefix: true, allow_nil: true
 
+  VALID_HTTP_URL = /\Ahttps?:\/\/[^\s]+\z/i
+
+  with_options format: { with: VALID_HTTP_URL }, allow_blank: true do
+    validates :homepage_url
+    validates :instagram_url
+    validates :facebook_url
+    validates :x_url
+  end
+
+
   def full_address
     [ prefecture_name, city.presence, street.presence, building.presence ].compact.join
   end
